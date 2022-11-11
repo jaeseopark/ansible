@@ -1,0 +1,131 @@
+---
+- hosts: vpnserver
+  tasks:
+    - name: Ensure the required packages are installed
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - wireguard
+        - ufw
+    - name: Ensure wg-quick is not running
+      systemd:
+        name: wg-quick@wg0.service
+        state: stopped
+    - name: Generate the private key file
+      shell: "wg genkey | tee {{ private_key_path }}"
+      register: private_key
+    - name: Ensure only root can see the private key
+      file:
+        name: "{{ private_key_path }}"
+        owner: root
+        group: root
+        mode: go=
+    - name: Generate the public key file
+      shell: "echo {{ private_key.stdout }} | wg pubkey | tee {{ public_key_path }}"
+    - name: Determine the default network device
+      shell: "ip route list default | awk '{print $NF}'"
+      register: network_device
+    - name: Enable IPv4 forward
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        state: present
+        reload: yes
+    - name: Write the wg config file
+      template:
+        src: wg-server.conf.j2
+        dest: "{{ wg_conf_path }}"
+    - name: Ensure port 51820/udp is open
+      ufw:
+        rule: allow
+        port: "51820"
+        proto: udp
+    - name: Ensure OpenSSH is open
+      ufw:
+        rule: allow
+        name: OpenSSH
+    - name: Reload UFW
+      ufw:
+        state: reloaded
+    - name: Copy the public key file to the master node
+      fetch:
+        src: "{{ public_key_path }}"
+        dest: "{{ server_public_key_path_on_master }}"
+        flat: yes
+- hosts: vpnclients
+  vars:
+    server_public_key_path: /etc/wireguard/server_public.key
+  tasks:
+    - name: Ensure wireguard is installed
+      package:
+        name: wireguard
+        state: present
+    - name: Ensure wg-quick is not running
+      systemd:
+        name: wg-quick@wg0.service
+        state: stopped
+    - name: Copy server public key
+      copy:
+        src: "{{ server_public_key_path_on_master }}"
+        dest: "{{ server_public_key_path }}"
+    - name: Save server public key as a variable
+      shell: "cat {{ server_public_key_path }}"
+      register: server_public_key
+    - name: Generate the private key file
+      shell: "wg genkey | tee {{ private_key_path }}"
+      register: private_key
+    - name: Ensure only root can see the private key
+      file:
+        name: "{{ private_key_path }}"
+        owner: root
+        group: root
+        mode: go=
+    - name: Generate the public key file
+      shell: "echo {{ private_key.stdout }} | wg pubkey | tee {{ public_key_path }}"
+    - name: Write the wg config file
+      template:
+        src: wg-clients.conf.j2
+        dest: "{{ wg_conf_path }}"
+    - name: Ensure wg-quick is a startup service
+      systemd:
+        name: wg-quick@wg0.service
+        enabled: yes
+    - name: Ensure wg-quick is running
+      systemd:
+        name: wg-quick@wg0.service
+        state: started
+    - name: Copy the public key file to the master node
+      fetch:
+        src: "{{ public_key_path }}"
+        dest: "{{ clinet_public_key_folder_on_master }}/{{ inventory_hostname }}.key"
+        flat: yes
+- hosts: vpnserver
+  vars:
+    client_public_keys_path: /etc/wireguard/client_public_keys
+  tasks:
+    - name: Ensure client public keys are absent
+      file:
+        name: "{{ clinet_public_key_folder_on_master }}"
+        state: absent
+    - name: Copy client public key folder from the master node
+      copy:
+        src: "{{ clinet_public_key_folder_on_master }}/"
+        dest: "{{ client_public_keys_path }}"
+        directory_mode: yes
+    - name: Add the client public keys to the wg config file
+      shell: |
+        tee -a {{ wg_conf_path }} <<EOF
+        [Peer]
+        AllowedIPs = {{ ip_range }}
+        PublicKey = $(cat {{ client_public_keys_path }}/{{ item }}.key)
+        EOF
+      with_items: "{{ groups['vpnclients'] }}"
+    - name: Ensure wg-quick is a startup service
+      systemd:
+        name: wg-quick@wg0.service
+        enabled: yes
+    - name: Ensure wg-quick is running
+      systemd:
+        name: wg-quick@wg0.service
+        state: started
