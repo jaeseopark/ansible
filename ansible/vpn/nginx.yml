@@ -26,12 +26,20 @@
       ufw:
         state: reloaded
     - name: Generate certificate
-      shell: certbot certonly --standalone -d jaeseo.stream --preferred-challenges http -m admin@jaeseo.stream --expand --agree-tos --no-eff-email
-    - name: Ensure the cert/PK files exists
+      shell: >
+        certbot certonly
+        -d {{ stream_domain }}
+        -m {{ stream_domain_email }}
+        --preferred-challenges http
+        --standalone
+        --expand
+        --agree-tos
+        --no-eff-email
+    - name: Ensure the cert/key files exist
       file: name={{item}} state=file
       loop:
-        - /etc/letsencrypt/live/jaeseo.stream/fullchain.pem
-        - /etc/letsencrypt/live/jaeseo.stream/privkey.pem
+        - "/etc/letsencrypt/live/{{ stream_domain }}/fullchain.pem"
+        - "/etc/letsencrypt/live/{{ stream_domain }}/privkey.pem"
     - name: Copy nginx config from the host manchine
       copy:
         src: nginx.conf
