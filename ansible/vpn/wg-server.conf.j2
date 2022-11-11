@@ -1,6 +1,6 @@
 [Interface]
 PrivateKey = {{ private_key.stdout }}
-Address = {{ ipv4_range }}
+Address = {{ wg_ip }}
 ListenPort = 51820
 SaveConfig = true
 PostUp = ufw route allow in on wg0 out on {{ network_device.stdout }}

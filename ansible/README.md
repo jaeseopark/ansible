@@ -1,18 +1,19 @@
-Ansible playbooks organized by use cases.
+Ansible inventory and playbooks
 
-## Host machine
+## Usage
 
 ```bash
 # Mac
 pip3 install ansible
 ssh-add
 
-# Provision WG host
-python3 -m ansible playbook -i inventory.ini vpn/wg-server.yml
-
-# Provision WG client
-python3 -m ansible playbook -i inventory.ini vpn/wg-client.yml --hosts=...
-
-# Provision Nginx on VPN host
-python3 -m ansible playbook -i inventory.ini vpn/nginx.yml --clients=... keys=...
+python3 -m ansible playbook -i inventory.ini vpn/wg.yml
+python3 -m ansible playbook -i inventory.ini vpn/nginx.yml
 ```
+
+## Terminologies
+
+Master: The node from which the Ansible playbook is executed
+Remote: Ansible SSH target node(s)
+WG/VPN Server: WG node whose IP is exposed to the public
+WG/VPN Clients: WG nodes that connect to the server
