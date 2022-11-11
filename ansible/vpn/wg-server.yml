@@ -12,15 +12,9 @@
       loop:
         - wireguard
         - ufw
-    - name: Ensure the key files are absent
-      file:
-        name: "{{ item }}"
-        state: absent
-      loop:
-        - "{{ private_key_path }}"
-        - "{{ public_key_path }}"
-    - name: Generate private key file
+    - name: Generate the private key file
       shell: "wg genkey | tee {{ private_key_path }}"
+      register: private_key
     - name: Ensure only root can see the private key
       file:
         name: "{{ private_key_path }}"
@@ -28,7 +22,10 @@
         group: root
         mode: go=
     - name: Generate the public key file
-      shell: "cat {{ private_key_path }} | wg pubkey | tee {{ public_key_path }}"
+      shell: "echo {{ private_key }} | wg pubkey | tee {{ public_key_path }}"
+    - name: Determine the default network device
+      shell: "ip route list default | awk '{print $NF}'"
+      register: network_device
     - name: Enable IPv4 forward
       ansible.posix.sysctl:
         name: net.ipv4.ip_forward
@@ -36,18 +33,9 @@
         state: present
         reload: yes
     - name: Write the wg config file
-      shell: |
-        tee {{ wg_conf_path }} <<EOF
-        [Interface]
-        PrivateKey = $(cat {{ private_key_path }})
-        Address = 10.8.0.1/24
-        ListenPort = 51820
-        SaveConfig = true
-        PostUp = ufw route allow in on wg0 out on $(ip route list default | awk '{print $NF}')
-        PostUp = iptables -t nat -I POSTROUTING -o $(ip route list default | awk '{print $NF}') -j MASQUERADE
-        PreDown = ufw route delete allow in on wg0 out on $(ip route list default | awk '{print $NF}')
-        PreDown = iptables -t nat -D POSTROUTING -o $(ip route list default | awk '{print $NF}') -j MASQUERADE
-        EOF
+      template:
+        src: wg-server.conf.j2
+        dest: "{{ wg_conf_path }}"
     - name: Ensure port 51820/udp is open
       ufw:
         rule: allow
