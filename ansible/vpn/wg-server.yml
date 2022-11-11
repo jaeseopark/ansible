@@ -1,0 +1,70 @@
+---
+- hosts: vpn
+  vars:
+    private_key_path: /etc/wireguard/private.key
+    public_key_path: /etc/wireguard/public.key
+    wg_conf_path: /etc/wireguard/wg0.conf
+  tasks:
+    - name: Ensure the required packages are installed
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - wireguard
+        - ufw
+    - name: Ensure the key files are absent
+      file:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ private_key_path }}"
+        - "{{ public_key_path }}"
+    - name: Generate private key file
+      shell: "wg genkey | tee {{ private_key_path }}"
+    - name: Ensure only root can see the private key
+      file:
+        name: "{{ private_key_path }}"
+        owner: root
+        group: root
+        mode: go=
+    - name: Generate the public key file
+      shell: "cat {{ private_key_path }} | wg pubkey | tee {{ public_key_path }}"
+    - name: Enable IPv4 forward
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        state: present
+        reload: yes
+    - name: Write the wg config file
+      shell: |
+        tee {{ wg_conf_path }} <<EOF
+        [Interface]
+        PrivateKey = $(cat {{ private_key_path }})
+        Address = 10.8.0.1/24
+        ListenPort = 51820
+        SaveConfig = true
+        PostUp = ufw route allow in on wg0 out on $(ip route list default | awk '{print $NF}')
+        PostUp = iptables -t nat -I POSTROUTING -o $(ip route list default | awk '{print $NF}') -j MASQUERADE
+        PreDown = ufw route delete allow in on wg0 out on $(ip route list default | awk '{print $NF}')
+        PreDown = iptables -t nat -D POSTROUTING -o $(ip route list default | awk '{print $NF}') -j MASQUERADE
+        EOF
+    - name: Ensure port 51820/udp is open
+      ufw:
+        rule: allow
+        port: "51820"
+        proto: udp
+    - name: Ensure OpenSSH is open
+      ufw:
+        rule: allow
+        name: OpenSSH
+    - name: Reload UFW
+      ufw:
+        state: reloaded
+    - name: Ensure wg-quick is a startup service
+      systemd:
+        name: wg-quick@wg0.service
+        enabled: yes
+    - name: Ensure wg-quick is running
+      systemd:
+        name: wg-quick@wg0.service
+        state: started
