@@ -5,7 +5,14 @@ Ansible playbooks organized by use cases.
 ```bash
 # Mac
 pip3 install ansible
+ssh-add
 
-ssh-add # ansible uses SSH to communicate with the remote machines. Register the public key beforehand.
-python3 -m ansible playbook -i inventory.ini vpn/nginx.yml
+# Provision WG host
+python3 -m ansible playbook -i inventory.ini vpn/wg-server.yml
+
+# Provision WG client
+python3 -m ansible playbook -i inventory.ini vpn/wg-client.yml --hosts=...
+
+# Provision Nginx on VPN host
+python3 -m ansible playbook -i inventory.ini vpn/nginx.yml --clients=... keys=...
 ```
