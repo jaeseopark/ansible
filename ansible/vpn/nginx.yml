@@ -45,7 +45,7 @@
         src: nginx.conf.j2
         dest: /etc/nginx/sites-enabled/default.conf
     - name: Ensure thre cron job exists
-      ansible.builtin.cron:
+      cron:
         name: renew certificate
         minute: "0"
         hour: "0"
