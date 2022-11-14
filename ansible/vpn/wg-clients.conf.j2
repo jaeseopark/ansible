@@ -1,9 +1,11 @@
 [Interface]
 PrivateKey = {{ private_key.stdout }}
-Address = {{ wg_ip }}
+Address = {{ wg_ip }}/32
 
+{% for server in groups['vpnserver'] %}
 [Peer]
 PublicKey = {{ server_public_key.stdout }}
-AllowedIPs = {{ ip_range }}
-Endpoint = {{ wg_server_endpoint }}:51820
-PersistentKeepalive = 25
+AllowedIPs = {{ wg_server_ip }}/32
+Endpoint = {{ server }}:51820
+PersistentKeepalive = 25   
+{% endfor %}

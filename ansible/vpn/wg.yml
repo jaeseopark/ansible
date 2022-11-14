@@ -117,7 +117,7 @@
       shell: |
         tee -a {{ wg_conf_path }} <<EOF
         [Peer]
-        AllowedIPs = {{ ip_range }}
+        AllowedIPs = {{ hostvars[item].wg_ip }}/32
         PublicKey = $(cat {{ client_public_keys_path }}/{{ item }}.key)
         EOF
       with_items: "{{ groups['vpnclients'] }}"
