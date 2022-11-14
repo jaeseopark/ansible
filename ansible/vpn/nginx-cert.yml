@@ -1,5 +1,5 @@
 ---
-- hosts: vpnserver
+- hosts: vpnservers
   tasks:
     - name: Ensure the required packages are installed
       package:

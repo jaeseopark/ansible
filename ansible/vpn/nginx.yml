@@ -1,5 +1,5 @@
 ---
-- hosts: vpnserver
+- hosts: vpnservers
   tasks:
     - name: Ensure nginx is installed
       package:
