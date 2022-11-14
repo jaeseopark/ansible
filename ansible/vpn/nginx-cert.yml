@@ -22,7 +22,7 @@
     - name: Generate certificate
       shell: >
         certbot certonly
-        -d {{ vpn_domain }}
+        -d {{ vpn_domain }},corganize.{{ vpn_domain }},jellyfin.{{ vpn_domain }}
         -m {{ vpn_domain_email }}
         --preferred-challenges http
         --standalone
