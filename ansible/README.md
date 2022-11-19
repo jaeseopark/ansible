@@ -28,3 +28,15 @@ ansible-playbook -i inventory.ini vpn/nginx.yml
 * Remote: Ansible SSH target node(s)
 * WG/VPN Server: WG node whose IP is exposed to the public
 * WG/VPN Clients: WG nodes that connect to the server
+
+## Configuring the main mac
+
+- Enable SSH in the Sharing settings
+- `cat id_rsa.pub >> authorized_keys`
+- use `--ask-become-pass`
+
+## Debugging Ansible variables
+
+```bash
+ansible-inventory -i inventory.ini -y --list > inventory.yaml
+```
