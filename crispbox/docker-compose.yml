@@ -31,8 +31,3 @@ services:
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
-  ui:
-    container_name: mlib-ui
-    image: jaeseoparkdocker/mlib-ui:latest
-    ports:
-      - 4534:80
