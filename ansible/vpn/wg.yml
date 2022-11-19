@@ -1,5 +1,5 @@
 ---
-- hosts: vpnserver
+- hosts: vpnservers
   tasks:
     - name: Ensure the required packages are installed
       package:
@@ -100,7 +100,7 @@
         src: "{{ public_key_path }}"
         dest: "{{ clinet_public_key_folder_on_master }}/{{ inventory_hostname }}.key"
         flat: yes
-- hosts: vpnserver
+- hosts: vpnservers
   vars:
     client_public_keys_path: /etc/wireguard/client_public_keys
   tasks:
