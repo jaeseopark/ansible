@@ -1,0 +1,70 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ vpn_domain }};
+
+    # Uncomment to redirect HTTP to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 8096;
+    listen [::]:8096;
+    server_name {{ vpn_domain }};
+
+    set $jellyfin {{ jellyfin_ip }};
+
+    location / {
+        # Proxy main Jellyfin traffic
+
+        # The / at the end is significant.
+        # https://www.acunetix.com/blog/articles/a-fresh-look-on-reverse-proxy-related-attacks/
+
+        proxy_pass http://$jellyfin:8096$request_uri;
+
+        proxy_pass_request_headers on;
+
+        proxy_set_header Host $host;
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $http_host;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $http_connection;
+
+        # Disable buffering when the nginx proxy gets very resource heavy upon streaming
+        proxy_buffering off;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    server_name {{ vpn_domain }};
+    # You can specify multiple domain names if you want
+    #server_name jellyfin.local;
+    ssl_certificate /etc/letsencrypt/live/{{ vpn_domain }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ vpn_domain }}/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ vpn_domain }}/chain.pem;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    # use a variable to store the upstream proxy
+    # in this example we are using a hostname which is resolved via DNS
+    # (if you aren't using DNS remove the resolver line and change the variable to point to an IP address e.g `set $jellyfin 127.0.0.1`)
+    resolver 127.0.0.1 valid=30;
+
+    # Jellyfin
+    location /jellyfin {
+        return 302 $scheme://$host/jellyfin/;
+    }
+
+    location /jellyfin/ {
+       return 302 $host:8096$request_uri;
+    }
+}

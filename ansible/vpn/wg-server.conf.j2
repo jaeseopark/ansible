@@ -1,0 +1,9 @@
+[Interface]
+PrivateKey = {{ private_key.stdout }}
+Address = {{ wg_server_ip }}/32
+ListenPort = 51820
+SaveConfig = true
+PostUp = ufw route allow in on wg0 out on {{ network_device.stdout }}
+PostUp = iptables -t nat -I POSTROUTING -o {{ network_device.stdout }} -j MASQUERADE
+PreDown = ufw route delete allow in on wg0 out on {{ network_device.stdout }}
+PreDown = iptables -t nat -D POSTROUTING -o {{ network_device.stdout }} -j MASQUERADE

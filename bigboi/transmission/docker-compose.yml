@@ -7,13 +7,13 @@ services:
       - NET_ADMIN
       - SYS_MODULE
     environment:
-      - PUID=0
-      - PGID=27
-      - TZ=America/Denver
+      - PUID=${DOCKER_UID}
+      - PGID=${DOCKER_GID}
+      - TZ=${TZ}
     ports:
       - 9091:9091/tcp
     volumes:
-      - /srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/svc/crg-transmission-mnt/wg0.conf:/config/wg0.conf:ro
+      - ${WG_PATH}:/config/wg0.conf:ro
       - /lib/modules:/lib/modules:ro
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
@@ -23,14 +23,14 @@ services:
     image: ghcr.io/linuxserver/transmission
     container_name: crg-transmission
     environment:
-      - PUID=0
-      - PGID=27
-      - TZ=America/Denver
+      - PUID=${DOCKER_UID}
+      - PGID=${DOCKER_GID}
+      - TZ=${TZ}
       - TRANSMISSION_WEB_HOME=/combustion-release/
     volumes:
-      - /srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/svc/crg-transmission-mnt:/config
-      - /srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/crg/downloads:/downloads
-      - /srv/dev-disk-by-uuid-e64e214f-1cc5-46b7-82f6-6ca2c87fea5e/media/crg-watch:/watch
+      - ${TRANSMISSION_CONFIG_DIR}:/config
+      - ${DOWNLOADS_DIR}:/downloads
+      - ${WATCH_DIR}:/watch
     restart: unless-stopped
     network_mode: "service:wireguard"
     depends_on: [ "wireguard", ]

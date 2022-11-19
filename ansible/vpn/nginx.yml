@@ -1,0 +1,56 @@
+---
+- hosts: vpnserver
+  tasks:
+    - name: Ensure the required packages are installed
+      package:
+        name: "{{item}}"
+        state: present
+      loop:
+        - nginx
+        - python3-certbot-nginx
+        - certbot
+        - ufw
+    - name: Ensure ufw is running
+      service:
+        name: ufw
+        state: started
+    - name: Ensure nginx is not running
+      service:
+        name: nginx
+        state: stopped
+    - name: Ensure port 80 is open
+      ufw:
+        rule: allow
+        port: "80"
+    - name: Reload UFW
+      ufw:
+        state: reloaded
+    - name: Generate certificate
+      shell: >
+        certbot certonly
+        -d {{ vpn_domain }}
+        -m {{ vpn_domain_email }}
+        --preferred-challenges http
+        --standalone
+        --expand
+        --agree-tos
+        --no-eff-email
+    - name: Ensure the cert/key files exist
+      file: name={{item}} state=file
+      loop:
+        - "/etc/letsencrypt/live/{{ vpn_domain }}/fullchain.pem"
+        - "/etc/letsencrypt/live/{{ vpn_domain }}/privkey.pem"
+    - name: Copy nginx config from the host manchine
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/sites-enabled/default.conf
+    - name: Ensure thre cron job exists
+      cron:
+        name: renew certificate
+        minute: "0"
+        hour: "0"
+        job: /usr/bin/certbot renew --quiet
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
