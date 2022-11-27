@@ -1,3 +1,4 @@
 .DS_Store
 *.key
 ansible/inventory.yaml
+ansible/misc/nas-creds.txt
