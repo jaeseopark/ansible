@@ -1,0 +1,30 @@
+---
+- hosts: nasclients
+  vars:
+    username: "nasuser"
+    password: "REDACTED"
+    volumes:
+      - svc
+      - crg
+      - media
+  tasks:
+    - name: utility present
+      package:
+        name: cifs-utils #samba-common smbclient samba-common-bin smbclient
+        state: present
+    - name: check mountpoint exist
+      file:
+        path: "/mnt/{{ item }}"
+        state: directory
+        mode: "0755"
+        owner: root
+        group: root
+      loop: "{{ volumes }}"
+    - name: Mount the volumes
+      ansible.posix.mount:
+        src: "//{{ nas_host }}/{{ item }}"
+        path: "/mnt/{{ item }}"
+        fstype: cifs
+        opts: "username={{ username }},password={{ password }}"
+        state: mounted
+      loop: "{{ volumes }}"
