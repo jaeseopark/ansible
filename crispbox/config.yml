@@ -6,20 +6,16 @@ theme: default
 links: []
 
 services:
-  - name: fatfinger
-    items:
-      - name: iMessageee
-        url: https://imessageee.fatfinger.click
-      - name: mlib
-        url: https://mlib.fatfinger.click/
-  - name: "crispbox"
+  - name: crispbox
     items:
       - name: Pi-hole
         logo: assets/img/pihole.svg
         url: http://crispbox:805/admin
+  - name: malfoy
+    items:
       - name: Corganize
         logo: assets/img/corganize.svg
-        url: http://crispbox:5823
+        url: http://malfoy:5823
   - name: bigboi
     items:
       - name: openmediavault
