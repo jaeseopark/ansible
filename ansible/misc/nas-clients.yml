@@ -3,6 +3,7 @@
   vars:
     creds_src: nas-creds.txt
     creds_dest: /root/.nas/creds.txt
+    nas_host: bigboi
     volumes:
       - svc
       - crg
