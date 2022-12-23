@@ -44,7 +44,7 @@
     - name: Install Docker
       package:
         name: "{{ item }}"
-        state: latest
+        state: present
       loop:
         - docker
         - docker.io
@@ -53,5 +53,5 @@
     - name: Run Docker daemon
       service:
         name: docker.service
-        state: restarted
+        state: started
         enabled: yes
