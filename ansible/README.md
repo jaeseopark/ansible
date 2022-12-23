@@ -2,6 +2,7 @@ Ansible inventory and playbooks
 
 ## Usage
 
+### One Time Setup
 ```bash
 # Mac (bash)
 pip3 install ansible
@@ -12,11 +13,11 @@ pip3 show ansible | grep Location
 
 # Add the bin directory to PATH in ~/.bash_profile
 # export PATH=$PATH:/Users/jaeseopark/Library/Python/3.9/bin
-```
 
-```bash
 ansible-galaxy collection install ansible.posix # Needed for the nas playbook
 ```
+
+### Run a Playbook
 
 ```bash
 ssh-add
