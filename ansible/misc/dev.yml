@@ -2,6 +2,8 @@
 - hosts: dev
   vars:
     dev_username: jaeseopark
+    git_username: jaeseopark
+    git_email: 20038316+jaeseopark@users.noreply.github.com
   tasks:
     - name: Ensure the dev user exists
       user:
@@ -20,6 +22,16 @@
         - ca-certificates
         - lsb-release
         - gnupg
+    - name: Set Git username
+      community.general.git_config:
+        name: user.name
+        scope: system
+        value: "{{ git_username }}"
+    - name: Set Git email
+      community.general.git_config:
+        name: user.email
+        scope: system
+        value: "{{ git_email }}"
     - name: Add signing key for Docker
       apt_key:
         url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
