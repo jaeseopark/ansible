@@ -1,0 +1,29 @@
+---
+- hosts: prd
+  vars:
+    app_path: /app/pihole
+    timezone: America/Denver
+  tasks:
+    - name: Ensure the app folder exists
+      file:
+        path: "{{ app_path }}"
+        state: directory
+    - name: Ensure the container is running
+      docker_container:
+        name: pihole
+        image: pihole/pihole:latest
+        state: started
+        restart_policy: unless-stopped
+        env:
+          TZ: "{{ timezone }}"
+          WEBPASSWORD: pw
+        ports:
+          - 53:53/tcp
+          - 53:53/udp
+          - 67:67/udp
+          - 805:80/tcp
+        capabilities:
+          - NET_ADMIN # https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+        volumes:
+          - "{{ app_path }}/mnt/etc-pihole/:/etc/pihole/"
+          - "{{ app_path }}/mnt/etc-dnsmasq.d/:/etc/dnsmasq.d/"

@@ -6,28 +6,26 @@ theme: default
 links: []
 
 services:
-  - name: crispbox
+  - name: Services
     items:
       - name: Pi-hole
         logo: assets/img/pihole.svg
-        url: http://crispbox:805/admin
-  - name: malfoy
-    items:
+        url: http://{{ pihole_host }}:805/admin
+        tag: {{ pihole_host }}
       - name: Corganize
         logo: assets/img/corganize.svg
-        url: http://malfoy:5823
-  - name: bigboi
-    items:
+        url: http://{{ corganize_host }}:5823
+        tag: {{ corganize_host }}
       - name: openmediavault
         logo: assets/img/omv.svg
         url: http://bigboi
       - name: Jellyfin
         logo: assets/img/jellyfin.svg
-        url: http://bigboi:8096
-      - name: Transmission
-        logo: assets/img/transmission.svg
-        url: http://bigboi:9091
-      - name: Transmission
+        url: http://{{ jellyfin_host }}:8096
+        tag: {{ jellyfin_host }}
+      - name: Transmission for Jellyfin
         logo: assets/img/transmission.svg
         url: http://bigboi:9096
-        tag: Jellyfin
+        tag: bigboi
+
+# TODO: replace 'bigboi' with a variable

@@ -27,6 +27,8 @@ ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. 
 ansible-playbook -i inventory.ini vpn/nginx.yml
 ansible-playbook -i inventory.ini misc/nas-clients.yml
 ansible-playbook -i inventory.ini misc/dev.yml
+ansible-playbook -i inventory.ini misc/homer.yml
+ansible-playbook -i inventory.ini misc/pihole.yml
 ```
 
 ## Terminologies
@@ -47,3 +49,14 @@ ansible-playbook -i inventory.ini misc/dev.yml
 ```bash
 ansible-inventory -i inventory.ini -y --list > inventory.yaml
 ```
+
+## Pihole
+
+```bash
+# Reset password
+docker exec -it pihole pihole -a -p
+```
+
+### Change lookup rate limit
+
+Rate-limiting can easily be disabled by setting `RATE_LIMIT=0/0` in `/etc/pihole/pihole-FTL.conf`. [Reference](https://pi-hole.net/2021/02/16/pi-hole-ftl-v5-7-and-web-v5-4-released/#page-content)

@@ -3,8 +3,6 @@
   vars:
     vpn_domain: jaeseo.stream
     vpn_domain_email: admin@jaeseo.stream
-    jellyfin_host: bigboi
-    corganize_host: crispbox
     private_key_path: /etc/wireguard/private.key
     public_key_path: /etc/wireguard/public.key
     server_public_key_path_on_master: server_public.key
