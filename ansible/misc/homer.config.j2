@@ -18,14 +18,12 @@ services:
         tag: {{ corganize_host }}
       - name: openmediavault
         logo: assets/img/omv.svg
-        url: http://bigboi
+        url: http://{{ nas_host }}
       - name: Jellyfin
         logo: assets/img/jellyfin.svg
         url: http://{{ jellyfin_host }}:8096
         tag: {{ jellyfin_host }}
       - name: Transmission for Jellyfin
         logo: assets/img/transmission.svg
-        url: http://bigboi:9096
-        tag: bigboi
-
-# TODO: replace 'bigboi' with a variable
+        url: http://{{ jellyfin_host }}:9096
+        tag: {{ jellyfin_host }}
