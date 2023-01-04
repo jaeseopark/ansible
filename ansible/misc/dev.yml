@@ -11,6 +11,10 @@
         shell: /bin/bash
         groups: sudo,docker
         append: yes
+    - name: Ensure the docker repo file is absent before installing packages
+      file:
+        path: /etc/apt/sources.list.d/docker.list
+        state: absent
     - name: Install base packages
       package:
         name: "{{ item }}"
