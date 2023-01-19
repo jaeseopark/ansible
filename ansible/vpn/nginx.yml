@@ -1,5 +1,14 @@
 ---
 - hosts: vpnservers
+  vars:
+    apps:
+      - name: jellyfin
+        port: 8096
+        ip: "{{ hostvars[jellyfin_host].wg_ip }}"
+      - name: paperless
+        port: 29743
+        additional_config: client_max_body_size 1024m;
+        ip: "{{ hostvars[paperless_host].wg_ip }}"
   tasks:
     - name: Ensure nginx is installed
       package:

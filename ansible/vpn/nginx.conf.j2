@@ -1,78 +1,57 @@
+{% for app in apps %}
+upstream {{ app.name }} {
+    server {{ app.ip }}:{{ app.port }};
+}
+{% endfor %}
+
+server {
+    listen 8096;
+    listen [::]:8096;
+    server_name {{ vpn_domain }} jellyfin.{{ vpn_domain }};
+
+    location / {
+        proxy_pass http://jellyfin$request_uri;
+    }
+}
+
 server {
     listen 80;
     listen [::]:80;
-    server_name {{ vpn_domain }} corganize.{{ vpn_domain }} jellyfin.{{ vpn_domain }} paperless.{{ vpn_domain }};
+    server_name *.{{ vpn_domain }};
 
     # Uncomment to redirect HTTP to HTTPS
     return 301 https://$host$request_uri;
 }
 
-server {
-    listen 8096;
-    listen [::]:8096;
-    server_name {{ vpn_domain }};
-
-    set $jellyfin {{ hostvars[jellyfin_host].wg_ip }};
-
-    location / {
-        # Proxy main Jellyfin traffic
-
-        # The / at the end is significant.
-        # https://www.acunetix.com/blog/articles/a-fresh-look-on-reverse-proxy-related-attacks/
-
-        proxy_pass http://$jellyfin:8096$request_uri;
-
-        proxy_pass_request_headers on;
-
-        proxy_set_header Host $host;
-
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $http_host;
-
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $http_connection;
-
-        # Disable buffering when the nginx proxy gets very resource heavy upon streaming
-        proxy_buffering off;
-    }
-}
-
+{% for app in apps %}
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-    set $paperless {{ hostvars[paperless_host].wg_ip }};
+    server_name {{ app.name}}.{{ vpn_domain }};
 
-    server_name paperless.{{ vpn_domain }};
+    add_header Strict-Transport-Security "max-age=31536000" always;
     ssl_certificate /etc/letsencrypt/live/{{ vpn_domain }}/fullchain.pem; # managed by Certbot
     ssl_certificate_key /etc/letsencrypt/live/{{ vpn_domain }}/privkey.pem; # managed by Certbot
-    # include /etc/letsencrypt/options-ssl-nginx.conf;
-    # ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-    add_header Strict-Transport-Security "max-age=31536000" always;
     ssl_trusted_certificate /etc/letsencrypt/live/{{ vpn_domain }}/chain.pem;
     ssl_stapling on;
     ssl_stapling_verify on;
 
-    client_max_body_size 1024m;
+    proxy_pass_request_headers on;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $http_connection;
+    proxy_buffering off;
 
     location / {
-        proxy_pass http://$paperless:29743$request_uri;
-
-        proxy_pass_request_headers on;
-
-        proxy_set_header Host $host;
-
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $http_host;
-
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $http_connection;
-
-        # Disable buffering when the nginx proxy gets very resource heavy upon streaming
-        proxy_buffering off;
+        {% if 'additional_config' in app %}
+        {{ app.additional_config }}
+        {% endif %}
+        proxy_pass http://{{ app.name }}$request_uri;
     }
 }
+{% endfor %}
