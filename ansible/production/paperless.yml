@@ -3,7 +3,6 @@
   vars:
     app_path: /app/paperless
     local_mount_path: /app/paperless/mnt
-    watch_path: /mnt/svc/paperless/watch
     docker_compose_path: /app/paperless/docker-compose.yml
     env_file_path: /mnt/svc/paperless/paperless.env
   tasks:
@@ -15,7 +14,6 @@
       loop:
       - "{{ app_path }}"
       - "{{ local_mount_path }}"
-      - "{{ watch_path }}"
     - name: Copy config file from the master node
       template:
         src: paperless.docker-compose.j2
