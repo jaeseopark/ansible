@@ -3,12 +3,12 @@
   vars:
     apps:
       - name: jellyfin
-        port: "{{ jellyfin_port }}"
         ip: "{{ hostvars[jellyfin_host].wg_ip }}"
+        port: "{{ jellyfin_port }}"
       - name: paperless
+        ip: "{{ hostvars[paperless_host].wg_ip }}"
         port: "{{ paperless_port }}"
         additional_config: client_max_body_size 1024m;
-        ip: "{{ hostvars[paperless_host].wg_ip }}"
   tasks:
     - name: Ensure nginx is installed
       package:

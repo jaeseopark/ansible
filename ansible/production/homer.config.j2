@@ -10,15 +10,16 @@ services:
     items:
       - name: Pi-hole
         logo: assets/img/pihole.svg
-        url: http://{{ pihole_host }}:805/admin
+        url: http://{{ pihole_host }}:{{ pihole_port }}/admin
         tag: {{ pihole_host }}
       - name: Corganize
         logo: assets/img/corganize.svg
-        url: http://{{ corganize_host }}:5823
+        url: http://{{ corganize_host }}:{{ corganize_port }}
         tag: {{ corganize_host }}
       - name: openmediavault
         logo: assets/img/omv.svg
         url: http://{{ nas_host }}
+        tag: {{ nas_host }}
       - name: Jellyfin
         logo: assets/img/jellyfin.svg
         url: http://{{ jellyfin_host }}:{{ jellyfin_port }}
@@ -30,3 +31,4 @@ services:
       - name: Paperless
         logo: assets/img/paperless.svg
         url: http://{{ paperless_host }}:{{ paperless_port }}
+        tag: {{ paperless_host }}
