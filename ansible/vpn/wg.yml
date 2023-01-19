@@ -1,14 +1,5 @@
 ---
 - hosts: vpnservers
-  vars:
-    vpn_domain: jaeseo.stream
-    vpn_domain_email: admin@jaeseo.stream
-    private_key_path: /etc/wireguard/private.key
-    public_key_path: /etc/wireguard/public.key
-    server_public_key_path_on_master: server_public.key
-    clinet_public_key_folder_on_master: client_public_keys
-    wg_conf_path: /etc/wireguard/wg0.conf
-    wg_server_ip: 10.8.0.1
   tasks:
     - name: Ensure the required packages are installed
       package:

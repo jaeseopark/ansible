@@ -16,13 +16,17 @@
       ufw:
         rule: allow
         port: "80"
+    - name: Ensure port 80 is not in use
+      service:
+        name: nginx
+        state: stopped
     - name: Reload UFW
       ufw:
         state: reloaded
     - name: Generate certificate
       shell: >
         certbot certonly
-        -d {{ vpn_domain }},corganize.{{ vpn_domain }},jellyfin.{{ vpn_domain }}
+        -d {{ vpn_domain }},corganize.{{ vpn_domain }},jellyfin.{{ vpn_domain }},paperless.{{ vpn_domain }}
         -m {{ vpn_domain_email }}
         --preferred-challenges http
         --standalone

@@ -1,0 +1,45 @@
+version: "3.4"
+services:
+  broker:
+    image: docker.io/library/redis:7
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
+
+  db:
+    image: docker.io/library/postgres:13
+    restart: unless-stopped
+    volumes:
+      - {{ local_mount_path }}/postgres:/var/lib/postgresql/data
+    env_file: {{ env_file_path }}
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+      - broker
+    ports:
+      - 29743:8000
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - {{ local_mount_path }}/index:/usr/src/paperless/data
+      - {{ local_mount_path }}/media:/usr/src/paperless/media
+      - {{ local_mount_path }}/export:/usr/src/paperless/export
+      - {{ local_mount_path }}/watch:/usr/src/paperless/consume
+    env_file: {{ env_file_path }}
+    environment:
+      PUID: 1000
+      PGID: 1000
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
+      PAPERLESS_URL: "https://paperless.{{ vpn_domain }}"
+      PAPERLESS_ALLOWED_HOSTS: "localhost,{{ paperless_host }},paperless.{{ vpn_domain }}"
+      PAPERLESS_CORS_ALLOWED_HOSTS: "http://localhost:8000,https://paperless.{{ vpn_domain }}"
+
+volumes:
+  redisdata:

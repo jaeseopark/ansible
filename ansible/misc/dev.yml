@@ -26,6 +26,7 @@
         - ca-certificates
         - lsb-release
         - gnupg
+        - curl
     - name: Set Git username
       community.general.git_config:
         name: user.name

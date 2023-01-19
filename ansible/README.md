@@ -27,8 +27,9 @@ ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. 
 ansible-playbook -i inventory.ini vpn/nginx.yml
 ansible-playbook -i inventory.ini misc/nas-clients.yml
 ansible-playbook -i inventory.ini misc/dev.yml
-ansible-playbook -i inventory.ini misc/homer.yml
-ansible-playbook -i inventory.ini misc/pihole.yml
+ansible-playbook -i inventory.ini production/homer.yml
+ansible-playbook -i inventory.ini production/pihole.yml
+ansible-playbook -i inventory.ini production/paperless.yml
 ```
 
 ## Terminologies

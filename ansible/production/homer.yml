@@ -4,6 +4,10 @@
     config_path: /app/homer/config.yml
     img_path: /app/homer/homer-img
   tasks:
+    - name: Ensure the homer container is not running
+      docker_container:
+        name: homer
+        state: stopped
     - name: Ensure the app folder exists
       file:
         path: /app/homer
