@@ -5,8 +5,8 @@ upstream {{ app.name }} {
 {% endfor %}
 
 server {
-    listen 8096;
-    listen [::]:8096;
+    listen {{ jellyfin_port }};
+    listen [::]:{{ jellyfin_port }};
     server_name {{ vpn_domain }} jellyfin.{{ vpn_domain }};
 
     location / {

@@ -10,7 +10,7 @@ services:
       - ${JELLYFIN_CONFIG_PATH}:/config
       - ${MEDIA_PATH}:/data:ro
     ports:
-      - 8096:8096
+      - "{{ jellyfin_port }}:{{ jellyfin_port }}"
     restart: unless-stopped
   wireguard:
     image: ghcr.io/linuxserver/wireguard

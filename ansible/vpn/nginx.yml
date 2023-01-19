@@ -3,10 +3,10 @@
   vars:
     apps:
       - name: jellyfin
-        port: 8096
+        port: "{{ jellyfin_port }}"
         ip: "{{ hostvars[jellyfin_host].wg_ip }}"
       - name: paperless
-        port: 29743
+        port: "{{ paperless_port }}"
         additional_config: client_max_body_size 1024m;
         ip: "{{ hostvars[paperless_host].wg_ip }}"
   tasks:

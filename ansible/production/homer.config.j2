@@ -21,7 +21,7 @@ services:
         url: http://{{ nas_host }}
       - name: Jellyfin
         logo: assets/img/jellyfin.svg
-        url: http://{{ jellyfin_host }}:8096
+        url: http://{{ jellyfin_host }}:{{ jellyfin_port }}
         tag: {{ jellyfin_host }}
       - name: Transmission for Jellyfin
         logo: assets/img/transmission.svg
@@ -29,4 +29,4 @@ services:
         tag: {{ jellyfin_host }}
       - name: Paperless
         logo: assets/img/paperless.svg
-        url: http://{{ paperless_host }}:29743
+        url: http://{{ paperless_host }}:{{ paperless_port }}
