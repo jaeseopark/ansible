@@ -8,18 +8,22 @@ server {
     listen {{ jellyfin_port }};
     listen [::]:{{ jellyfin_port }};
     server_name {{ vpn_domain }} jellyfin.{{ vpn_domain }};
-
-    location / {
-        proxy_pass http://jellyfin$request_uri;
-    }
+    proxy_pass http://jellyfin$request_uri;
 }
 
 server {
+    # The default app is Jellyfin.
+    listen 80;
+    listen [::]:80;
+    server_name {{ vpn_domain }};
+    return 301 https://jellyfin.$host$request_uri;
+}
+
+server {
+    # Forward all traffic to HTTPS
     listen 80;
     listen [::]:80;
     server_name *.{{ vpn_domain }};
-
-    # Uncomment to redirect HTTP to HTTPS
     return 301 https://$host$request_uri;
 }
 
