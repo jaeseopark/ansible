@@ -30,6 +30,7 @@ ansible-playbook -i inventory.ini misc/dev.yml
 ansible-playbook -i inventory.ini production/homer.yml
 ansible-playbook -i inventory.ini production/pihole.yml
 ansible-playbook -i inventory.ini production/paperless.yml
+ansible-playbook -i inventory.ini production/jellyfin.yml
 ```
 
 ## Terminologies
