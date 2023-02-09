@@ -15,6 +15,11 @@
       file:
         path: /etc/apt/sources.list.d/docker.list
         state: absent
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 # One day
     - name: Install base packages
       package:
         name: "{{ item }}"
@@ -53,8 +58,12 @@
       loop:
         - docker
         - docker.io
-        - docker-compose
         - docker-registry
+    - name: Install docker-compose
+      get_url: 
+        url : https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x'
     - name: Run Docker daemon
       service:
         name: docker.service
