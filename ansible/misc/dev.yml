@@ -59,6 +59,7 @@
         - docker
         - docker.io
         - docker-registry
+        # - docker-compose-plugin
     - name: Install docker-compose
       get_url: 
         url : https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-linux-x86_64
