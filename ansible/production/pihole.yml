@@ -2,7 +2,6 @@
 - hosts: prd
   vars:
     app_path: /app/pihole
-    timezone: America/Denver
   tasks:
     - name: Ensure the app folder exists
       file:

@@ -25,6 +25,7 @@ services:
     ports:
       - {{ jellyfin_trns_port }}:{{ jellyfin_trns_port }}/tcp
       - {{ jellyfin_trns_bkup_port }}:{{ jellyfin_trns_bkup_port }}/tcp
+      - 9091:9091 # Default TRNS API PORT
     volumes:
       - {{ wg_conf_path }}:/config/wg0.conf:ro
       - {{ wg_resolv_conf_path }}:/etc/resolv.conf:ro
