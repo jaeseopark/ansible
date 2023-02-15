@@ -9,6 +9,9 @@
         ip: "{{ hostvars[paperless_host].wg_ip }}"
         port: "{{ paperless_port }}"
         additional_config: client_max_body_size 1024m;
+      - name: radarr
+        ip: "{{ hostvars[radarr_host].wg_ip }}"
+        port: "{{ radarr_port }}"
   tasks:
     - name: Ensure nginx is installed
       package:

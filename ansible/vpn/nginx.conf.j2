@@ -8,7 +8,9 @@ server {
     listen {{ jellyfin_port }};
     listen [::]:{{ jellyfin_port }};
     server_name {{ vpn_domain }} jellyfin.{{ vpn_domain }};
-    proxy_pass http://jellyfin$request_uri;
+    location / {
+        proxy_pass http://jellyfin$request_uri;
+    }
 }
 
 server {

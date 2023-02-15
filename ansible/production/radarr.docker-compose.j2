@@ -6,12 +6,12 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=0
+      - PGID=0
       - TZ={{ timezone }}
     volumes:
       - {{ mnt_path }}/config:/config
-      - {{ library_path }}:/movies
+      - {{ library_path }}:/library
       - {{ download_dest_path }}:/downloads/complete
     ports:
       - 7878:7878
