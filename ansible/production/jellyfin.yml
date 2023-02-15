@@ -67,6 +67,7 @@
     - name: Copy trns settings file from the master node (bkup)
       vars:
         rpcport: "{{ jellyfin_trns_bkup_port }}"
+        wg_fwd_port: "12345" # Random value to disable forwarding
       template:
         src: jellyfin.trns-settings.j2
         dest: "{{ trns_bkup_mnt_path }}/settings.json"
