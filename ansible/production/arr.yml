@@ -1,10 +1,11 @@
 ---
 - hosts: prd
   vars:
-    app_path: /app/radarr
-    mnt_path: "{{ app_path }}/mnt"
+    app_path: /app/arr
+    radarr_mnt_path: "{{ app_path }}/mnt-radarr"
+    sonarr_mnt_path: "{{ app_path }}/mnt-sonarr"
     docker_compose_path: "{{ app_path }}/docker-compose.yml"
-    library_path: /mnt/media/movies
+    library_path: /mnt/media
     download_dest_path: /mnt/media/media-downloads
   tasks:
     - name: Ensure folders exists
@@ -14,10 +15,11 @@
         state: directory
       loop:
         - "{{ app_path }}"
-        - "{{ mnt_path }}"
+        - "{{ radarr_mnt_path }}"
+        - "{{ sonarr_mnt_path }}"
     - name: Copy config file from the master node
       template:
-        src: radarr.docker-compose.j2
+        src: arr.docker-compose.j2
         dest: "{{ docker_compose_path }}"
     - name: Ensure Docker Compose is running
       community.docker.docker_compose:

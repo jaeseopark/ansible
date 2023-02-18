@@ -34,5 +34,9 @@ services:
         tag: {{ paperless_host }}
       - name: Radarr
         logo: assets/img/radarr.svg
-        url: http://{{ radarr_host }}:{{ radarr_port }}
-        tag: {{ radarr_host }}
+        url: http://{{ arr_host }}:{{ radarr_port }}
+        tag: {{ arr_host }}
+      - name: Sonarr
+        logo: assets/img/sonarr.svg
+        url: http://{{ arr_host }}:{{ sonarr_port }}
+        tag: {{ arr_host }}
