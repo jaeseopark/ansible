@@ -37,6 +37,6 @@
         src: "//{{ nas_host }}/{{ item }}"
         path: "/mnt/{{ item }}"
         fstype: cifs
-        opts: "credentials={{ creds_dest }}"
+        opts: "auto,credentials={{ creds_dest }}"
         state: mounted
       loop: "{{ volumes }}"
