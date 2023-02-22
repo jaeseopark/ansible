@@ -15,6 +15,9 @@
       - name: sonarr
         ip: "{{ hostvars[arr_host].wg_ip }}"
         port: "{{ sonarr_port }}"
+      - name: homeassistant
+        ip: "{{ hostvars[homeassistant_host].wg_ip }}"
+        port: "{{ homeassistant_port }}"
   tasks:
     - name: Ensure nginx is installed
       package:
