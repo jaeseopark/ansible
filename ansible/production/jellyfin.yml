@@ -10,7 +10,7 @@
     docker_compose_path: /app/jellyfin/docker-compose.yml
     wg_conf_path: /app/jellyfin/wg0.conf
     wg_resolv_conf_path: /app/jellyfin/wg.resolv.conf
-    wg_fwd_port: "57821"
+    wg_fwd_port: "58008"
     tz: America/Denver
     puid: "0"
     pgid: "27"
