@@ -14,6 +14,10 @@
       loop:
       - "{{ app_path }}"
       - "{{ local_mount_path }}"
+    - name: Ensure Docker Compose is stopped
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: absent
     - name: Copy config file from the master node
       template:
         src: paperless.docker-compose.j2

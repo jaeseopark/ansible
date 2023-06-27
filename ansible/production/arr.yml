@@ -17,6 +17,10 @@
         - "{{ app_path }}"
         - "{{ radarr_mnt_path }}"
         - "{{ sonarr_mnt_path }}"
+    - name: Ensure Docker Compose is running
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: absent
     - name: Copy config file from the master node
       template:
         src: arr.docker-compose.j2
