@@ -18,6 +18,9 @@
       - name: homeassistant
         ip: "{{ hostvars[homeassistant_host].wg_ip }}"
         port: "{{ homeassistant_port }}"
+      - name: corganize
+        ip: "{{ hostvars[corganize_host].wg_ip }}"
+        port: "{{ corganize_port }}"
   tasks:
     - name: Ensure nginx is installed
       package:
