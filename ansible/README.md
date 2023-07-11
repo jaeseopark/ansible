@@ -33,6 +33,7 @@ ansible-playbook -i inventory.ini production/paperless.yml
 ansible-playbook -i inventory.ini production/jellyfin.yml
 ansible-playbook -i inventory.ini production/arr.yml
 ansible-playbook -i inventory.ini production/homeassistant.yml
+ansible-playbook -i inventory.ini production/wiki.yml
 ```
 
 ## Terminologies

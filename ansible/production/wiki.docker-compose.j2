@@ -1,0 +1,12 @@
+---
+version: "2.1"
+services:
+  wikijs:
+    image: lscr.io/linuxserver/wikijs:latest
+    container_name: wikijs
+    volumes:
+      - ./mnt/wikijs-config:/config
+      - ./mnt/wikijs-data:/data
+    ports:
+      - {{ wiki_port }}:3000
+    restart: unless-stopped
