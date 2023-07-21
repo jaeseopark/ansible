@@ -10,6 +10,7 @@
     docker_compose_path: /app/jellyfin/docker-compose.yml
     wg_conf_path: /app/jellyfin/wg0.conf
     wg_resolv_conf_path: /app/jellyfin/wg.resolv.conf
+    port_forwarding_enabled: "false" # Mullvad stopped supporting it. keeping it disabled for now.
     wg_fwd_port: "58008"
     tz: America/Denver
     puid: "0"
