@@ -40,6 +40,10 @@ services:
         logo: assets/img/sonarr.svg
         url: http://{{ arr_host }}:{{ sonarr_port }}
         tag: {{ arr_host }}
+      - name: Prowlarr
+        logo: assets/img/prowlarr.svg
+        url: http://{{ arr_host }}:{{ prowlarr_port }}
+        tag: {{ arr_host }}
       - name: Home Assistant
         logo: assets/img/homeassistant.svg
         url: http://{{ homeassistant_host }}:{{ homeassistant_port }}

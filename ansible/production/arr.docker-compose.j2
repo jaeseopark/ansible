@@ -30,3 +30,15 @@ services:
     ports:
       - {{ sonarr_port }}:8989
     restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ={{ timezone }}
+    volumes:
+      - {{ prowlarr_mnt_path }}/config:/config
+    ports:
+      - {{ prowlarr_port }}:9696
+    restart: unless-stopped

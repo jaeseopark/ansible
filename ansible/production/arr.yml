@@ -4,6 +4,7 @@
     app_path: /app/arr
     radarr_mnt_path: "{{ app_path }}/mnt-radarr"
     sonarr_mnt_path: "{{ app_path }}/mnt-sonarr"
+    prowlarr_mnt_path: "{{ app_path }}/mnt-prowlarr"
     docker_compose_path: "{{ app_path }}/docker-compose.yml"
     library_path: /mnt/media
     download_dest_path: /mnt/media/media-downloads
@@ -17,6 +18,7 @@
         - "{{ app_path }}"
         - "{{ radarr_mnt_path }}"
         - "{{ sonarr_mnt_path }}"
+        - "{{ prowlarr_mnt_path }}"
     - name: Copy config file from the master node
       template:
         src: arr.docker-compose.j2
