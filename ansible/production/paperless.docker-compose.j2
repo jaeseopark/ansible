@@ -14,7 +14,7 @@ services:
     env_file: {{ env_file_path }}
 
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    image: ghcr.io/paperless-ngx/paperless-ngx:1.16.5
     restart: unless-stopped
     depends_on:
       - db
