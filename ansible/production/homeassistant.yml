@@ -21,3 +21,7 @@
       community.docker.docker_compose:
         project_src: "{{ app_path }}"
         state: present
+        restarted: true
+        pull: true
+
+# TODO: add http proxy settings to configuration.yml
