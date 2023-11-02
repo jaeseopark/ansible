@@ -2,8 +2,8 @@
 - hosts: bigboi
   vars:
     app_path: /app/jellyfin
-    media_path: ~/media
-    jellyfin_mnt_path: ~/svc/jellyfin-mnt
+    media_path: /mnt/media
+    jellyfin_mnt_path: /app/jellyfin/mnt
     trns_mnt_path: /app/jellyfin/trns-mnt
     trns_bkup_mnt_path: /app/jellyfin/trns-bkup-mnt
     trns_bkup_dl_path: /srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/crg/downloads
