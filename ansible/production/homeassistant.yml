@@ -29,7 +29,7 @@
         dest: "{{ mnt_path_mqtt }}/mosquitto.conf"
     - name: Copy mqtt password file from the master node
       template:
-        src: homeassistant.mqtt.passwd_file.j2
+        src: homeassistant.mqtt.passwd_file
         dest: "{{ mnt_path_mqtt }}/passwd_file"
     - name: Ensure Docker Compose is running
       community.docker.docker_compose:
