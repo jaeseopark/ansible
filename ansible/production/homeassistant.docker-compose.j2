@@ -1,7 +1,7 @@
 version: '3'
 services:
   homeassistant:
-    container_name: homeassistant:latest
+    container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
     volumes:
       - {{ mnt_path }}:/config
@@ -10,3 +10,17 @@ services:
     privileged: true
     ports:
       - 8123:8123
+    depends_on:
+      - mqtt
+  mqtt:
+    container_name: homeassistant-mqtt
+    image: eclipse-mosquitto:2.0
+    volumes:
+      - {{ mnt_path_mqtt }}/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - {{ mnt_path_mqtt }}/passwd_file:/mosquitto/passwd_file:ro
+      - {{ mnt_path_mqtt }}/data:/mosquitto/data
+      - {{ mnt_path_mqtt }}/log:/mosquitto/log
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+      - 9001:9001

@@ -3,6 +3,9 @@
   vars:
     app_path: /app/homeassistant
     mnt_path: "{{ app_path }}/mnt"
+    mnt_path_mqtt: "{{ mnt_path }}/mqtt"
+    mnt_path_mqtt_data: "{{ mnt_path_mqtt }}/data"
+    mnt_path_mqtt_log: "{{ mnt_path_mqtt }}/log"
     docker_compose_path: "{{ app_path }}/docker-compose.yml"
   tasks:
     - name: Ensure folders exists
@@ -13,10 +16,21 @@
       loop:
       - "{{ app_path }}"
       - "{{ mnt_path }}"
-    - name: Copy config file from the master node
+      - "{{ mnt_path_mqtt }}"
+      - "{{ mnt_path_mqtt_data }}"
+      - "{{ mnt_path_mqtt_log }}"
+    - name: Copy compose file from the master node
       template:
         src: homeassistant.docker-compose.j2
         dest: "{{ docker_compose_path }}"
+    - name: Copy mqtt config file from the master node
+      template:
+        src: homeassistant.mqtt.conf.j2
+        dest: "{{ mnt_path_mqtt }}/mosquitto.conf"
+    - name: Copy mqtt password file from the master node
+      template:
+        src: homeassistant.mqtt.passwd_file.j2
+        dest: "{{ mnt_path_mqtt }}/passwd_file"
     - name: Ensure Docker Compose is running
       community.docker.docker_compose:
         project_src: "{{ app_path }}"
@@ -26,3 +40,5 @@
 
 # TODO: add http proxy settings to configuration.yml
 # TODO: add 'mobile_app:' to the configuration file
+# TODO: add 'camera:' for reolink integration
+# TODO: add 'ios:' for ios shortcuts
