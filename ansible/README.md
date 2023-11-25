@@ -25,7 +25,7 @@ ssh-add
 ansible-playbook -i inventory.ini vpn/wg.yml
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
 ansible-playbook -i inventory.ini vpn/nginx.yml
-ansible-playbook -i inventory.ini misc/nas-clients.yml
+ansible-playbook -i inventory.ini --ask-vault-pass misc/nas-clients.yml
 ansible-playbook -i inventory.ini misc/dev.yml
 ansible-playbook -i inventory.ini production/homer.yml
 ansible-playbook -i inventory.ini production/pihole.yml
