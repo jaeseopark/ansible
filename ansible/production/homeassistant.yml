@@ -7,7 +7,7 @@
     mnt_path_mqtt: "{{ app_path }}/mnt-mqtt"
     mnt_path_mqtt_data: "{{ mnt_path_mqtt }}/data"
     mnt_path_mqtt_log: "{{ mnt_path_mqtt }}/log"
-    rtl_usb_path: "/dev/bus/usb/001/008"
+    rtl_usb_path: "/dev/bus/usb/001/003"
   tasks:
     - name: Ensure folders exists
       file:
