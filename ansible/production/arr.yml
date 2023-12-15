@@ -4,6 +4,7 @@
     app_path: /app/arr
     radarr_mnt_path: "{{ app_path }}/mnt-radarr"
     sonarr_mnt_path: "{{ app_path }}/mnt-sonarr"
+    lidarr_mnt_path: "{{ app_path }}/mnt-lidarr"
     prowlarr_mnt_path: "{{ app_path }}/mnt-prowlarr"
     docker_compose_path: "{{ app_path }}/docker-compose.yml"
     library_path: /mnt/media
@@ -18,6 +19,7 @@
         - "{{ app_path }}"
         - "{{ radarr_mnt_path }}"
         - "{{ sonarr_mnt_path }}"
+        - "{{ lidarr_mnt_path }}"
         - "{{ prowlarr_mnt_path }}"
     - name: Copy config file from the master node
       template:

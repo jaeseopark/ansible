@@ -30,6 +30,20 @@ services:
     ports:
       - {{ sonarr_port }}:8989
     restart: unless-stopped
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Etc/UTC
+    volumes:
+      - {{ lidarr_mnt_path }}/config:/config
+      - {{ library_path }}:/media
+      - {{ download_dest_path }}:/downloads/complete
+    ports:
+      - {{ lidarr_port }}:8686
+    restart: unless-stopped
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr

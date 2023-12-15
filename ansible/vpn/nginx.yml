@@ -15,6 +15,9 @@
       - name: sonarr
         ip: "{{ hostvars[arr_host].wg_ip }}"
         port: "{{ sonarr_port }}"
+      - name: lidarr
+        ip: "{{ hostvars[arr_host].wg_ip }}"
+        port: "{{ lidarr_port }}"
       - name: prowlarr
         ip: "{{ hostvars[arr_host].wg_ip }}"
         port: "{{ prowlarr_port }}"
