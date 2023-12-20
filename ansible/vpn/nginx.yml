@@ -30,6 +30,9 @@
       - name: wiki
         ip: "{{ hostvars[wiki_host].wg_ip }}"
         port: "{{ wiki_port }}"
+      - name: bobbins
+        ip: "{{ hostvars[bobbins_host].wg_ip }}"
+        port: "{{ bobbins_port }}"
   tasks:
     - name: Ensure nginx is installed
       package:
