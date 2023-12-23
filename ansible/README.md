@@ -22,6 +22,7 @@ ansible-galaxy collection install ansible.posix # Needed for the nas playbook
 ```bash
 ssh-add
 
+ansible-playbook -i inventory.ini --ask-become-pass mac/update-hostnames.yml
 ansible-playbook -i inventory.ini vpn/wg.yml
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
 ansible-playbook -i inventory.ini vpn/nginx.yml

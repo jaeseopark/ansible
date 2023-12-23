@@ -1,13 +1,9 @@
 ---
 - hosts: mac
   tasks:
-    - name: Add IP addresses of all hosts
-      lineinfile:
+    - name: Copy the hosts file
+      template:
+        src: hosts
         dest: /etc/hosts
-        regexp: ".*{{ item }}$"
-        line: "{{ item }} {{ hostvars[item].inventory_hostname }}"
-        state: present
-      when: hostvars[item].inventory_hostname is defined
-      with_items: "{{ groups.all }}"
     - name: Flush DNS cache
       shell: dscacheutil -flushcache
