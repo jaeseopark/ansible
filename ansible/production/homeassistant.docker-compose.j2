@@ -40,3 +40,14 @@ services:
 #      - "-Yautolevel" # Set minlevel automatically based on average estimated noise.
     depends_on:
       - mqtt
+  z2m:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    environment:
+      - TZ=America/Denver
+    devices:
+      - {{ zigbee_usb_path }}:/dev/ttyACM0
+    volumes:
+      - {{ mnt_path_zigbee_data }}:/app/data
+      - /run/udev:/run/udev:ro

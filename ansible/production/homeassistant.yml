@@ -7,7 +7,11 @@
     mnt_path_mqtt: "{{ app_path }}/mnt-mqtt"
     mnt_path_mqtt_data: "{{ mnt_path_mqtt }}/data"
     mnt_path_mqtt_log: "{{ mnt_path_mqtt }}/log"
+    mnt_path_zigbee_data: "{{ app_path }}/mnt-zigbee"
+    # TODO: Need to use serial by id instead of ephemeral paths
+    # See: https://www.reddit.com/r/debian/comments/1331wlr/devserialbyid_suddenly_missing/
     rtl_usb_path: "/dev/bus/usb/001/003"
+    zigbee_usb_path: "/dev/ttyUSB0"
   tasks:
     - name: Ensure folders exists
       file:
@@ -20,10 +24,15 @@
         - "{{ mnt_path_mqtt }}"
         - "{{ mnt_path_mqtt_data }}"
         - "{{ mnt_path_mqtt_log }}"
+        - "{{ mnt_path_zigbee_data }}"
     - name: Copy mqtt config file from the master node
       template:
         src: homeassistant.mqtt.conf.j2
         dest: "{{ mnt_path_mqtt }}/mosquitto.conf"
+    - name: Copy zigbee config file from the master node
+      template:
+        src: homeassistant.zigbee.configuration.yaml
+        dest: "{{ mnt_path_zigbee_data }}/configuration.yaml"
     - name: Copy compose file from the master node
       template:
         src: homeassistant.docker-compose.j2
