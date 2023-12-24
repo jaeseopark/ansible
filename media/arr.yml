@@ -1,0 +1,35 @@
+---
+- hosts: malfoy
+  vars:
+    app_path: /app/arr
+    radarr_mnt_path: "{{ app_path }}/mnt-radarr"
+    sonarr_mnt_path: "{{ app_path }}/mnt-sonarr"
+    lidarr_mnt_path: "{{ app_path }}/mnt-lidarr"
+    prowlarr_mnt_path: "{{ app_path }}/mnt-prowlarr"
+    docker_compose_path: "{{ app_path }}/docker-compose.yml"
+    library_path: /mnt/media
+    download_dest_path: /mnt/media/media-downloads
+  tasks:
+    - name: Ensure folders exists
+      file:
+        path: "{{ item }}"
+        mode: u=rwx,g=rwx,o=rx
+        state: directory
+      loop:
+        - "{{ app_path }}"
+        - "{{ radarr_mnt_path }}"
+        - "{{ sonarr_mnt_path }}"
+        - "{{ lidarr_mnt_path }}"
+        - "{{ prowlarr_mnt_path }}"
+    - name: Copy config file from the master node
+      template:
+        src: arr.docker-compose.j2
+        dest: "{{ docker_compose_path }}"
+    - name: Ensure Docker Compose is stopped
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: absent
+    - name: Ensure Docker Compose is running
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: present

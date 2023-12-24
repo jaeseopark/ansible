@@ -1,5 +1,5 @@
 ---
-- hosts: prd
+- hosts: malfoy
   vars:
     config_path: /app/homer/config.yml
     img_path: /app/homer/homer-img

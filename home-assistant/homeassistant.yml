@@ -1,5 +1,5 @@
 ---
-- hosts: prd
+- hosts: malfoy
   vars:
     app_path: /app/homeassistant
     mnt_path: "{{ app_path }}/mnt"

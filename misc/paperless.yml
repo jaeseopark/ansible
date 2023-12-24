@@ -1,5 +1,5 @@
 ---
-- hosts: prd
+- hosts: malfoy
   vars:
     app_path: /app/paperless
     local_mount_path: /app/paperless/mnt
