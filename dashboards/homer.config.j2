@@ -52,15 +52,22 @@ services:
         logo: assets/img/homeassistant.svg
         url: http://{{ homeassistant_host }}:{{ homeassistant_port }}
         tag: {{ homeassistant_host }}
-      - name: wiki
+      - name: Wiki
         logo: assets/img/wiki.png
         url: http://{{ wiki_host }}:{{ wiki_port }}
         tag: {{ wiki_host }}
-      - name: reolink
+      - name: Reolink
         logo: assets/img/reolink.svg
         url: http://crispreolink
         tag: reolink
-      - name: navidrome
+      - name: Navidrome
         logo: assets/img/navidrome.svg
         url: http://{{ navidrome_host }}:{{ navidrome_port }}
         tag: {{ navidrome_host }}
+      - name: Bobbins
+        url: https://bobbins.{{ vpn_domain }}
+        tag: {{ bobbins_host }}
+  - name: Bookmarks
+    items:
+      - name: Khloe's Thingiverse Collection
+        url: https://www.thingiverse.com/sewingstroll/collections/40823979/things
