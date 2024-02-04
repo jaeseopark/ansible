@@ -25,7 +25,7 @@
         ip: "{{ hostvars[homeassistant_host].wg_ip }}"
         port: "{{ homeassistant_port }}"
       - name: corganize
-        ip: "{{ hostvars[corganize_host].wg_ip }}"
+        ip: "{{ hostvars[corganize_web_host].wg_ip }}"
         port: "{{ corganize_port }}"
       - name: wiki
         ip: "{{ hostvars[wiki_host].wg_ip }}"

@@ -54,6 +54,7 @@ ansible-playbook -i inventory.ini misc/paperless.yml
 ansible-playbook -i inventory.ini misc/pihole.yml
 ansible-playbook -i inventory.ini misc/wiki.yml
 ansible-playbook -i inventory.ini misc/corganize.yml
+ansible-playbook -i inventory.ini --ask-vault-pass misc/corganize-daemon.yml
 ```
 
 ## Debugging Ansible variables

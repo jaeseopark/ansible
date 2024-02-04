@@ -14,8 +14,8 @@ services:
         tag: {{ pihole_host }}
       - name: Corganize
         logo: assets/img/corganize.svg
-        url: http://{{ corganize_host }}:{{ corganize_port }}
-        tag: {{ corganize_host }}
+        url: http://{{ corganize_web_host }}:{{ corganize_web_port }}
+        tag: {{ corganize_web_host }}
       - name: openmediavault
         logo: assets/img/omv.svg
         url: http://{{ nas_host }}
