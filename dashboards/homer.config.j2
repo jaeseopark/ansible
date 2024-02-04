@@ -67,6 +67,13 @@ services:
       - name: Bobbins
         url: https://bobbins.{{ vpn_domain }}
         tag: {{ bobbins_host }}
+      - name: RTSP Timelapse
+        url: http://{{ rtsp_timelapse_host }}:{{ rtsp_timelapse_port }}
+        tag: {{ rtsp_timelapse_host }}
+      - name: Mainsail
+        logo: assets/img/mainsail.png
+        url: http://mainsail
+        tag: Mainsail
   - name: Bookmarks
     items:
       - name: Khloe's Thingiverse Collection

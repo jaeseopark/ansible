@@ -1,0 +1,32 @@
+---
+- hosts: malfoy
+  vars:
+    app_path: /app/corganize-server
+    docker_compose_path: "{{ app_path }}/docker-compose.yml"
+    mnt_path: "{{ app_path }}/mnt"
+    db_path: "{{ mnt_path }}/db"
+    log_path: "{{ mnt_path }}/log"
+  tasks:
+    - name: Ensure folders exists
+      file:
+        path: "{{ item }}"
+        mode: u=rwx,g=rwx,o=rx
+        state: directory
+      loop:
+      - "{{ app_path }}"
+      - "{{ mnt_path }}"
+      - "{{ db_path }}"
+      - "{{ log_path }}"
+    - name: Copy config file from the master node
+      template:
+        src: corganize.docker-compose.j2
+        dest: "{{ docker_compose_path }}"
+    - name: Ensure Docker Compose is stopped
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: absent
+    - name: Ensure Docker Compose is running
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: present
+        pull: true

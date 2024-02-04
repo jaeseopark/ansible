@@ -53,6 +53,7 @@ ansible-playbook -i inventory.ini media/navidrome.yml
 ansible-playbook -i inventory.ini misc/paperless.yml
 ansible-playbook -i inventory.ini misc/pihole.yml
 ansible-playbook -i inventory.ini misc/wiki.yml
+ansible-playbook -i inventory.ini misc/corganize.yml
 ```
 
 ## Debugging Ansible variables
