@@ -1,0 +1,64 @@
+{
+    "allowed_protocols": [
+        "rtl433",
+        "zigbee"
+    ],
+    "devices": {
+        "nexus_thermo_humid_68": {
+            "name": "Weather Station NTH-68",
+            "protocol": "rtl433",
+            "topic": "rtl_433/Nexus-TH/68",
+            "manufacturer": "Geevon",
+            "model": "Indoor Weather Sensor",
+            "entities": [
+                {
+                    "type": "binary_battery_low",
+                    "payload_on": 0,
+                    "payload_off": 1,
+                    "key": "battery_ok"
+                },
+                {
+                    "type": "temperature",
+                    "key": "temperature_C"
+                },
+                {
+                    "type": "humidity",
+                    "key": "humidity"
+                }
+            ]
+        },
+        "nexus_thermo_humid_148": {
+            "inherit": "nexus_thermo_humid_68",
+            "name": "Weather Station NTH-148",
+            "topic": "rtl_433/Nexus-TH/148"
+        },
+        "nexus_thermo_humid_195": {
+            "inherit": "nexus_thermo_humid_68",
+            "name": "Weather Station NTH-195",
+            "topic": "rtl_433/Nexus-TH/195"
+        },
+        "zm35zhq_motion_a4c138c8f9884a7b": {
+            "name": "Zigbee Motion Sensor a4c138c8f9884a7b",
+            "protocol": "zigbee",
+            "topic": "zigbee2mqtt/0xa4c138c8f9884a7b",
+            "model": "ZM-35ZH-Q",
+            "entities": [
+                {
+                    "type": "binary_battery_low",
+                    "payload_on": true,
+                    "payload_off": false,
+                    "key": "battery_low"
+                },
+                {
+                    "type": "battery_voltage",
+                    "key": "battery_voltage",
+                    "unit": "mV"
+                },
+                {
+                    "type": "battery_percentage",
+                    "key": "battery"
+                }
+            ]
+        }
+    }
+}
