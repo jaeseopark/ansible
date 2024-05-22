@@ -10,7 +10,7 @@
     mnt_path_zigbee_data: "{{ app_path }}/mnt-zigbee"
     # TODO: Need to use serial by id instead of ephemeral paths
     # See: https://www.reddit.com/r/debian/comments/1331wlr/devserialbyid_suddenly_missing/
-    rtl_usb_path: "/dev/bus/usb/001/003"
+    rtl_usb_path: "/dev/bus/usb/001/004"
     zigbee_usb_path: "/dev/ttyUSB0"
   tasks:
     - name: Ensure folders exists
