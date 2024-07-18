@@ -32,6 +32,18 @@ def binary_battery_low(device, entity):
     )
 
 
+@entity_handler("binary_sensors")
+def occupancy(device, entity):
+    return dict(
+        device_class="occupancy",
+        name="Occupancy",
+        state_topic=device["topic"],
+        value_template=f'{{{{ value_json.{entity["key"]} }}}}',
+        payload_on=entity["payload_on"],
+        payload_off=entity["payload_off"]
+    )
+
+
 @entity_handler()
 def battery_voltage(device, entity):
     return dict(
@@ -47,7 +59,7 @@ def battery_voltage(device, entity):
 def battery_percentage(device, entity):
     return dict(
         device_class="battery",
-        name="Battery",
+        name="Battery Percentage",
         state_topic=device["topic"],
         value_template=f'{{{{ value_json.{entity["key"]} }}}}'
     )
@@ -98,8 +110,12 @@ class Mqtt:
 
             assert "-" not in id, "use underscores instead of dashes"
             assert device["protocol"] in self.data["allowed_protocols"]
-            for i, entity in enumerate(device["entities"]):
-                self.process_entity(id, device, entity, is_first_entity=i == 0)
+            try:
+                for i, entity in enumerate(device["entities"]):
+                    self.process_entity(id, device, entity, is_first_entity=i == 0)
+            except Exception as e:
+                print(f"{id=} {e}")
+                raise
 
         return dict(
             sensor=self.sensors,
@@ -118,11 +134,9 @@ class Mqtt:
         if is_first_entity:
             sensor["device"].update(dict(
                 name=device["name"],
-                manufacturer=device.get("manufacturer"),
-                model=device.get("model")
+                manufacturer=device["manufacturer"],
+                model=device["model"]
             ))
-
-        sensor["device"].update()
 
         getattr(self, target_attr).append(sensor)
 

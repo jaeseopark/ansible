@@ -5,7 +5,7 @@
     ],
     "devices": {
         "nexus_thermo_humid_68": {
-            "name": "Weather Station NTH-68",
+            "name": "Garage Weather Sensor",
             "protocol": "rtl433",
             "topic": "rtl_433/Nexus-TH/68",
             "manufacturer": "Geevon",
@@ -29,18 +29,19 @@
         },
         "nexus_thermo_humid_148": {
             "inherit": "nexus_thermo_humid_68",
-            "name": "Weather Station NTH-148",
+            "name": "Sewing Room Weather Sensor",
             "topic": "rtl_433/Nexus-TH/148"
         },
-        "nexus_thermo_humid_195": {
+        "nexus_thermo_humid_124": {
             "inherit": "nexus_thermo_humid_68",
-            "name": "Weather Station NTH-195",
-            "topic": "rtl_433/Nexus-TH/195"
+            "name": "Porch Weather Sensor",
+            "topic": "rtl_433/Nexus-TH/124"
         },
         "zm35zhq_motion_a4c138c8f9884a7b": {
-            "name": "Zigbee Motion Sensor a4c138c8f9884a7b",
+            "name": "Pantry Motion Sensor",
             "protocol": "zigbee",
             "topic": "zigbee2mqtt/0xa4c138c8f9884a7b",
+            "manufacturer": "Tuya",
             "model": "ZM-35ZH-Q",
             "entities": [
                 {
@@ -57,6 +58,12 @@
                 {
                     "type": "battery_percentage",
                     "key": "battery"
+                },
+                {
+                    "type": "occupancy",
+                    "key": "occupancy",
+                    "payload_on": true,
+                    "payload_off": false
                 }
             ]
         }
