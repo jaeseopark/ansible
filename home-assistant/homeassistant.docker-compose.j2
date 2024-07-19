@@ -25,7 +25,7 @@ services:
       - 1883:1883 # Exposed for MQTT Explorer access from mac
   rtl433:
     container_name: homeassistant-rtl433
-    image: hertzg/rtl_433:22.11
+    image: hertzg/rtl_433:23.11
     devices:
       - "{{ rtl_usb_path }}"
     command:
@@ -36,8 +36,8 @@ services:
       - "-Mprotocol"
       - "-Mstats:2:300"
       - "-Fmqtt://mqtt,events=rtl_433[/model][/id]"
-      - "-Ylevel=-16" # Manual detection level used to determine pulses (-1.0 to -30.0) (0=auto).
-#      - "-Yautolevel" # Set minlevel automatically based on average estimated noise.
+      - "-Ylevel=0" # Manual detection level used to determine pulses (-1.0 to -30.0) (0=auto).
+      - "-Yautolevel" # Set minlevel automatically based on average estimated noise.
     depends_on:
       - mqtt
   z2m:

@@ -66,6 +66,77 @@
                     "payload_off": false
                 }
             ]
+        },
+        "govee_water_leak_sensor_20019": {
+            "name": "Master Bath Sink Water Leak Sensor",
+            "protocol": "rtl433",
+            "topic": "rtl_433/Govee-Water/20019",
+            "manufacturer": "Govee",
+            "model": "H5054",
+            "entities": [
+                {
+                    "type": "moisture",
+                    "payload_on": 1,
+                    "payload_off": 0,
+                    "key": "detect_wet"
+                },
+                {
+                    "type": "battery_voltage",
+                    "key": "battery_mV",
+                    "unit": "mV"
+                },
+                {
+                    "type": "binary_battery_low",
+                    "payload_on": 0,
+                    "payload_off": 1,
+                    "key": "battery_ok"
+                }
+            ]
+        },
+        "govee_water_leak_sensor_20027": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Master Bath Toilet Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/20027"
+        },
+        "govee_water_leak_sensor_21943": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Guest Bath Sink Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/21943"
+        },
+        "govee_water_leak_sensor_22497": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Guest Bath Toilet Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/22497"
+        },
+        "govee_water_leak_sensor_20039": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Kitchen Sink Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/20039"
+        },
+        "govee_water_leak_sensor_24775": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Half Bath Sink Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/24775"
+        },
+        "govee_water_leak_sensor_23623": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Half Bath Toilet Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/23623"
+        },
+        "govee_water_leak_sensor_14259": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Basement Bath Sink Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/14259"
+        },
+        "govee_water_leak_sensor_24846": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Basement Bath Toilet Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/24846"
+        },
+        "govee_water_leak_sensor_22677": {
+            "inherit": "govee_water_leak_sensor_20019",
+            "name": "Garage Utility Sink Water Leak Sensor",
+            "topic": "rtl_433/Govee-Water/22677"
         }
     }
 }

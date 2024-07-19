@@ -87,6 +87,18 @@ def humidity(device, entity):
     )
 
 
+@entity_handler("binary_sensors")
+def moisture(device, entity):
+    return dict(
+        device_class="moisture",
+        name="Moisture",
+        state_topic=device["topic"],
+        value_template=f'{{{{ value_json.{entity["key"]} }}}}',
+        payload_on=entity["payload_on"],
+        payload_off=entity["payload_off"]
+    )
+
+
 class Mqtt:
     sensors = []
     binary_sensors = []
