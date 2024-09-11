@@ -4,7 +4,7 @@
 1. Open the app for the first time and select Bambu A1 & A1 Mini.
 1. Select the following filaments:
     |ID|Name|
-    |
+    |---|---|
     |GFSA01_02|Bambu PLA Matte @BBL A1M
     |GFSA01_04|Bambu PLA Matte @BBL A1
     |GFSL99_04|Generic PLA @BBL A1
