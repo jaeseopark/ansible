@@ -9,10 +9,13 @@ Ansible inventory and playbooks
 
 ## Usage
 
+See [mac/README.md](mac/README.md) for more info.
+
 ```bash
 ssh-add
 
-ansible-playbook -i inventory.ini --ask-become-pass master/main.yml
+# Setup mac hosts
+ansible-playbook -i inventory.ini mac/main.yml
 
 ansible-playbook -i inventory.ini vpn/wg.yml
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/

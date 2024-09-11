@@ -1,0 +1,19 @@
+{
+    "enable_pressure_advance": [
+        "1"
+    ],
+    "filament_flow_ratio": [
+        "1.02"
+    ],
+    "filament_settings_id": [
+        "Geeetech Matte PLA"
+    ],
+    "from": "User",
+    "inherits": "Generic PLA @BBL A1M",
+    "is_custom_defined": "0",
+    "name": "Geeetech Matte PLA",
+    "pressure_advance": [
+        "0.036"
+    ],
+    "version": "1.9.0.14"
+}

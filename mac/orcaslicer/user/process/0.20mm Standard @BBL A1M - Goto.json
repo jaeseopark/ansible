@@ -1,0 +1,22 @@
+{
+    "bottom_surface_pattern": "monotonicline",
+    "bridge_acceleration": "75",
+    "brim_type": "no_brim",
+    "elefant_foot_compensation": "0.075",
+    "enable_arc_fitting": "0",
+    "enable_prime_tower": "0",
+    "from": "User",
+    "inherits": "0.20mm Standard @BBL A1M",
+    "ironing_angle": "0",
+    "ironing_flow": "30%",
+    "is_custom_defined": "0",
+    "name": "0.20mm Standard @BBL A1M - Goto",
+    "print_settings_id": "0.20mm Standard @BBL A1M - Goto",
+    "seam_slope_type": "all",
+    "sparse_infill_density": "10%",
+    "sparse_infill_pattern": "cubic",
+    "support_style": "snug",
+    "top_shell_thickness": "0",
+    "version": "1.8.0.25",
+    "wall_loops": "3"
+}

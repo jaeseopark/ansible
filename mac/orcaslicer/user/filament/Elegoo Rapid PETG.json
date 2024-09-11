@@ -1,0 +1,37 @@
+{
+    "enable_pressure_advance": [
+        "1"
+    ],
+    "filament_cost": [
+        "16.8"
+    ],
+    "filament_flow_ratio": [
+        "0.98"
+    ],
+    "filament_settings_id": [
+        "Elegoo Rapid PETG"
+    ],
+    "filament_start_gcode": [
+        "; filament start gcode\n{if (bed_temperature[current_extruder] >80)||(bed_temperature_initial_layer[current_extruder] >80)}M106 P3 S255\n{elsif (bed_temperature[current_extruder] >60)||(bed_temperature_initial_layer[current_extruder] >60)}M106 P3 S180\n{endif}\n\n{if activate_air_filtration[current_extruder] && support_air_filtration}\nM106 P3 S{during_print_exhaust_fan_speed_num[current_extruder]} \n{endif}\n\n; this filament adheres too well to the plate. adjust the z offset a bit.\nG29.1 Z{0.02} "
+    ],
+    "from": "User",
+    "hot_plate_temp_initial_layer": [
+        "85"
+    ],
+    "inherits": "Generic PETG @BBL A1",
+    "is_custom_defined": "0",
+    "name": "Elegoo Rapid PETG",
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "250"
+    ],
+    "pressure_advance": [
+        "0.024"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "85"
+    ],
+    "version": "1.8.0.13"
+}

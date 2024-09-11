@@ -1,0 +1,19 @@
+{
+    "enable_pressure_advance": [
+        "1"
+    ],
+    "filament_flow_ratio": [
+        "0.9894"
+    ],
+    "filament_settings_id": [
+        "Bambu PLA Matte @ A1M"
+    ],
+    "from": "User",
+    "inherits": "Bambu PLA Matte @BBL A1M",
+    "is_custom_defined": "0",
+    "name": "Bambu PLA Matte @ A1M",
+    "pressure_advance": [
+        "0.024"
+    ],
+    "version": "1.8.0.25"
+}

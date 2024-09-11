@@ -1,6 +1,4 @@
-# master
-
-## Setting up a new machine
+## Setting up a new M series machine
 
 1. Connect to internet
 1. Set the username to `jaeseopark`
