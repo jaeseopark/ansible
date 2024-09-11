@@ -70,10 +70,12 @@ services:
       - name: RTSP Timelapse
         url: http://{{ rtsp_timelapse_host }}:{{ rtsp_timelapse_port }}
         tag: {{ rtsp_timelapse_host }}
-      - name: Mainsail
-        logo: assets/img/mainsail.png
-        url: http://mainsail
-        tag: Mainsail
+      - name: Proxmox
+        url: http://{{ proxmox_host }}:{{ proxmox_port }}
+        tag: {{ proxmox_host }}
+      - name: Proxmox Dev
+        url: http://{{ proxmox_dev_host }}:{{ proxmox_port }}
+        tag: {{ proxmox_dev_host }}
   - name: Bookmarks
     items:
       - name: Khloe's Thingiverse Collection
