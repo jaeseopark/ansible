@@ -26,3 +26,5 @@
 
 - name: Dock
   import_playbook: dock.yml
+- name: Safari
+  import_playbook: safari.yml

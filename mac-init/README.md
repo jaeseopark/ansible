@@ -31,8 +31,6 @@
 * Enable location services
 * Turn off iMessage automatic sharing
 * Hide application dock and change animation delay to 0ms. move it to the left
-* Change apps on dock
-* Change Safari homepage to homer
 * Disable Exposé on clicking desktop
 * Point to the self hosted DNS Server
 * Show Safari favourite bar

@@ -1,0 +1,23 @@
+- hosts: machosts
+  tasks:
+  - name: Set homepage
+    community.general.osx_defaults:
+      domain: com.apple.Safari
+      key: HomePage
+      type: string
+      value: http://malfoy
+      state: present
+  - name: Set new window behaviour
+    community.general.osx_defaults:
+      domain: com.apple.Safari
+      key: NewWindowBehavior
+      type: int
+      value: 0 # Homepage
+      state: present
+  - name: Set new tab behaviour
+    community.general.osx_defaults:
+      domain: com.apple.Safari
+      key: NewTabBehavior
+      type: int
+      value: 1 # Empty page
+      state: present
