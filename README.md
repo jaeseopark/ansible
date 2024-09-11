@@ -9,15 +9,23 @@ Ansible inventory and playbooks
 
 ## Usage
 
+```bash
+ssh-add
+```
+
+### Mac
+
 See [mac/README.md](mac/README.md) for more info.
 
 ```bash
-ssh-add
-
 # Setup mac hosts
 ansible-playbook -i inventory.ini mac/main.yml
-ansible-playbook -i inventory.ini mac/orcaslicer.yml
 
+# Orca Slicer disaster recovery
+ansible-playbook -i inventory.ini mac/orcaslicer-restore-presets.yml
+```
+
+```bash
 ansible-playbook -i inventory.ini vpn/wg.yml
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
 ansible-playbook -i inventory.ini vpn/nginx.yml

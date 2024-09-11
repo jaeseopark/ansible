@@ -1,7 +1,23 @@
 ---
 - hosts: machosts
+  vars:
+    remote_config_path: ~/Library/Application Support/OrcaSlicer/OrcaSlicer.conf
+    download_path: orcaslicer/tmp_OrcaSlicer.conf
   tasks:
-  - name: Retrieve the user ID
-    shell: |
-        ls -d /path/to/parent/folder/*/ | xargs -n 1 stat --format '%Y %n' | sort -nr | head -n 1 | awk '{print $2}'
-    register: folder_result
+  - name: Load curated config content  
+    include_vars:
+      file: orcaslicer/OrcaSlicer.conf
+      name: config
+  - name: Download config file
+    fetch:
+        src: "{{ remote_config_path }}"
+        dest: "{{ download_path }}"
+        flat: yes
+  - name: Load downloaded config content
+    include_vars:
+      file: "{{ download_path }}"
+      name: downloaded_config
+  - name: Save merged config as file
+    copy:
+      content: "{{ downloaded_config | combine(config, recursive=True) }}"
+      dest: "{{ remote_config_path }}"
