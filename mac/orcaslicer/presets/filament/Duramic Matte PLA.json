@@ -1,0 +1,28 @@
+{
+    "enable_pressure_advance": [
+        "1"
+    ],
+    "filament_flow_ratio": [
+        "0.9894"
+    ],
+    "filament_settings_id": [
+        "Duramic Matte PLA"
+    ],
+    "from": "User",
+    "hot_plate_temp_initial_layer": [
+        "70"
+    ],
+    "inherits": "Generic PLA @BBL A1",
+    "is_custom_defined": "0",
+    "name": "Duramic Matte PLA",
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "240"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "70"
+    ],
+    "version": "1.8.0.13"
+}

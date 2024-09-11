@@ -1,0 +1,25 @@
+{
+    "enable_pressure_advance": [
+        "1"
+    ],
+    "filament_cost": [
+        "25"
+    ],
+    "filament_flow_ratio": [
+        "1.05"
+    ],
+    "filament_max_volumetric_speed": [
+        "2.6"
+    ],
+    "filament_settings_id": [
+        "Giantarm TPU @A1"
+    ],
+    "from": "User",
+    "inherits": "Generic TPU @BBL A1",
+    "is_custom_defined": "0",
+    "name": "Giantarm TPU @A1",
+    "pressure_advance": [
+        "0.07"
+    ],
+    "version": "1.8.0.25"
+}

@@ -1,0 +1,28 @@
+{
+    "enable_pressure_advance": [
+        "1"
+    ],
+    "filament_flow_ratio": [
+        "0.9979"
+    ],
+    "filament_settings_id": [
+        "Jayo Matte PLA"
+    ],
+    "from": "User",
+    "hot_plate_temp": [
+        "65"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "70"
+    ],
+    "inherits": "Generic PLA @BBL A1M",
+    "is_custom_defined": "0",
+    "name": "Jayo Matte PLA",
+    "pressure_advance": [
+        "0.0287"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "70"
+    ],
+    "version": "1.9.0.14"
+}

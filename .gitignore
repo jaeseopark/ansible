@@ -4,3 +4,4 @@ inventory.yaml
 *secret*
 mqtt.yaml
 .idea/
+tmp_OrcaSlicer.conf
