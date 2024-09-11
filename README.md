@@ -16,6 +16,7 @@ ssh-add
 
 # Setup mac hosts
 ansible-playbook -i inventory.ini mac/main.yml
+ansible-playbook -i inventory.ini mac/orcaslicer.yml
 
 ansible-playbook -i inventory.ini vpn/wg.yml
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
