@@ -17,17 +17,27 @@
     ```
 1. Install https://brew.sh
 1. Log into iCloud
+1. Install App Store apps:
+    * Bitwarden (+ Safari extension)
+    * Magnet
+    * Infuse
+    * Keepa (Safari Extension)
+    * Userscripts (Safari Extension)
 
 ## TODO:
 
+* Bash profile
 * Disable spotlight search index
 * Enable location services
 * Turn off iMessage automatic sharing
 * Hide application dock and change animation delay to 0ms. move it to the left
 * Change apps on dock
-* Change Safari home page to homer
+* Change Safari homepage to homer
 * Disable Exposé on clicking desktop
-* Point to self hosted DNS Server
+* Point to the self hosted DNS Server
+* Show Safari favourite bar
+* Repeated keyboard input delay
 * Apps to install & configure:
     * Forklift 3 -- how to specify a specific version?
-    * Magnet (app store)
+    * Logitech Options +
+* Automate importing of userscripts in safari

@@ -1,0 +1,31 @@
+- hosts: machosts
+  vars:
+    dock_items:
+      - /System/Applications/Utilities/Activity Monitor.app/
+      - /Applications/Safari.app/
+      - /System/Applications/Calendar.app/
+      - /System/Applications/Mail.app/
+      - /System/Applications/Photos.app/
+      - /System/Applications/Reminders.app/
+      - /System/Applications/Notes.app/
+      - /System/Applications/Music.app/
+      - /Applications/Barrier.app/
+      - /Applications/Visual Studio Code.app/
+      - /Users/jaeseopark/Library/Mobile Documents/com~apple~Automator/Documents/add-date-to-filename.app/
+      - /Users/jaeseopark/Library/Mobile Documents/com~apple~Automator/Documents/generate-thumbs.app/
+      - /System/Applications/Messages.app/
+      - /Applications/OrcaSlicer.app/
+      - /Applications/Discord.app/
+      - /Applications/Google Chrome.app/
+      - /System/Applications/Utilities/Terminal.app/
+      - /Applications/GitHub Desktop.app/
+  tasks:
+  - name: Empty the dock
+    shell: "/opt/homebrew/bin/dockutil --remove all --no-restart" # skip restart until the end
+  - name: Populate items
+    shell: "/opt/homebrew/bin/dockutil --add '{{ item }}' --no-restart"
+    loop: "{{ dock_items }}"
+  - name: Add Desktop
+    shell: "/opt/homebrew/bin/dockutil --add '~/Desktop' --view grid --display folder --sort dateadded --allhomes --no-restart"
+  - name: Add Downloads
+    shell: "/opt/homebrew/bin/dockutil --add '~/Downloads' --view grid --display folder --sort dateadded --allhomes"

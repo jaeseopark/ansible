@@ -30,6 +30,12 @@ ansible-galaxy collection install ansible.posix # Needed for the nas playbook
 - `cat id_rsa.pub >> authorized_keys`
 - use `--ask-become-pass`
 
+## Setup a new Mac
+
+```bash
+ansible-playbook -i inventory.ini mac-init/main.yml
+```
+
 ### Run a Playbook
 
 ```bash
@@ -38,8 +44,6 @@ ssh-add
 ansible-playbook -i inventory.ini dashboards/homer.yml
 ansible-playbook -i inventory.ini home-assistant/homeassistant.yml
 ansible-playbook -i inventory.ini --ask-become-pass master/update-hostnames.yml
-ansible-playbook -i inventory.ini --ask-become-pass mac-init/init.yml
-
 
 ansible-playbook -i inventory.ini vpn/wg.yml
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
