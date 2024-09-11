@@ -12,19 +12,17 @@
       - autodesk-fusion
       - barrier
       - google-chrome
+      - balenaetcher
+      - db-browser-for-sqlite
+      - firefox
+      - licecap
   tasks:
     - name: Install Cask apps
       community.general.homebrew_cask:
         name: "{{ item }}"
-        state: present
       loop: "{{ caskapps }}"
     - name: Install Homebrew apps
       community.general.homebrew:
         name: "{{ item }}"
         state: present
       loop: "{{ homebrewapps }}"
-
-- name: Dock
-  import_playbook: dock.yml
-- name: Safari
-  import_playbook: safari.yml

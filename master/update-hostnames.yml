@@ -1,9 +1,0 @@
----
-- hosts: mac
-  tasks:
-    - name: Copy the hosts file
-      template:
-        src: hosts
-        dest: /etc/hosts
-    - name: Flush DNS cache
-      shell: dscacheutil -flushcache

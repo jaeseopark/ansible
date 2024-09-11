@@ -1,0 +1,13 @@
+---
+- hosts: machosts
+  tasks:
+  - name: Reduce initial delay
+    community.general.osx_defaults:
+      key: InitialKeyRepeat
+      type: float
+      value: 10
+  - name: Eliminate ongoing delay
+    community.general.osx_defaults:
+      key: KeyRepeat
+      type: float
+      value: 0

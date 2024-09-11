@@ -1,0 +1,7 @@
+---
+- import_playbook: apps.yml
+- import_playbook: dock.yml
+- import_playbook: safari.yml
+- import_playbook: keyboard.yml
+- import_playbook: barrier.yml
+- import_playbook: dns.yml
