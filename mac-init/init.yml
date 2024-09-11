@@ -1,0 +1,17 @@
+---
+- hosts: machosts
+  vars:
+    - caskapps:
+      - orcaslicer
+      - github
+      - discord
+      - visual-studio-code
+      - autodesk-fusion
+      - barrier
+      - google-chrome
+  tasks:
+    - name: Install cask apps
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ caskapps }}"

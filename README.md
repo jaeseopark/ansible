@@ -38,6 +38,8 @@ ssh-add
 ansible-playbook -i inventory.ini dashboards/homer.yml
 ansible-playbook -i inventory.ini home-assistant/homeassistant.yml
 ansible-playbook -i inventory.ini --ask-become-pass master/update-hostnames.yml
+ansible-playbook -i inventory.ini --ask-become-pass mac-init/init.yml
+
 
 ansible-playbook -i inventory.ini vpn/wg.yml
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
