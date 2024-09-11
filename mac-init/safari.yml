@@ -21,3 +21,9 @@
       type: int
       value: 1 # Empty page
       state: present
+  - name: Show favourite bar
+    community.general.osx_defaults:
+      domain: com.apple.Safari
+      key: ShowFavoritesBar-v2
+      type: bool
+      value: true
