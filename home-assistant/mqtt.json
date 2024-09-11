@@ -60,10 +60,9 @@
                     "key": "battery"
                 },
                 {
-                    "type": "occupancy",
+                    "type": "lazy_occupancy_sensor",
                     "key": "occupancy",
-                    "payload_on": true,
-                    "payload_off": false
+                    "payload_on": true
                 }
             ]
         },

@@ -99,9 +99,25 @@ def moisture(device, entity):
     )
 
 
+"""
+An occupancy sensor that does not send the clear signal.
+Workaround: use it as a button to trigger a timmer in HA.
+"""
+@entity_handler("buttons")
+def lazy_occupancy_sensor(device, entity):
+    return dict(
+        device_class="button",
+        name="Lazy Occupancy Sensor",
+        command_topic=device["topic"],
+        value_template=f'{{{{ value_json.{entity["key"]} }}}}',
+        payload_press=entity["payload_press"],
+    )
+
+
 class Mqtt:
     sensors = []
     binary_sensors = []
+    buttons = []
 
     def __init__(self, data: dict) -> None:
         self.data = data
@@ -109,6 +125,7 @@ class Mqtt:
     def get_yaml(self) -> dict:
         self.sensors.clear()
         self.binary_sensors.clear()
+        self.buttons.clear()
 
         for id, device in self.data["devices"].items():
             if "inherit" in device:
@@ -131,7 +148,8 @@ class Mqtt:
 
         return dict(
             sensor=self.sensors,
-            binary_sensor=self.binary_sensors
+            binary_sensor=self.binary_sensors,
+            button=self.buttons
         )
 
     def process_entity(self, id, device, entity, is_first_entity):
