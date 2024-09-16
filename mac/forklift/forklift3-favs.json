@@ -1,0 +1,160 @@
+{
+  "versionUUID" : "DF4318C0-4DCC-4C12-94BB-F10803938A3C",
+  "modificationDate" : "2024-09-12T05:02:54.908000",
+  "favorites" : [
+    {
+      "attributes" : {
+        "Name" : "Favorites"
+      },
+      "type" : "Group",
+      "UUID" : "6A56370E-AB4A-48B2-AE0A-311677EE93AA",
+      "childItems" : [
+        {
+          "UUID" : "FABABB9D-997A-4795-A0E2-878DBE334DFD",
+          "type" : "Local",
+          "attributes" : {
+            "Path" : "\/Users\/jaeseopark\/Library\/Mobile Documents\/com~apple~CloudDocs"
+          }
+        },
+        {
+          "UUID" : "B4897799-3C40-49C2-81F3-AF0C03F216C3",
+          "attributes" : {
+            "Path" : "\/Applications"
+          },
+          "type" : "Local"
+        },
+        {
+          "UUID" : "E3B78A29-AA46-4867-888D-24D66CEF0C6C",
+          "attributes" : {
+            "Path" : "~\/Desktop"
+          },
+          "type" : "Local"
+        },
+        {
+          "UUID" : "023B0846-DEE2-4F05-9F87-1E5F5A65CE39",
+          "type" : "Local",
+          "attributes" : {
+            "Path" : "~\/Documents"
+          }
+        },
+        {
+          "type" : "Local",
+          "attributes" : {
+            "Path" : "~\/Downloads"
+          },
+          "UUID" : "CB0C848A-5E4A-4C63-A8E0-180C79467004"
+        },
+        {
+          "attributes" : {
+            "Path" : "\/Users\/jaeseopark\/Music"
+          },
+          "modificationDate" : "2022-11-06T22:10:12.217000",
+          "type" : "Local",
+          "UUID" : "0826B84D-2504-4D63-9108-189C35FF1D27"
+        }
+      ]
+    },
+    {
+      "UUID" : "2D18B455-6860-43A7-8769-4F3761E4A445",
+      "attributes" : {
+        "Name" : "Torrent"
+      },
+      "childItems" : [
+        {
+          "modificationDate" : "2022-11-05T20:22:35.732000",
+          "type" : "Local",
+          "UUID" : "C868348E-FAD1-4B3D-B05F-1FF7FFB1D1B4",
+          "attributes" : {
+            "Path" : "\/Volumes\/media\/crg-watch",
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/media"
+          }
+        },
+        {
+          "type" : "Local",
+          "modificationDate" : "2022-11-05T20:22:02.374000",
+          "UUID" : "8F0D130B-0F84-4955-86FE-54037A64CF36",
+          "attributes" : {
+            "Path" : "\/Volumes\/media\/media-watch",
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/media"
+          }
+        },
+        {
+          "type" : "Local",
+          "UUID" : "92CF1231-6E96-4091-96C7-92549ECBA0EC",
+          "attributes" : {
+            "Path" : "\/Volumes\/media\/media-downloads",
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/media"
+          },
+          "modificationDate" : "2022-11-05T20:22:33.548000"
+        }
+      ],
+      "modificationDate" : "2022-11-05T20:22:31.667000",
+      "type" : "Group"
+    },
+    {
+      "UUID" : "CAA48E5E-B9AF-4EDC-BC2B-0C72FE69E723",
+      "modificationDate" : "2022-11-05T20:22:49.391000",
+      "childItems" : [
+        {
+          "type" : "Local",
+          "attributes" : {
+            "Path" : "\/Volumes\/media\/movies",
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/media"
+          },
+          "modificationDate" : "2022-11-05T20:23:00.244000",
+          "UUID" : "10452F43-D61A-4A62-A541-40C6B5BCA263"
+        },
+        {
+          "UUID" : "80696D37-AC53-4395-AAD7-C7F48A413A33",
+          "modificationDate" : "2022-11-05T20:22:56.131000",
+          "type" : "Local",
+          "attributes" : {
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/media",
+            "Path" : "\/Volumes\/media\/shows"
+          }
+        },
+        {
+          "type" : "Local",
+          "modificationDate" : "2024-09-12T05:01:47.903000",
+          "UUID" : "7AB5119D-9B7A-4786-A22A-BE5B539B18C6",
+          "attributes" : {
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/media",
+            "Path" : "\/Volumes\/media\/scan"
+          }
+        },
+        {
+          "attributes" : {
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/media",
+            "Path" : "\/Volumes\/media\/music"
+          },
+          "type" : "Local",
+          "modificationDate" : "2024-09-12T05:01:51.402000",
+          "UUID" : "0B825975-7874-48BF-9D4E-C78DCA2CAA41"
+        }
+      ],
+      "type" : "Group",
+      "attributes" : {
+        "Name" : "Media"
+      }
+    },
+    {
+      "UUID" : "C3C146C6-97F8-4B15-9715-BC059A956026",
+      "modificationDate" : "2024-09-12T05:02:48.972000",
+      "attributes" : {
+        "Name" : "3D"
+      },
+      "type" : "Group",
+      "childItems" : [
+        {
+          "UUID" : "E0E38101-C818-4552-9113-7A3384009738",
+          "modificationDate" : "2024-09-12T05:02:54.908000",
+          "type" : "Local",
+          "attributes" : {
+            "Path" : "\/Volumes\/backup\/3dmodels",
+            "RemountURL" : "smb:\/\/jaeseopark@bigboi.local.:445\/backup"
+          }
+        }
+      ]
+    }
+  ]
+}

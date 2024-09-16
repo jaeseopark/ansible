@@ -5,4 +5,5 @@
 - import_playbook: safari.yml
 - import_playbook: keyboard.yml
 - import_playbook: barrier.yml
-- import_playbook: orcaslicer.yml
+- import_playbook: orcaslicer/orcaslicer.yml
+- import_playbook: forklift/forklift3.yml

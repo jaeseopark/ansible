@@ -1,6 +1,7 @@
 - hosts: machosts
   vars:
     docked_items:
+      - /Applications/ForkLift.app/
       - /System/Applications/Utilities/Activity Monitor.app/
       - /Applications/Safari.app/
       - /System/Applications/Calendar.app/
@@ -49,6 +50,7 @@
   - name: Populate items
     shell: "/opt/homebrew/bin/dockutil --add '{{ item }}' --no-restart"
     loop: "{{ docked_items }}"
+    ignore_errors: true
   - name: Add Desktop
     shell: "/opt/homebrew/bin/dockutil --add '~/Desktop' --view grid --display folder --sort dateadded --allhomes --no-restart"
   - name: Add Downloads
