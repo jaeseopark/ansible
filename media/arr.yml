@@ -21,14 +21,14 @@
         - "{{ sonarr_mnt_path }}"
         - "{{ lidarr_mnt_path }}"
         - "{{ prowlarr_mnt_path }}"
-    - name: Copy config file from the master node
-      template:
-        src: arr.docker-compose.j2
-        dest: "{{ docker_compose_path }}"
     - name: Ensure Docker Compose is stopped
       community.docker.docker_compose:
         project_src: "{{ app_path }}"
         state: absent
+    - name: Copy config file from the master node
+      template:
+        src: arr.docker-compose.j2
+        dest: "{{ docker_compose_path }}"
     - name: Ensure Docker Compose is running
       community.docker.docker_compose:
         project_src: "{{ app_path }}"
