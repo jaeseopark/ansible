@@ -144,3 +144,5 @@ Rate-limiting can easily be disabled by setting `RATE_LIMIT=0/0` in `/etc/pihole
     * or find another shell program that is good & automatable.
 * Chrome
     * Enable the Remote Torrent Adder extension and register the torrent host.
+* add custom size print paper settings
+* pycharm light theme
