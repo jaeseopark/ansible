@@ -16,6 +16,10 @@
       - db-browser-for-sqlite
       - firefox
       - licecap
+      - pycharm-ce
+      - postman
+      - openscad
+      - blender
   tasks:
     - name: Install Cask apps
       community.general.homebrew_cask:
