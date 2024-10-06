@@ -5,3 +5,4 @@ inventory.yaml
 mqtt.yaml
 .idea/
 tmp_OrcaSlicer.conf
+venv/

@@ -62,7 +62,8 @@
                 {
                     "type": "occupancy",
                     "key": "occupancy",
-                    "payload_on": true
+                    "payload_on": true,
+                    "payload_off": false
                 }
             ]
         },
