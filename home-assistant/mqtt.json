@@ -40,9 +40,9 @@
         "zm35zhq_motion_a4c138c8f9884a7b": {
             "name": "Pantry Motion Sensor",
             "protocol": "zigbee",
-            "topic": "zigbee2mqtt/0xa4c138c8f9884a7b",
+            "topic": "zigbee2mqtt/0xa4c1389c1f0c9894",
             "manufacturer": "Tuya",
-            "model": "ZM-35ZH-Q",
+            "model": "ZMS-102",
             "entities": [
                 {
                     "type": "binary_battery_low",
@@ -52,7 +52,7 @@
                 },
                 {
                     "type": "battery_voltage",
-                    "key": "battery_voltage",
+                    "key": "voltage",
                     "unit": "mV"
                 },
                 {
@@ -60,7 +60,7 @@
                     "key": "battery"
                 },
                 {
-                    "type": "lazy_occupancy_sensor",
+                    "type": "occupancy",
                     "key": "occupancy",
                     "payload_on": true
                 }
