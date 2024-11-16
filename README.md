@@ -13,9 +13,7 @@ Ansible inventory and playbooks
 ssh-add
 ```
 
-### Mac
-
-See [mac/README.md](mac/README.md) for more info.
+### Playbooks
 
 ```bash
 # Setup mac hosts
@@ -27,7 +25,8 @@ ansible-playbook -i inventory.ini mac/orcaslicer/restore-presets.yml
 
 ```bash
 ansible-playbook -i inventory.ini vpn/wg.yml
-ansible-playbook -i inventory.ini vpn/nginx-cert.yml # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
+# Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
+ansible-playbook -i inventory.ini vpn/nginx-cert.yml
 ansible-playbook -i inventory.ini vpn/nginx.yml
 
 ansible-playbook -i inventory.ini dashboards/homer.yml
@@ -40,7 +39,7 @@ ansible-playbook -i inventory.ini misc/wiki.yml
 ansible-playbook -i inventory.ini misc/corganize.yml
 ansible-playbook -i inventory.ini --ask-vault-pass misc/corganize-daemon.yml
 
-ansible-playbook -i inventory.ini media/jellyfin.yml
+ansible-playbook -i inventory.ini media/jellyfin.yml --ask-vault-pass
 ansible-playbook -i inventory.ini media/arr.yml
 ansible-playbook -i inventory.ini media/navidrome.yml
 ```
@@ -61,6 +60,30 @@ docker exec -it pihole pihole -a -p
 ### Change lookup rate limit
 
 Rate-limiting can easily be disabled by setting `RATE_LIMIT=0/0` in `/etc/pihole/pihole-FTL.conf`. [Reference](https://pi-hole.net/2021/02/16/pi-hole-ftl-v5-7-and-web-v5-4-released/#page-content)
+
+## Jellyfin
+
+### Connect to a new host
+
+1. Put the new config in `./media/jellyfin.wg.conf`. The file should look like:
+    ```conf
+    [Interface]
+    # Device: ...
+    PrivateKey = ...
+    Address = ...
+    DNS = ...
+
+    [Peer]
+    PublicKey = ...
+    AllowedIPs = ...
+    Endpoint = ...
+    ```
+1. Encrypt the conf file with Ansible Vault:
+    ```shell
+    # This encrypts the file in-place
+    ansible-vault encrypt ./media/jellyfin.wg.conf
+    ```
+1. Run the jellyfin playbook as usual.
 
 ## Mac hosts
 

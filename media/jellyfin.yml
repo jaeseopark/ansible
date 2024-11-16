@@ -36,17 +36,17 @@
       - lscr.io/linuxserver/jellyfin
       - ghcr.io/linuxserver/wireguard
       - ghcr.io/linuxserver/transmission
-    - name: Copy compose file from the master node
-      template:
-        src: jellyfin.docker-compose.j2
-        dest: "{{ docker_compose_path }}"
     - name: Ensure Docker Compose is not running
       community.docker.docker_compose:
         project_src: "{{ app_path }}"
         state: absent
+    - name: Copy compose file from the master node
+      template:
+        src: jellyfin.docker-compose.j2
+        dest: "{{ docker_compose_path }}"
     - name: Copy wg file from the master node
       template:
-        src: jellyfin.wg.conf.secret.j2
+        src: jellyfin.wg.conf
         dest: "{{ wg_conf_path }}"
     - name: Insert PostUp PostDown clauses to the wg file
       ansible.builtin.lineinfile:
