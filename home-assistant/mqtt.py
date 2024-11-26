@@ -140,7 +140,7 @@ class Mqtt:
             assert "-" not in id, "use underscores instead of dashes"
             assert device["protocol"] in self.data["allowed_protocols"]
             try:
-                for i, entity in enumerate(device["entities"]):
+                for i, entity in enumerate(device.get("entities", [])):
                     self.process_entity(id, device, entity, is_first_entity=i == 0)
             except Exception as e:
                 print(f"{id=} {e}")
