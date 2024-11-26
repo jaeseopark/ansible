@@ -20,6 +20,16 @@
       community.docker.docker_compose:
         project_src: "{{ app_path }}"
         state: absent
+    - name: Get UID and GID using getent
+      command: "getent passwd username"
+      register: user_info
+    - name: Set UID and GID facts
+      set_fact:
+        uid: "{{ user_info.stdout.split(':')[2] }}"
+        gid: "{{ user_info.stdout.split(':')[3] }}"
+    - name: Show UID and GID
+      debug:
+        msg: "UID={{ uid }} GID={{ gid }}"
     - name: Ensure folder(s) exists
       file:
         path: "{{ item }}"
@@ -38,3 +48,7 @@
         state: present
         build: true
         pull: true
+      environment:
+        CRG_PORT: "{{ corganize_port }}"
+        UID: "{{ uid }}"
+        GID: "{{ gid }}"
