@@ -1,0 +1,50 @@
+---
+- hosts: bigboi
+  vars:
+    app_path: /app/filebrowser
+    data_path: /srv/dev-disk-by-uuid-e64e214f-1cc5-46b7-82f6-6ca2c87fea5e/media/movies
+    mnt_path: "{{ app_path }}/mnt"
+    db_file_path: "{{ mnt_path }}/filebrowser.db"
+    config_file_path: "{{ mnt_path }}/filebrowser.json"
+  tasks:
+    - name: Ensure folder(s) exists
+      file:
+        path: "{{ item }}"
+        mode: u=rwx,g=rwx,o=rx
+        state: directory
+      loop:
+      - "{{ app_path }}"
+      - "{{ mnt_path }}"
+    - name: Set UID
+      command: "id -u"
+      register: uid
+    - name: Set GID
+      command: "id -g"
+      register: gid
+    - name: Set UID and GID facts
+      set_fact:
+        uid: "{{ uid.stdout }}"
+        gid: "{{ gid.stdout }}"
+    - name: Copy docker compose file from the master node
+      template:
+        src: browser.docker-compose.j2
+        dest: "{{ app_path }}/docker-compose.yml"
+    - name: Ensure Docker Compose is stopped
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: absent
+    - name: Create db file
+      copy:
+        content: ""
+        dest: "{{ db_file_path }}"
+        force: false # force=false skips the file if it already exists
+        mode: 0777
+    - name: Copy config file
+      template:
+        src: browser.config.j2
+        dest: "{{ config_file_path }}"
+    - name: Ensure Docker Compose is running
+      community.docker.docker_compose:
+        project_src: "{{ app_path }}"
+        state: present
+        pull: true
