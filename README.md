@@ -41,7 +41,7 @@ ansible-playbook -i inventory.ini --ask-vault-pass misc/corganize.yml
 ansible-playbook -i inventory.ini --ask-vault-pass media/jellyfin.yml
 ansible-playbook -i inventory.ini media/arr.yml
 ansible-playbook -i inventory.ini media/navidrome.yml
-ansible-playbook -i inventory.ini --ask-vault-pass media/owncloud.yml
+ansible-playbook -i inventory.ini --ask-vault-pass media/seafile.yml
 ```
 
 ### Debugging Ansible variables
