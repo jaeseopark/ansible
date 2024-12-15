@@ -1,7 +1,7 @@
 ---
 - hosts: bigboi
   vars:
-    app_path: /app/seafile
+    app_path: /app/owncloud
     data_path: /srv/dev-disk-by-uuid-e64e214f-1cc5-46b7-82f6-6ca2c87fea5e/media/movies
     mnt_path: "{{ app_path }}/mnt"
   tasks:
@@ -13,9 +13,19 @@
       loop:
       - "{{ app_path }}"
       - "{{ mnt_path }}"
+    - name: Set UID
+      command: "id -u"
+      register: uid
+    - name: Set GID
+      command: "id -g"
+      register: gid
+    - name: Set UID and GID facts
+      set_fact:
+        uid: "{{ uid.stdout }}"
+        gid: "{{ gid.stdout }}"
     - name: Copy docker compose file from the master node
       template:
-        src: seafile.docker-compose.j2
+        src: owncloud.docker-compose.j2
         dest: "{{ app_path }}/docker-compose.yml"
     - name: Ensure Docker Compose is stopped
       community.docker.docker_compose:
@@ -23,7 +33,7 @@
         state: absent
     - name: Copy .env file
       template:
-        src: seafile.env.j2
+        src: owncloud.env.j2
         dest: "{{ app_path }}/.env"
     - name: Ensure Docker Compose is running
       community.docker.docker_compose:
