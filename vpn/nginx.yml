@@ -38,6 +38,9 @@
         ip: "{{ hostvars[divvy_host].wg_ip }}"
         port: "{{ divvy_port }}"
         additional_config: client_max_body_size 50m;
+      - name: share
+        ip: "{{ hostvars[filebrowser_host].wg_ip }}"
+        port: "{{ filebrowser_port }}"
   tasks:
     - name: Ensure nginx is installed
       package:
