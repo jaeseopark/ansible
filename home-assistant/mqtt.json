@@ -1,7 +1,6 @@
 {
     "allowed_protocols": [
-        "rtl433",
-        "zigbee"
+        "rtl433"
     ],
     "devices": {
         "nexus_thermo_humid_68": {
@@ -36,36 +35,6 @@
             "inherit": "nexus_thermo_humid_68",
             "name": "Porch Weather Sensor",
             "topic": "rtl_433/Nexus-TH/124"
-        },
-        "zms102_motion_a4c1389c1f0c9894": {
-            "name": "Pantry Motion Sensor",
-            "protocol": "zigbee",
-            "topic": "zigbee2mqtt/0xa4c1389c1f0c9894",
-            "manufacturer": "Tuya",
-            "model": "ZMS-102",
-            "entities": [
-                {
-                    "type": "binary_battery_low",
-                    "payload_on": true,
-                    "payload_off": false,
-                    "key": "battery_low"
-                },
-                {
-                    "type": "battery_voltage",
-                    "key": "voltage",
-                    "unit": "mV"
-                },
-                {
-                    "type": "battery_percentage",
-                    "key": "battery"
-                },
-                {
-                    "type": "occupancy",
-                    "key": "occupancy",
-                    "payload_on": true,
-                    "payload_off": false
-                }
-            ]
         },
         "govee_water_leak_sensor_20019": {
             "name": "Master Bath Sink Water Leak Sensor",
@@ -137,11 +106,6 @@
             "inherit": "govee_water_leak_sensor_20019",
             "name": "Garage Utility Sink Water Leak Sensor",
             "topic": "rtl_433/Govee-Water/22677"
-        },
-        "4gang_scene_button": {
-            "name": "Basement Scene Button",
-            "model": "TS0044",
-            "protocol": "zigbee"
         }
     }
 }

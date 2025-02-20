@@ -1,0 +1,16 @@
+services:
+  rtl433:
+    image: hertzg/rtl_433:23.11
+    devices:
+      - "{{ rtl_usb_path }}"
+    env_file: ".env"
+    command:
+      - "-Mtime:unix:usec:utc"
+      - "-Mbits"
+      - "-Mlevel"
+      - "-Mnoise"
+      - "-Mprotocol"
+      - "-Mstats:2:300"
+      - "-Fmqtt://{{mqtt_host}},events=rtl_433[/model][/id],user=mqtt,pass={{ mqtt_password }}"
+      - "-Ylevel=0" # Manual detection level used to determine pulses (-1.0 to -30.0) (0=auto).
+      - "-Yautolevel" # Set minlevel automatically based on average estimated noise.
