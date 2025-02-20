@@ -1,0 +1,10 @@
+services:
+  corganize-server:
+    image: jaeseoparkdocker/corganize-server:latest
+    ports:
+      - 5822:5822
+    environment:
+      TZ: America/Denver
+    volumes:
+      - /app/corganize-server/mnt/db:/database
+      - /app/corganize-server/mnt/log:/var/log/corganize

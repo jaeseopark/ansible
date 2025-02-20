@@ -17,7 +17,7 @@
         version: master  # Specify branch/tag/commit
         update: yes  # Pull changes if the repo already exists
     - name: Ensure Docker Compose is stopped
-      community.docker.docker_compose:
+      community.docker.docker_compose_v2:
         project_src: "{{ app_path }}"
         state: absent
     - name: Get UID and GID using getent
@@ -43,11 +43,9 @@
         src: corganize.config.txt
         dest: "{{ config_path }}"
     - name: Ensure Docker Compose is running
-      community.docker.docker_compose:
+      community.docker.docker_compose_v2:
         project_src: "{{ app_path }}"
-        state: present
-        build: true
-        pull: true
+        build: always
       environment:
         CRG_PORT: "{{ corganize_port }}"
         UID: "{{ uid }}"
