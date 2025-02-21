@@ -22,7 +22,7 @@
         ip: "{{ hostvars[arr_host].wg_ip }}"
         port: "{{ prowlarr_port }}"
       - name: homeassistant
-        ip: "{{ hostvars[homeassistant_host].wg_ip }}"
+        ip: "{{ hostvars[homeassistant_proxy_host].wg_ip }}"
         port: "{{ homeassistant_port }}"
       - name: corganize
         ip: "{{ hostvars[corganize_host].wg_ip }}"

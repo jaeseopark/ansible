@@ -1,0 +1,8 @@
+services:
+  nginx:
+    image: nginx
+    command: nginx -g "daemon off;"
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template:ro
+    ports:
+      - {{ homeassistant_port }}:80

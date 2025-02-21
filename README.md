@@ -30,6 +30,7 @@ ansible-playbook -i inventory.ini vpn/nginx-cert.yml
 ansible-playbook -i inventory.ini vpn/nginx.yml
 
 ansible-playbook -i inventory.ini dashboards/homer.yml
+ansible-playbook -i inventory.ini home-assistant/proxy.yml
 ansible-playbook -i inventory.ini --ask-vault-pass home-assistant/rtl433.yml
 ansible-playbook -i inventory.ini --ask-vault-pass misc/nas-clients.yml
 ansible-playbook -i inventory.ini misc/dev.yml

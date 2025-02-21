@@ -1,0 +1,24 @@
+---
+- hosts: malfoy
+  vars:
+    app_path: /app/homeassistant-proxy
+  tasks:
+    - name: Ensure folders exists
+      file:
+        path: "{{ item }}"
+        mode: u=rwx,g=rwx,o=rx
+        state: directory
+      loop:
+        - "{{ app_path }}"
+    - name: Copy compose file from the master node
+      template:
+        src: proxy.docker-compose.j2
+        dest: "{{ app_path }}/docker-compose.yml"
+    - name: Copy nginx config from the master node
+      template:
+        src: proxy.nginx.conf.j2
+        dest: "{{ app_path }}/nginx.conf"
+    - name: Ensure Docker Compose is running
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_path }}"
+        state: present
