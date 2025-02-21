@@ -3,10 +3,10 @@
         "rtl433"
     ],
     "devices": {
-        "nexus_thermo_humid_68": {
+        "nexus_thermo_humid_1": {
             "name": "Garage Weather Sensor",
             "protocol": "rtl433",
-            "topic": "rtl_433/Nexus-TH/68",
+            "topic": "rtl_433/Nexus-TH/53",
             "manufacturer": "Geevon",
             "model": "Indoor Weather Sensor",
             "entities": [
@@ -26,15 +26,15 @@
                 }
             ]
         },
-        "nexus_thermo_humid_148": {
-            "inherit": "nexus_thermo_humid_68",
+        "nexus_thermo_humid_2": {
+            "inherit": "nexus_thermo_humid_1",
             "name": "Sewing Room Weather Sensor",
-            "topic": "rtl_433/Nexus-TH/148"
+            "topic": "rtl_433/Nexus-TH/37"
         },
-        "nexus_thermo_humid_124": {
-            "inherit": "nexus_thermo_humid_68",
+        "nexus_thermo_humid_3": {
+            "inherit": "nexus_thermo_humid_1",
             "name": "Porch Weather Sensor",
-            "topic": "rtl_433/Nexus-TH/124"
+            "topic": "rtl_433/Nexus-TH/109"
         },
         "govee_water_leak_sensor_20019": {
             "name": "Master Bath Sink Water Leak Sensor",
