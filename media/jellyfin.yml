@@ -37,7 +37,7 @@
       - ghcr.io/linuxserver/wireguard
       - ghcr.io/linuxserver/transmission
     - name: Ensure Docker Compose is not running
-      community.docker.docker_compose:
+      community.docker.docker_compose_v2:
         project_src: "{{ app_path }}"
         state: absent
     - name: Copy compose file from the master node
@@ -73,6 +73,6 @@
         src: jellyfin.trns-settings.j2
         dest: "{{ trns_bkup_mnt_path }}/settings.json"
     - name: Ensure Docker Compose is running
-      community.docker.docker_compose:
+      community.docker.docker_compose_v2:
         project_src: "{{ app_path }}"
         state: present
