@@ -1,0 +1,11 @@
+[Unit]
+Description=v4l2rtspserver
+After=network.target
+
+[Service]
+ExecStart={{ executable_path }} -W 640 -H 480 -F 15 {{ video_device }}
+Restart=always
+User={{ ansible_user_id }}
+
+[Install]
+WantedBy=multi-user.target
