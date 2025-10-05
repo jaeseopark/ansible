@@ -1,0 +1,46 @@
+- name: Ensure git is installed
+  package:
+    name: git
+    state: present
+
+- name: Checkout the code base
+  git:
+    repo: https://github.com/jaeseopark/receep.git
+    dest: "{{ app_path }}"
+    version: master # Specify branch/tag/commit
+    update: yes # Pull changes if the repo already exists
+
+- name: Ensure required directories are present
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ env_parts }}"
+    - "{{ mnt_path }}"
+    - "{{ data_path }}"
+
+- name: Render env files to env_parts directory
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ app_path }}/env_parts/{{ item.dest }}"
+  loop:
+    - { src: "receep.env.j2", dest: "receep.env" }
+    - { src: "creds.env", dest: "creds.env" }
+
+- name: Combine receep.env.j2 and creds.env and save to app_path/.env
+  assemble:
+    src: "{{ app_path }}/env_parts"
+    dest: "{{ app_path }}/.env"
+
+- name: Ensure Docker Compose is stopped (if clean start requested)
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: clean_restart | default(false)
+  
+- name: Ensure Docker Compose is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    pull: missing
+    state: present
