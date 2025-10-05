@@ -40,3 +40,22 @@
     enabled: yes
     state: started
     daemon_reload: yes
+
+- name: Ensure startcam alias is present in bash profile
+  lineinfile:
+    path: ~/.bashrc
+    regexp: '^alias startcam='
+    line: 'alias startcam="sudo systemctl start v4l2rtspserver"'
+    state: present
+
+- name: Ensure stopcam alias is present in bash profile
+  lineinfile:
+    path: ~/.bashrc
+    regexp: '^alias stopcam='
+    line: 'alias stopcam="sudo systemctl stop v4l2rtspserver"'
+    state: present
+
+- name: Run stopcam command
+  shell: source ~/.bashrc && stopcam
+  args:
+    executable: /bin/bash
