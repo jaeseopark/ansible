@@ -9,7 +9,7 @@
         target: /backup
   roles:
     - paperless
-    - restic-backup
+    - restic
 
 - name: Webcam
   hosts: webcam
