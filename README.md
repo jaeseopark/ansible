@@ -43,12 +43,10 @@ ansible-playbook -i inventory.ini home-assistant/proxy.yml
 ansible-playbook -i inventory.ini --ask-vault-pass home-assistant/rtl433.yml
 ansible-playbook -i inventory.ini --ask-vault-pass misc/nas-clients.yml
 ansible-playbook -i inventory.ini misc/dev.yml
-ansible-playbook -i inventory.ini --ask-vault-pass misc/paperless.yml
 ansible-playbook -i inventory.ini misc/pihole.yml
 ansible-playbook -i inventory.ini misc/wiki.yml
 ansible-playbook -i inventory.ini --ask-vault-pass misc/corganize.yml
 ansible-playbook -i inventory.ini misc/corganize-server.yml
-ansible-playbook -i inventory.ini misc/webcam.yml
 
 ansible-playbook -i inventory.ini media/jellyfin.yml --ask-vault-pass
 ansible-playbook -i inventory.ini media/arr.yml

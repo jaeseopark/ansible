@@ -1,0 +1,4 @@
+build_path: /apps/v4l2rtspserver
+executable_path: /usr/local/bin/v4l2rtspserver
+service_config_path: /etc/systemd/system/v4l2rtspserver.service
+video_device: /dev/video0
