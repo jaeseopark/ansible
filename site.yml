@@ -1,5 +1,5 @@
-- name: Paperless on malfoy
-  hosts: malfoy
+- name: Paperless
+  hosts: paperless # To change deploy host, change inventory.ini.
   vars:
     app_path: "/app/paperless"
     local_mount_path: "{{ app_path }}/mnt"
@@ -11,3 +11,8 @@
     - paperless
     - restic-backup
 
+- name: Webcam
+  hosts: webcam
+  become: true
+  roles:
+    - webcam
