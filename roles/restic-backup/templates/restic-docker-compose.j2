@@ -1,0 +1,20 @@
+services:
+  restic:
+    image: restic/restic:0.18.1
+    restart: unless-stopped
+    environment:
+      RESTIC_REPOSITORY: "s3:s3.amazonaws.com/{{ restic_s3_bucket }}/{{ restic_repository_name }}"
+      RESTIC_PASSWORD: "{{ restic_password }}"
+      AWS_ACCESS_KEY_ID: "{{ restic_aws_access_key_id }}"
+      AWS_SECRET_ACCESS_KEY: "{{ restic_aws_secret_access_key }}"
+    volumes:
+{% for path in restic_backup_paths %}
+      - {{ path.src }}:{{ path.target | default('/backup') }}:ro
+{% endfor %}
+    entrypoint: /bin/sh
+    command: >
+      -c "restic init || true &&
+          while true; do
+            restic backup {% for path in restic_backup_paths %}{{ path.target | default('/backup') }} {% endfor %} --tag nightly &&
+            sleep 86400;
+          done"

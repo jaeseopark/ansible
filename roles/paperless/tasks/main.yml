@@ -1,0 +1,31 @@
+---
+- name: Ensure folders exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ app_path }}"
+    - "{{ local_mount_path }}"
+
+- name: Copy config file from the master node
+  template:
+    src: paperless.docker-compose.j2
+    dest: "{{ docker_compose_path }}"
+
+- name: Copy environment file from the master node
+  template:
+    src: paperless.env
+    dest: "{{ env_file_path }}"
+
+- name: Ensure Docker Compose is stopped (if clean restart requested)
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: clean_restart | default(false)
+
+- name: Ensure Docker Compose is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    pull: missing
+    state: present
+    remove_orphans: true

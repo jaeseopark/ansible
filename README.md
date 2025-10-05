@@ -24,6 +24,15 @@ ansible-playbook -i inventory.ini mac/orcaslicer/restore-presets.yml
 ```
 
 ```bash
+# Deploys all apps in site.yml (could span across multiple hosts)
+# It is probably wise to use multiple site files to avoid deploying all projects at once.
+# Research how to best break the projects up or see how other people do it.
+ansible-playbook -i inventory.ini --ask-vault-password site.yml
+
+# Optionally: clean restart docker compose with "-e clean_restart=true" (defaults to false)
+```
+
+```bash
 ansible-playbook -i inventory.ini vpn/wg.yml
 # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
 ansible-playbook -i inventory.ini vpn/nginx-cert.yml

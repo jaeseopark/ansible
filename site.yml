@@ -1,0 +1,13 @@
+- name: Paperless on malfoy
+  hosts: malfoy
+  vars:
+    app_path: "/app/paperless"
+    local_mount_path: "{{ app_path }}/mnt"
+    restic_repository_name: "paperless"
+    restic_backup_paths:
+      - src: "{{ local_mount_path }}"
+        target: /backup
+  roles:
+    - paperless
+    - restic-backup
+

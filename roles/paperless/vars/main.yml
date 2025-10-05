@@ -1,0 +1,2 @@
+docker_compose_path: "{{ app_path }}/docker-compose.yml"
+env_file_path: "{{ app_path }}/paperless.env"

@@ -1,0 +1,39 @@
+- name: Ensure restic_repository_name is provided
+  assert:
+    that:
+      - restic_repository_name is defined
+    fail_msg: "You must provide 'restic_repository_name'"
+
+- name: Ensure each restic_backup_paths item has a src property
+  assert:
+    that:
+      - restic_backup_paths | selectattr('src', 'defined') | length == restic_backup_paths | length
+    fail_msg: "Each item in restic_backup_paths must have a 'src' property."
+
+- name: Ensure each restic_backup_paths item has a target if multiple paths are provided
+  assert:
+    that:
+      - restic_backup_paths | length == 1 or (restic_backup_paths | selectattr('target', 'defined') | length == restic_backup_paths | length)
+    fail_msg: "Each item in restic_backup_paths must have a 'target' property if multiple paths are provided."
+
+- name: Copy restic backup Docker Compose file
+  template:
+    src: restic-docker-compose.j2
+    dest: "{{ app_path }}/docker-compose-restic.yml"
+
+- name: Ensure restic backup is stopped (if clean restart requested)
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    files:
+      - docker-compose-restic.yml
+    state: absent
+  when: restic_clean_restart | default(false)
+
+- name: Ensure restic backup is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    files:
+      - docker-compose-restic.yml
+    state: present
+    pull: missing
+    remove_orphans: false # Important: There are multiple docker compose files in the same directory.
