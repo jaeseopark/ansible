@@ -1,0 +1,5 @@
+- name: Webcam
+  hosts: webcam-hosts
+  become: true
+  roles:
+    - webcam

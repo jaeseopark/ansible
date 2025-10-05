@@ -1,0 +1,4 @@
+- name: Homer
+  hosts: homer-hosts
+  roles:
+    - homer

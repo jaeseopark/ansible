@@ -1,5 +1,5 @@
 - name: Paperless
-  hosts: paperless # To change deploy host, change inventory.ini.
+  hosts: paperless-hosts
   vars:
     app_path: "/app/paperless"
     local_mount_path: "{{ app_path }}/mnt"
@@ -10,9 +10,3 @@
   roles:
     - paperless
     - restic
-
-- name: Webcam
-  hosts: webcam
-  become: true
-  roles:
-    - webcam
