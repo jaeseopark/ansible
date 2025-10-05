@@ -1,20 +1,14 @@
-- name: Ensure restic_repository_name is provided
+- name: Assert required variables are provided
   assert:
     that:
-      - restic_repository_name is defined
-    fail_msg: "You must provide 'restic_repository_name'"
-
-- name: Ensure each restic_backup_paths item has a src property
-  assert:
-    that:
-      - restic_backup_paths | selectattr('src', 'defined') | length == restic_backup_paths | length
-    fail_msg: "Each item in restic_backup_paths must have a 'src' property."
-
-- name: Ensure each restic_backup_paths item has a target if multiple paths are provided
-  assert:
-    that:
-      - restic_backup_paths | length == 1 or (restic_backup_paths | selectattr('target', 'defined') | length == restic_backup_paths | length)
-    fail_msg: "Each item in restic_backup_paths must have a 'target' property if multiple paths are provided."
+      - "{{ item.condition }}"
+    fail_msg: "{{ item.fail_msg }}"
+  loop:
+    - { condition: "app_path is defined", fail_msg: "You must provide 'app_path'" }
+    - { condition: "restic_repository_name is defined", fail_msg: "You must provide 'restic_repository_name'" }
+    - { condition: "restic_backup_paths | length > 0", fail_msg: "restic_backup_paths must have at least one element." }
+    - { condition: "restic_backup_paths | selectattr('src', 'defined') | length == restic_backup_paths | length", fail_msg: "Each item in restic_backup_paths must have a 'src' property." }
+    - { condition: "restic_backup_paths | length == 1 or (restic_backup_paths | selectattr('target', 'defined') | length == restic_backup_paths | length)", fail_msg: "Each item in restic_backup_paths must have a 'target' property if multiple paths are provided." }
 
 - name: Copy restic backup Docker Compose file
   template:
