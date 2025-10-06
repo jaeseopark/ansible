@@ -2,22 +2,33 @@
   docker_container:
     name: homer
     state: stopped
+
 - name: Ensure the app folder exists
   file:
-    path: /app/homer
+    path: "{{ app_path }}"
     state: directory
+
 - name: Copy config file from the master node
   template:
     src: homer.config.j2
     dest: "{{ config_path }}"
+
 - name: Ensure the config file exists
   file:
     path: "{{ config_path }}"
     state: file
+
 - name: Copy the images from the master node
   copy:
     src: homer-img
-    dest: /app/homer
+    dest: "{{ app_path }}"
+
+- name: Stop Docker Compose if clean restart requested
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: clean_restart | default(false)
+
 - name: Ensure the container is running
   docker_container:
     name: homer

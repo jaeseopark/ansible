@@ -1,2 +1,3 @@
-config_path: /app/homer/config.yml
-img_path: /app/homer/homer-img
+app_path: "/app/homer"
+config_path: "{{ app_path }}/config.yml"
+img_path: "{{ app_path }}/homer-img"
