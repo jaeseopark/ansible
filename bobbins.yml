@@ -1,0 +1,12 @@
+- name: Bobbins
+  hosts: bobbins-hosts
+  vars:
+    app_path: "/app/bobbins"
+    mnt_path: "{{ app_path }}/mnt"
+    data_path: "{{ mnt_path }}/data"
+    restic_repository_name: "bobbins"
+    restic_backup_paths:
+      - src: "{{ data_path }}"
+  roles:
+    - bobbins
+    - restic

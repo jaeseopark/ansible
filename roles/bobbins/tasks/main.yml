@@ -1,0 +1,38 @@
+---
+- name: Ensure git is installed
+  package:
+    name: git
+    state: present
+
+- name: Checkout the code base
+  git:
+    repo: "https://github.com/jaeseopark/bobbins.git"
+    dest: "{{ app_path }}"
+    version: master # Specify branch/tag/commit
+    update: yes # Pull changes if the repo already exists
+
+- name: Ensure required directories are present
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ mnt_path }}"
+    - "{{ data_path }}"
+
+- name: Copy .env file to app path
+  template:
+    src: "bobbins.env"
+    dest: "{{ app_path }}/.env"
+
+- name: Ensure Docker Compose is stopped (if clean restart requested)
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: clean_restart | default(false)
+
+- name: Ensure Docker Compose is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: present
+    pull: missing
