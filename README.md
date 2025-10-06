@@ -31,6 +31,7 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 ansible-playbook --ask-vault-password paperless.yml
 ansible-playbook --ask-vault-password receep.yml
 ansible-playbook --ask-vault-password bobbins.yml
+ansible-playbook --ask-vault-password corganize.yml
 ansible-playbook webcam.yml
 ansible-playbook homer.yml
 
@@ -46,7 +47,6 @@ ansible-playbook misc/dev.yml
 ansible-playbook misc/pihole.yml
 ansible-playbook misc/wiki.yml
 ansible-playbook --ask-vault-pass misc/corganize.yml
-ansible-playbook misc/corganize-server.yml
 
 ansible-playbook media/jellyfin.yml --ask-vault-pass
 ansible-playbook media/arr.yml

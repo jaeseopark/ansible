@@ -1,0 +1,12 @@
+services:
+  corganize-server:
+    image: corganize-server:latest
+    build:
+      context: .
+    ports:
+      - {{ corganize_server_port }}:5822
+    environment:
+      TZ: America/Denver
+    volumes:
+      - {{ db_path }}:/database
+      - {{ log_path }}:/var/log/corganize
