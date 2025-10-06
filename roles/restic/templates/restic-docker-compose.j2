@@ -16,5 +16,8 @@ services:
       -c "restic init || true &&
           while true; do
             restic backup {% for path in restic_backup_paths %}{{ path.target | default('/backup') }} {% endfor %} --tag nightly &&
-            sleep 86400;
+            {% if restic_keep_last is defined %}
+            restic forget --prune --keep-last {{ restic_keep_last }} &&
+            {% endif %}
+            sleep {{ restic_interval | default(86400) }};
           done"
