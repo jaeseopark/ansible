@@ -28,10 +28,11 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 ```bash
 # For all commands: clean restart docker compose with "-e clean_restart=true" (defaults to false)
 
-ansible-playbook --ask-vault-password databases.yml
+ansible-playbook --ask-vault-password paperless.yml
+ansible-playbook --ask-vault-password receep.yml
 ansible-playbook --ask-vault-password bobbins.yml
-ansible-playbook hardware.yml
-ansible-playbook homelab.yml
+ansible-playbook webcam.yml
+ansible-playbook homer.yml
 
 ansible-playbook vpn/wg.yml
 # Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
