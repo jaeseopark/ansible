@@ -5,6 +5,11 @@
     db_path: "{{ app_path }}/mnt/db"
     log_path: "{{ app_path }}/mnt/log"
     corganize_server_branch: "query-files-optimize"
+    restic_repository_name: "tmp"
+    restic_interval: 259200 # in seconds == 3 days
+    restic_keep_last: 3 # Keep last 3 snapshots
+    restic_backup_paths:
+      - src: "{{ db_path }}"
     git_token: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           61336339663835333738323535363232303938643635323137333432643332346534663566373337
@@ -18,3 +23,4 @@
           3436
   roles:
     - corganize
+    - restic
