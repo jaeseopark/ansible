@@ -5,7 +5,7 @@
     db_path: "{{ app_path }}/mnt/db"
     log_path: "{{ app_path }}/mnt/log"
     corganize_server_branch: "query-files-optimize"
-    restic_repository_name: "tmp"
+    restic_repository_name: "croganize/server"
     restic_interval: 259200 # in seconds == 3 days
     restic_keep_last: 3 # Keep last 3 snapshots
     restic_backup_paths:
