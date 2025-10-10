@@ -8,6 +8,7 @@
 - name: Bobbins
   hosts: resolved_host
   vars:
+    branch: "master" # Branch to pull code from
     app_path: "/app/bobbins"
     mnt_path: "{{ app_path }}/mnt"
     data_path: "{{ mnt_path }}/data"

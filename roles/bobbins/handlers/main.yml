@@ -10,3 +10,4 @@
     project_src: "{{ app_path }}"
     state: present
     pull: missing
+    build: always

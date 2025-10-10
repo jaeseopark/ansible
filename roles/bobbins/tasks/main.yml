@@ -8,7 +8,7 @@
   git:
     repo: "https://github.com/jaeseopark/bobbins.git"
     dest: "{{ app_path }}"
-    version: master # Specify branch/tag/commit
+    version: "{{ branch }}" # Specify branch/tag/commit
     update: yes # Pull changes if the repo already exists
 
 - name: Ensure required directories are present
