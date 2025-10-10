@@ -1,6 +1,6 @@
 ---
 - hosts: vps_hosts
-  become: yes
+  become: true
   roles:
     - role: letsencrypt
       when: generate_certificates | default(false) | bool
