@@ -1,0 +1,49 @@
+---
+- name: Transform apps list into objects with name, ip, port, and overrides
+  set_fact:
+    app_configs: >-
+      {%- set result = [] -%}
+      {%- for app in apps -%}
+        {%- if app.isDeployed and 'host' in app and 'port' in app -%}
+          {%- set base_config = {
+            'name': app.name,
+            'ip': hostvars[app.host].wg_ip,
+            'port': app.port
+          } -%}
+          {%- set final_config = base_config | combine((app_overrides | default({}))[app.name] | default({}), recursive=True) -%}
+          {%- set _ = result.append(final_config) -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {{ result }}
+
+- name: Validate that only one app is marked as default
+  assert:
+    that:
+      - (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | list | length) == 1
+    fail_msg: "Exactly one app must have isDefault set to true. Found {{ apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | list | length }} apps with isDefault=true."
+    success_msg: "Validation passed: exactly one app is marked as default."
+
+- name: Validate that the default app is deployed
+  assert:
+    that:
+      - (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | first).isDeployed | default(false)
+    fail_msg: "The default app must have isDeployed set to true. Default app '{{ (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | first).name }}' has isDeployed={{ (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | first).isDeployed | default(false) }}."
+    success_msg: "Validation passed: the default app is deployed."
+
+- name: Install nginx
+  package:
+    name: nginx
+    state: present
+
+- name: Copy nginx configuration
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+  notify: restart nginx
+
+- name: Ensure nginx is running and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes

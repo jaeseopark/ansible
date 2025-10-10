@@ -17,9 +17,9 @@ ssh-add
 
 ```bash
 # Setup mac hosts
-ansible-playbook -i inventory.ini mac/main.yml
-echo 'export ANSIBLE_INVENTORY=inventory.ini' >> ~/.bash_profile
-echo 'export ANSIBLE_INVENTORY=inventory.ini' >> ~/.zshrc
+echo 'export ANSIBLE_INVENTORY=inventory.yml' >> ~/.bash_profile
+echo 'export ANSIBLE_INVENTORY=inventory.yml' >> ~/.zshrc
+ansible-playbook mac/main.yml
 
 # Orca Slicer disaster recovery (User presets)
 ansible-playbook mac/orcaslicer/restore-presets.yml
@@ -28,17 +28,15 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 ```bash
 # For all commands: clean restart docker compose with "-e clean_restart=true" (defaults to false)
 
-ansible-playbook --ask-vault-password paperless.yml
-ansible-playbook --ask-vault-password receep.yml
-ansible-playbook --ask-vault-password bobbins.yml
-ansible-playbook --ask-vault-password corganize.yml
-ansible-playbook webcam.yml
-ansible-playbook homer.yml
+ansible-playbook --ask-vault-password playbooks/paperless.yml
+ansible-playbook --ask-vault-password playbooks/receep.yml
+ansible-playbook --ask-vault-password playbooks/bobbins.yml
+ansible-playbook --ask-vault-password playbooks/corganize.yml
+ansible-playbook playbooks/vps-nginx.yml # optionally: -e generate_certificates=true
+ansible-playbook playbooks/webcam.yml
+ansible-playbook playbooks/homer.yml
 
 ansible-playbook vpn/wg.yml
-# Use only when necessary. See API rate limit: https://letsencrypt.org/docs/duplicate-certificate-limit/
-ansible-playbook vpn/nginx-cert.yml
-ansible-playbook vpn/nginx.yml
 
 ansible-playbook home-assistant/proxy.yml
 ansible-playbook --ask-vault-pass home-assistant/rtl433.yml
@@ -52,12 +50,6 @@ ansible-playbook media/jellyfin.yml --ask-vault-pass
 ansible-playbook media/arr.yml
 ansible-playbook media/navidrome.yml
 ansible-playbook media/filebrowser.yml
-```
-
-### Debugging Ansible variables
-
-```bash
-ansible-inventory -i inventory.ini -y --list > inventory.yaml
 ```
 
 ## Pihole
