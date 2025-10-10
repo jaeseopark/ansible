@@ -1,12 +1,5 @@
 Ansible inventory and playbooks
 
-## Terminologies
-
-- Master: The node from which the Ansible playbooks are executed
-- Remote: Ansible SSH target nodes
-- WG/VPN Server: public-facing WG node (VPS)
-- WG/VPN Clients: local WG nodes
-
 ## Usage
 
 ```bash
@@ -54,6 +47,8 @@ ansible-playbook media/filebrowser.yml
 
 ## Pihole
 
+TODO: move when pihole becomes its own role
+
 ```bash
 # Reset password
 docker exec -it pihole pihole -a -p
@@ -63,7 +58,11 @@ docker exec -it pihole pihole -a -p
 
 Rate-limiting can easily be disabled by setting `RATE_LIMIT=0/0` in `/etc/pihole/pihole-FTL.conf`. [Reference](https://pi-hole.net/2021/02/16/pi-hole-ftl-v5-7-and-web-v5-4-released/#page-content)
 
+
+
 ## Jellyfin
+
+TODO: move when jellyfin becomes its own role
 
 ### Connect to a new host
 
