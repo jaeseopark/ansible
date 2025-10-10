@@ -1,0 +1,7 @@
+---
+- hosts: vps-hosts
+  become: yes
+  roles:
+    - role: letsencrypt
+      when: generate_certificates | default(false) | bool
+    - nginx

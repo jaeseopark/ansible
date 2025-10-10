@@ -1,45 +1,58 @@
-{% for app in apps %}
+user www-data;
+worker_processes auto;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+
+{% for app in app_configs %}
 upstream {{ app.name }} {
     server {{ app.ip }}:{{ app.port }};
 }
 {% endfor %}
 
+{% for app in app_configs %}
+{% if app.isDefault | default(false) %}
 server {
-    listen {{ jellyfin_port }};
-    listen [::]:{{ jellyfin_port }};
-    server_name {{ vpn_domain }} jellyfin.{{ vpn_domain }};
+    listen {{ app.port }};
+    listen [::]:{{ app.port }};
+    server_name {{ vps_domain }} {{ app.name }}.{{ vps_domain }};
     location / {
-        proxy_pass http://jellyfin$request_uri;
+        proxy_pass http://{{ app.name }}$request_uri;
     }
 }
 
 server {
-    # The default app is Jellyfin.
+    # The default app is {{ app.name }}.
     listen 80;
     listen [::]:80;
-    server_name {{ vpn_domain }};
-    return 301 https://jellyfin.$host$request_uri;
+    server_name {{ vps_domain }};
+    return 301 https://{{ app.name }}.$host$request_uri;
 }
+{% endif %}
+{% endfor %}
 
 server {
     # Forward all traffic to HTTPS
     listen 80;
     listen [::]:80;
-    server_name *.{{ vpn_domain }};
+    server_name *.{{ vps_domain }};
     return 301 https://$host$request_uri;
 }
 
-{% for app in apps %}
+{% for app in app_configs %}
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-    server_name {{ app.name }}.{{ vpn_domain }};
+    server_name {{ app.name }}.{{ vps_domain }};
 
     add_header Strict-Transport-Security "max-age=31536000" always;
-    ssl_certificate /etc/letsencrypt/live/{{ vpn_domain }}/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/{{ vpn_domain }}/privkey.pem; # managed by Certbot
-    ssl_trusted_certificate /etc/letsencrypt/live/{{ vpn_domain }}/chain.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ vps_domain }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ vps_domain }}/privkey.pem; # managed by Certbot
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ vps_domain }}/chain.pem;
     ssl_stapling on;
     ssl_stapling_verify on;
 
@@ -61,3 +74,5 @@ server {
     }
 }
 {% endfor %}
+
+}

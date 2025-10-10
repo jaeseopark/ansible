@@ -1,0 +1,7 @@
+app_overrides:
+  paperless:
+    additional_config: client_max_body_size 1024m;
+  wiki:
+    additional_config: client_max_body_size 50m;
+  receep:
+    additional_config: client_max_body_size 50m;

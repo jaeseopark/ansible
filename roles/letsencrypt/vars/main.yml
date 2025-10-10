@@ -1,0 +1,10 @@
+---
+cert_primary_domain: "{{ vps_domain }}"
+cert_email: "{{ vps_domain_email }}"
+
+# Derive cert_domains from nginx apps configuration
+cert_domains: >-
+  {{
+    [vps_domain] + 
+    (apps | default([]) | selectattr('isDeployed', 'equalto', true) | map(attribute='name') | map('regex_replace', '^(.*)$', '\1.' + vps_domain) | list)
+  }}

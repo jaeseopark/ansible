@@ -1,0 +1,56 @@
+---
+- name: Ensure the required packages are installed
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - certbot
+    - ufw
+
+- name: Ensure ufw is running
+  service:
+    name: ufw
+    state: started
+
+- name: Ensure port 80 is open
+  ufw:
+    rule: allow
+    port: "80"
+
+- name: Ensure nginx is stopped for certificate generation
+  service:
+    name: nginx
+    state: stopped
+  ignore_errors: true
+
+- name: Reload UFW
+  ufw:
+    state: reloaded
+
+- name: Generate certificate
+  shell: >
+    certbot certonly
+    -d {{ cert_domains | join(',') }}
+    -m {{ cert_email }}
+    --preferred-challenges http
+    --standalone
+    --expand
+    --agree-tos
+    --no-eff-email
+  args:
+    creates: "/etc/letsencrypt/live/{{ cert_primary_domain }}/fullchain.pem"
+
+- name: Ensure the cert/key files exist
+  file: 
+    name: "{{ item }}"
+    state: file
+  loop:
+    - "/etc/letsencrypt/live/{{ cert_primary_domain }}/fullchain.pem"
+    - "/etc/letsencrypt/live/{{ cert_primary_domain }}/privkey.pem"
+
+- name: Ensure certificate renewal cron job exists
+  cron:
+    name: renew certificate
+    minute: "0"
+    hour: "0"
+    job: /usr/bin/certbot renew --quiet

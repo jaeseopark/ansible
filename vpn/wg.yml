@@ -51,7 +51,7 @@
     - name: Copy the public key file to the master node
       fetch:
         src: "{{ public_key_path }}"
-        dest: "{{ server_public_key_path_on_master }}"
+        dest: "{{ vps_public_key_path }}"
         flat: yes
 - hosts: vpnclients
   vars:
@@ -67,7 +67,7 @@
         state: stopped
     - name: Copy server public key
       copy:
-        src: "{{ server_public_key_path_on_master }}"
+        src: "{{ vps_public_key_path }}"
         dest: "{{ server_public_key_path }}"
     - name: Save server public key as a variable
       shell: "cat {{ server_public_key_path }}"
@@ -98,7 +98,7 @@
     - name: Copy the public key file to the master node
       fetch:
         src: "{{ public_key_path }}"
-        dest: "{{ clinet_public_key_folder_on_master }}/{{ inventory_hostname }}.key"
+        dest: "{{ client_public_key_folder_on_master }}/{{ inventory_hostname }}.key"
         flat: yes
 - hosts: vpnservers
   vars:
@@ -106,11 +106,11 @@
   tasks:
     - name: Ensure client public keys are absent
       file:
-        name: "{{ clinet_public_key_folder_on_master }}"
+        name: "{{ client_public_key_folder_on_master }}"
         state: absent
     - name: Copy client public key folder from the master node
       copy:
-        src: "{{ clinet_public_key_folder_on_master }}/"
+        src: "{{ client_public_key_folder_on_master }}/"
         dest: "{{ client_public_keys_path }}"
         directory_mode: yes
     - name: Add the client public keys to the wg config file

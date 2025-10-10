@@ -1,0 +1,162 @@
+---
+all:
+  children:
+    atlas:
+      hosts:
+        atlas.local:
+    ionos:
+      hosts:
+        198.251.71.86:
+          ansible_user: root
+    bigboi:
+      hosts:
+        bigboi:
+          ansible_user: root
+          wg_ip: 10.8.0.2
+    crispbox:
+      hosts:
+        crispbox:
+          ansible_user: root
+          wg_ip: 10.8.0.3
+    malfoy:
+      hosts:
+        malfoy:
+          ansible_user: root
+          wg_ip: 10.8.0.4
+          ip: 192.168.86.170
+    vpnservers:
+      children:
+        ionos:
+    vpnclients:
+      children:
+        bigboi:
+        malfoy:
+    vpn:
+      children:
+        vpnservers:
+        vpnclients:
+      vars:
+        vps_domain: jaeseo.stream
+        vps_domain_email: admin@jaeseo.stream
+        private_key_path: /etc/wireguard/private.key
+        public_key_path: /etc/wireguard/public.key
+        client_public_key_folder_on_master: client_public_keys
+        wg_conf_path: /etc/wireguard/wg0.conf
+        wg_server_ip: 10.8.0.1
+    nasclients:
+      children:
+        malfoy:
+        bigboi:
+    dev:
+      children:
+        malfoy:
+        bigboi:
+    machosts:
+      children:
+        atlas:
+    jellyfin-hosts:
+      children:
+        bigboi:
+    paperless-hosts:
+      children:
+        malfoy:
+    radarr-hosts:
+      children:
+        malfoy:
+    sonarr-hosts:
+      children:
+        malfoy:
+    lidarr-hosts:
+      children:
+        malfoy:
+    prowlarr-hosts:
+      children:
+        malfoy:
+    homeassistant-hosts:
+      children:
+        malfoy:
+    wiki-hosts:
+      children:
+        malfoy:
+    webcam-hosts:
+      children:
+        webcampi.local:
+    homer-hosts:
+      children:
+        malfoy:
+    receep-hosts:
+      children:
+        malfoy:
+    bobbins-hosts:
+      children:
+        malfoy:
+    corganize-server-hosts:
+      children:
+        malfoy:
+    vps-hosts:
+      children:
+        ionos:
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    nas_host: bigboi
+    timezone: America/Denver
+    jellyfin_trns_port: 28416
+    jellyfin_trns_bkup_port: 28417
+    corganize_server_port: 5822
+    pihole_host: malfoy
+    pihole_port: 805
+    arr_host: malfoy
+    homeassistant_proxy_host: malfoy
+    navidrome_host: bigboi
+    navidrome_port: 4533
+    proxmox_host: malfoy
+    proxmox_port: 8006
+    proxmox_dev_host: crispbox
+    restic_s3_bucket: jaeseopark-restic
+    vps_public_key_path: vpn/server_public.key
+    apps:
+      - name: jellyfin
+        port: 8096
+        host: bigboi
+        isDeployed: true
+        isDefault: true
+      - name: paperless
+        isDeployed: true
+        port: 29743
+        host: malfoy
+      - name: radarr
+        isDeployed: true
+        port: 7878
+        host: malfoy
+      - name: sonarr
+        isDeployed: true
+        port: 8989
+        host: malfoy
+      - name: lidarr
+        isDeployed: true
+        port: 8686
+        host: malfoy
+      - name: prowlarr
+        isDeployed: true
+        port: 9696
+        host: malfoy
+      - name: homeassistant
+        isDeployed: true
+        port: 8123
+        host: malfoy
+      - name: corganize
+        isDeployed: true
+        port: 5824
+        host: malfoy
+      - name: wiki
+        isDeployed: true
+        port: 48211
+        host: malfoy
+      - name: bobbins
+        isDeployed: true
+        port: 32933
+        host: malfoy
+      - name: receep
+        isDeployed: true
+        port: 18467
+        host: malfoy
