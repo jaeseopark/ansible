@@ -4,7 +4,7 @@
     app_configs: >-
       {%- set result = [] -%}
       {%- for app in apps -%}
-        {%- if app.isDeployed and 'host' in app and 'port' in app -%}
+        {%- if app.is_deployed and 'host' in app and 'port' in app -%}
           {%- set base_config = {
             'name': app.name,
             'ip': hostvars[app.host].wg_ip,
@@ -19,15 +19,15 @@
 - name: Validate that only one app is marked as default
   assert:
     that:
-      - (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | list | length) == 1
-    fail_msg: "Exactly one app must have isDefault set to true. Found {{ apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | list | length }} apps with isDefault=true."
+      - (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | list | length) == 1
+    fail_msg: "Exactly one app must have is_default set to true. Found {{ apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | list | length }} apps with is_default=true."
     success_msg: "Validation passed: exactly one app is marked as default."
 
 - name: Validate that the default app is deployed
   assert:
     that:
-      - (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | first).isDeployed | default(false)
-    fail_msg: "The default app must have isDeployed set to true. Default app '{{ (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | first).name }}' has isDeployed={{ (apps | selectattr('isDefault', 'defined') | selectattr('isDefault', 'equalto', true) | first).isDeployed | default(false) }}."
+      - (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | first).is_deployed | default(false)
+    fail_msg: "The default app must have is_deployed set to true. Default app '{{ (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | first).name }}' has is_deployed={{ (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | first).is_deployed | default(false) }}."
     success_msg: "Validation passed: the default app is deployed."
 
 - name: Install nginx

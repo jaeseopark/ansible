@@ -1,4 +1,4 @@
-- hosts: machosts
+- hosts: mac_hosts
   vars:
     docked_items:
       - /Applications/ForkLift.app/

@@ -1,5 +1,5 @@
 ---
-- hosts: machosts
+- hosts: mac_hosts
   tasks:
   - name: Reduce initial delay
     community.general.osx_defaults:

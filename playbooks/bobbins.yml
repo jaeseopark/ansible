@@ -1,5 +1,5 @@
 - name: Bobbins
-  hosts: bobbins-hosts
+  hosts: bobbins_hosts
   vars:
     app_path: "/app/bobbins"
     mnt_path: "{{ app_path }}/mnt"

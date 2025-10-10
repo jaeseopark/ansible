@@ -1,5 +1,5 @@
 ---
-- hosts: machosts
+- hosts: mac_hosts
   vars:
     config:
       app:

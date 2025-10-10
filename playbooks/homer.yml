@@ -1,4 +1,4 @@
 - name: Homer
-  hosts: homer-hosts
+  hosts: homer_hosts
   roles:
     - homer

@@ -1,5 +1,5 @@
 - name: Paperless
-  hosts: paperless-hosts
+  hosts: paperless_hosts
   vars:
     app_path: "/app/paperless"
     local_mount_path: "{{ app_path }}/mnt"

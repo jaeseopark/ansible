@@ -1,5 +1,5 @@
 ---
-- hosts: machosts
+- hosts: mac_hosts
   vars:
     ssl_path: ~/Library/Application Support/barrier/SSL
     pem_name: Barrier.pem

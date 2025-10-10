@@ -1,5 +1,5 @@
 ---
-- hosts: nasclients
+- hosts: nas_clients
   vars:
     creds_src: nas-creds.txt
     creds_dest: /root/.nas/creds.txt

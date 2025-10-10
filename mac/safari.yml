@@ -1,4 +1,4 @@
-- hosts: machosts
+- hosts: mac_hosts
   tasks:
   - name: Set homepage
     community.general.osx_defaults:

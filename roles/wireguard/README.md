@@ -13,17 +13,17 @@ The role supports three modes:
 
 ```yaml
 ---
-- hosts: vps-hosts
+- hosts: vps_hosts
   roles:
     - role: wireguard
       wireguard_mode: server
 
-- hosts: wireguard-clients  
+- hosts: wireguard_clients  
   roles:
     - role: wireguard
       wireguard_mode: client
 
-- hosts: vps-hosts
+- hosts: vps_hosts
   roles:
     - role: wireguard
       wireguard_mode: server_final
@@ -48,4 +48,4 @@ Additional variables needed in inventory:
 ## Requirements
 
 - `ansible.posix` collection (for sysctl module)
-- Inventory groups: `vps-hosts` and `wireguard-clients`
+- Inventory groups: `vps_hosts` and `wireguard_clients`

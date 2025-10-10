@@ -14,7 +14,7 @@ upstream {{ app.name }} {
 {% endfor %}
 
 {% for app in app_configs %}
-{% if app.isDefault | default(false) %}
+{% if app.is_default | default(false) %}
 server {
     listen {{ app.port }};
     listen [::]:{{ app.port }};

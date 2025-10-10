@@ -1,5 +1,5 @@
 ---
-- hosts: vps-hosts
+- hosts: vps_hosts
   become: yes
   roles:
     - role: letsencrypt

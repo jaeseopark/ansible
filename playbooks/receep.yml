@@ -1,5 +1,5 @@
 - name: Receep
-  hosts: receep-hosts
+  hosts: receep_hosts
   vars:
     app_path: "/app/receep"
     env_parts: "{{ app_path }}/env_parts"

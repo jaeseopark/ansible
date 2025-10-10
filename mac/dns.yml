@@ -1,5 +1,5 @@
 ---
-- hosts: machosts
+- hosts: mac_hosts
   vars:
     dns_server_ip: 192.168.86.170
   tasks:

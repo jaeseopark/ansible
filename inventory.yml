@@ -24,11 +24,11 @@ all:
           ansible_user: root
           wg_ip: 10.8.0.4
           ip: 192.168.86.170
-    wireguard-clients:
+    wireguard_clients:
       children:
         bigboi:
         malfoy:
-    nasclients:
+    nas_clients:
       children:
         malfoy:
         bigboi:
@@ -36,49 +36,49 @@ all:
       children:
         malfoy:
         bigboi:
-    machosts:
+    mac_hosts:
       children:
         atlas:
-    jellyfin-hosts:
+    jellyfin_hosts:
       children:
         bigboi:
-    paperless-hosts:
+    paperless_hosts:
       children:
         malfoy:
-    radarr-hosts:
+    radarr_hosts:
       children:
         malfoy:
-    sonarr-hosts:
+    sonarr_hosts:
       children:
         malfoy:
-    lidarr-hosts:
+    lidarr_hosts:
       children:
         malfoy:
-    prowlarr-hosts:
+    prowlarr_hosts:
       children:
         malfoy:
-    homeassistant-hosts:
+    homeassistant_hosts:
       children:
         malfoy:
-    wiki-hosts:
+    wiki_hosts:
       children:
         malfoy:
-    webcam-hosts:
+    webcam_hosts:
       children:
         webcampi.local:
-    homer-hosts:
+    homer_hosts:
       children:
         malfoy:
-    receep-hosts:
+    receep_hosts:
       children:
         malfoy:
-    bobbins-hosts:
+    bobbins_hosts:
       children:
         malfoy:
-    corganize-server-hosts:
+    corganize_server_hosts:
       children:
         malfoy:
-    vps-hosts:
+    vps_hosts:
       children:
         ionos:
   vars:
@@ -103,45 +103,45 @@ all:
       - name: jellyfin
         port: 8096
         host: bigboi
-        isDeployed: true
-        isDefault: true
+        is_deployed: true
+        is_default: true
       - name: paperless
-        isDeployed: true
+        is_deployed: true
         port: 29743
         host: malfoy
       - name: radarr
-        isDeployed: true
+        is_deployed: true
         port: 7878
         host: malfoy
       - name: sonarr
-        isDeployed: true
+        is_deployed: true
         port: 8989
         host: malfoy
       - name: lidarr
-        isDeployed: true
+        is_deployed: true
         port: 8686
         host: malfoy
       - name: prowlarr
-        isDeployed: true
+        is_deployed: true
         port: 9696
         host: malfoy
       - name: homeassistant
-        isDeployed: true
+        is_deployed: true
         port: 8123
         host: malfoy
       - name: corganize
-        isDeployed: true
+        is_deployed: true
         port: 5824
         host: malfoy
       - name: wiki
-        isDeployed: true
+        is_deployed: true
         port: 48211
         host: malfoy
       - name: bobbins
-        isDeployed: true
+        is_deployed: true
         port: 32933
         host: malfoy
       - name: receep
-        isDeployed: true
+        is_deployed: true
         port: 18467
         host: malfoy
