@@ -8,24 +8,64 @@ links: []
 services:
   - name: Services
     items:
-{% for app in apps %}
-      - name: {{ app.name | title }}
-        logo: assets/img/{{ app.name }}.svg
-        url: http://{{ app.host }}:{{ app.port }}
-        tag: {{ app.host }}
-{% endfor %}
+      - name: Pi-hole
+        logo: assets/img/pihole.svg
+        url: http://{{ pihole_host }}:{{ pihole_port }}/admin
+        tag: {{ pihole_host }}
       - name: openmediavault
         logo: assets/img/omv.svg
         url: http://{{ nas_host }}
         tag: {{ nas_host }}
+      - name: Jellyfin
+        logo: assets/img/jellyfin.svg
+        url: http://{{ jellyfin_host }}:{{ jellyfin_port }}
+        tag: {{ jellyfin_host }}
       - name: Transmission for Jellyfin
         logo: assets/img/transmission.svg
         url: http://{{ jellyfin_host }}:{{ jellyfin_trns_port }}
         tag: {{ jellyfin_host }}
+      - name: Paperless
+        logo: assets/img/paperless.svg
+        url: http://{{ paperless_host }}:{{ paperless_port }}
+        tag: {{ paperless_host }}
+      - name: Radarr
+        logo: assets/img/radarr.svg
+        url: http://{{ arr_host }}:{{ radarr_port }}
+        tag: {{ arr_host }}
+      - name: Sonarr
+        logo: assets/img/sonarr.svg
+        url: http://{{ arr_host }}:{{ sonarr_port }}
+        tag: {{ arr_host }}
+      - name: Lidarr
+        logo: assets/img/lidarr.svg
+        url: http://{{ arr_host }}:{{ lidarr_port }}
+        tag: {{ arr_host }}
+      - name: Prowlarr
+        logo: assets/img/prowlarr.svg
+        url: http://{{ arr_host }}:{{ prowlarr_port }}
+        tag: {{ arr_host }}
+      - name: Home Assistant
+        logo: assets/img/homeassistant.svg
+        url: http://homeassistant.local:{{ homeassistant_port }}
+        tag: homeassistant.local
+      - name: Wiki
+        logo: assets/img/wiki.png
+        url: http://{{ wiki_host }}:{{ wiki_port }}
+        tag: {{ wiki_host }}
       - name: Reolink
         logo: assets/img/reolink.svg
         url: http://crispreolink
         tag: reolink
+      - name: Navidrome
+        logo: assets/img/navidrome.svg
+        url: http://{{ navidrome_host }}:{{ navidrome_port }}
+        tag: {{ navidrome_host }}
+      - name: Proxmox
+        url: http://{{ proxmox_host }}:{{ proxmox_port }}
+        tag: {{ proxmox_host }}
+      - name: Proxmox Dev
+        url: http://{{ proxmox_dev_host }}:{{ proxmox_port }}
+        tag: {{ proxmox_dev_host }}
   - name: Bookmarks
     items:
       - name: Khloe's Thingiverse Collection

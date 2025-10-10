@@ -102,7 +102,7 @@ all:
         deployed_domain: "jaeseo.stream"
       # Internal apps below:
       - name: homer
-        port: 8080
+        port: 80
         host: malfoy
       - name: pihole
         port: 805

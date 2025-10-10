@@ -1,0 +1,10 @@
+services:
+  homer:
+    image: b4bz/homer:latest
+    container_name: homer
+    restart: unless-stopped
+    ports:
+      - "{{ homer_port }}:8080"
+    volumes:
+      - "{{ img_path }}:/www/assets/img:ro"
+      - "{{ config_path }}:/www/assets/config.yml:ro"
