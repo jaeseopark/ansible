@@ -1,3 +1,6 @@
+---
+vps_domain_email: admin@jaeseo.stream
+
 app_overrides:
   paperless:
     additional_config: client_max_body_size 1024m;

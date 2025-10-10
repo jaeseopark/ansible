@@ -1,0 +1,15 @@
+---
+- hosts: vps-hosts
+  roles:
+    - role: wireguard
+      wireguard_mode: server
+
+- hosts: wireguard-clients  
+  roles:
+    - role: wireguard
+      wireguard_mode: client
+
+- hosts: vps-hosts
+  roles:
+    - role: wireguard
+      wireguard_mode: server_final

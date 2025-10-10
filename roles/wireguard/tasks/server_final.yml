@@ -1,0 +1,30 @@
+---
+- name: Ensure client public keys are absent
+  file:
+    name: "{{ client_public_key_folder_on_master }}"
+    state: absent
+
+- name: Copy client public key folder from the master node
+  copy:
+    src: "{{ client_public_key_folder_on_master }}/"
+    dest: "{{ client_public_keys_path }}"
+    directory_mode: yes
+
+- name: Add the client public keys to the wg config file
+  shell: |
+    tee -a {{ wg_conf_path }} <<EOF
+    [Peer]
+    AllowedIPs = {{ hostvars[item].wg_ip }}/32
+    PublicKey = $(cat {{ client_public_keys_path }}/{{ item }}.key)
+    EOF
+  with_items: "{{ groups['wireguard-clients'] }}"
+
+- name: Ensure wg-quick is a startup service
+  systemd:
+    name: wg-quick@wg0.service
+    enabled: yes
+
+- name: Ensure wg-quick is running
+  systemd:
+    name: wg-quick@wg0.service
+    state: started

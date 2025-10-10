@@ -1,0 +1,15 @@
+---
+# Server setup tasks
+- name: Server setup tasks
+  include_tasks: server.yml
+  when: wireguard_mode == 'server'
+
+# Client setup tasks  
+- name: Client setup tasks
+  include_tasks: client.yml
+  when: wireguard_mode == 'client'
+
+# Final server configuration with client keys
+- name: Final server configuration
+  include_tasks: server_final.yml
+  when: wireguard_mode == 'server_final'

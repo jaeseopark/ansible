@@ -1,0 +1,18 @@
+---
+# Wireguard network configuration
+wg_server_ip: 10.8.0.1
+
+# Default paths for wireguard configuration
+private_key_path: /etc/wireguard/private.key
+public_key_path: /etc/wireguard/public.key
+wg_conf_path: /etc/wireguard/wg0.conf
+
+# Server-specific variables
+vps_public_key_path: tmp/server_public.key
+
+# Client-specific variables  
+server_public_key_path: /etc/wireguard/server_public.key
+client_public_key_folder_on_master: tmp/client_public_keys
+
+# Server final configuration variables
+client_public_keys_path: /etc/wireguard/client_public_keys

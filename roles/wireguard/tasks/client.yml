@@ -1,0 +1,54 @@
+---
+- name: Ensure wireguard is installed
+  package:
+    name: wireguard
+    state: present
+
+- name: Ensure wg-quick is not running
+  systemd:
+    name: wg-quick@wg0.service
+    state: stopped
+
+- name: Copy server public key
+  copy:
+    src: "{{ vps_public_key_path }}"
+    dest: "{{ server_public_key_path }}"
+
+- name: Save server public key as a variable
+  shell: "cat {{ server_public_key_path }}"
+  register: server_public_key
+
+- name: Generate the private key file
+  shell: "wg genkey | tee {{ private_key_path }}"
+  register: private_key
+
+- name: Ensure only root can see the private key
+  file:
+    name: "{{ private_key_path }}"
+    owner: root
+    group: root
+    mode: go=
+
+- name: Generate the public key file
+  shell: "echo {{ private_key.stdout }} | wg pubkey | tee {{ public_key_path }}"
+
+- name: Write the wg config file
+  template:
+    src: wg-clients.conf.j2
+    dest: "{{ wg_conf_path }}"
+
+- name: Ensure wg-quick is a startup service
+  systemd:
+    name: wg-quick@wg0.service
+    enabled: yes
+
+- name: Ensure wg-quick is running
+  systemd:
+    name: wg-quick@wg0.service
+    state: started
+
+- name: Copy the public key file to the master node
+  fetch:
+    src: "{{ public_key_path }}"
+    dest: "{{ client_public_key_folder_on_master }}/{{ inventory_hostname }}.key"
+    flat: yes

@@ -24,25 +24,10 @@ all:
           ansible_user: root
           wg_ip: 10.8.0.4
           ip: 192.168.86.170
-    vpnservers:
-      children:
-        ionos:
-    vpnclients:
+    wireguard-clients:
       children:
         bigboi:
         malfoy:
-    vpn:
-      children:
-        vpnservers:
-        vpnclients:
-      vars:
-        vps_domain: jaeseo.stream
-        vps_domain_email: admin@jaeseo.stream
-        private_key_path: /etc/wireguard/private.key
-        public_key_path: /etc/wireguard/public.key
-        client_public_key_folder_on_master: client_public_keys
-        wg_conf_path: /etc/wireguard/wg0.conf
-        wg_server_ip: 10.8.0.1
     nasclients:
       children:
         malfoy:
@@ -98,6 +83,7 @@ all:
         ionos:
   vars:
     ansible_python_interpreter: /usr/bin/python3
+    vps_domain: jaeseo.stream
     nas_host: bigboi
     timezone: America/Denver
     jellyfin_trns_port: 28416
@@ -113,7 +99,6 @@ all:
     proxmox_port: 8006
     proxmox_dev_host: crispbox
     restic_s3_bucket: jaeseopark-restic
-    vps_public_key_path: vpn/server_public.key
     apps:
       - name: jellyfin
         port: 8096
