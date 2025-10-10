@@ -1,0 +1,59 @@
+{% for app in app_configs %}
+{% if app.is_default | default(false) %}
+
+# Default server behaviour:
+# jellyfin.jaeseo.stream ... [301] jaeseo.stream
+# jaeseo.stream ............ served directly
+
+server {
+    # Default app: base domain serves the app directly
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    server_name {{ app.domain }};
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    ssl_certificate /etc/letsencrypt/live/{{ app.domain }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ app.domain }}/privkey.pem; # managed by Certbot
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ app.domain }}/chain.pem;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    proxy_pass_request_headers on;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $http_connection;
+    proxy_buffering off;
+
+    location / {
+        {% if 'additional_config' in app %}
+        {{ app.additional_config }}
+        {% endif %}
+        proxy_pass http://{{ app.name }}$request_uri;
+    }
+}
+
+server {
+    # Default app: subdomain proxies to base domain
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    server_name {{ app.name }}.{{ app.domain }};
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    ssl_certificate /etc/letsencrypt/live/{{ app.domain }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ app.domain }}/privkey.pem; # managed by Certbot
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ app.domain }}/chain.pem;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    location / {
+        return 301 https://{{ app.domain }}$request_uri;
+    }
+}
+{% endif %}
+{% endfor %}

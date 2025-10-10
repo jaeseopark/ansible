@@ -1,3 +1,7 @@
 app_path: "/app/homer"
 config_path: "{{ app_path }}/config.yml"
 img_path: "{{ app_path }}/homer-img"
+
+# Computed app variables for homer links
+jellyfin_app_object: "{{ apps | selectattr('name', 'equalto', 'jellyfin') | first }}"
+jellyfin_host: "{{ jellyfin_app_object.host }}"

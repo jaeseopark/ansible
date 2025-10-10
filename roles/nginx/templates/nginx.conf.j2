@@ -6,73 +6,9 @@ events {
 }
 
 http {
-
-{% for app in app_configs %}
-upstream {{ app.name }} {
-    server {{ app.ip }}:{{ app.port }};
-}
-{% endfor %}
-
-{% for app in app_configs %}
-{% if app.is_default | default(false) %}
-server {
-    listen {{ app.port }};
-    listen [::]:{{ app.port }};
-    server_name {{ vps_domain }} {{ app.name }}.{{ vps_domain }};
-    location / {
-        proxy_pass http://{{ app.name }}$request_uri;
-    }
-}
-
-server {
-    # The default app is {{ app.name }}.
-    listen 80;
-    listen [::]:80;
-    server_name {{ vps_domain }};
-    return 301 https://{{ app.name }}.$host$request_uri;
-}
-{% endif %}
-{% endfor %}
-
-server {
-    # Forward all traffic to HTTPS
-    listen 80;
-    listen [::]:80;
-    server_name *.{{ vps_domain }};
-    return 301 https://$host$request_uri;
-}
-
-{% for app in app_configs %}
-server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-
-    server_name {{ app.name }}.{{ vps_domain }};
-
-    add_header Strict-Transport-Security "max-age=31536000" always;
-    ssl_certificate /etc/letsencrypt/live/{{ vps_domain }}/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/{{ vps_domain }}/privkey.pem; # managed by Certbot
-    ssl_trusted_certificate /etc/letsencrypt/live/{{ vps_domain }}/chain.pem;
-    ssl_stapling on;
-    ssl_stapling_verify on;
-
-    proxy_pass_request_headers on;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-Host $http_host;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $http_connection;
-    proxy_buffering off;
-
-    location / {
-        {% if 'additional_config' in app %}
-        {{ app.additional_config }}
-        {% endif %}
-        proxy_pass http://{{ app.name }}$request_uri;
-    }
-}
-{% endfor %}
-
+    {% include 'upstream.j2' %}
+    {% include 'ssl-redirects.j2' %}
+    {% include 'default-servers.j2' %}
+    {% include 'regular-servers.j2' %} # servers for specific apps (known subdomain match)
+    {% include 'unknown-subdomain-servers.j2' %} # catch-all redirects back to base domain
 }

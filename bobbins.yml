@@ -1,0 +1,23 @@
+- name: Determine bobbins target host
+  hosts: localhost
+  vars:
+    app_name: bobbins
+  roles:
+    - dynamic_host_resolver
+
+- name: Bobbins
+  hosts: resolved_host
+  vars:
+    app_path: "/app/bobbins"
+    mnt_path: "{{ app_path }}/mnt"
+    data_path: "{{ mnt_path }}/data"
+    # Computed bobbins app variables
+    bobbins_app_object: "{{ apps | selectattr('name', 'equalto', 'bobbins') | first }}"
+    bobbins_port: "{{ bobbins_app_object.port }}"
+    # Restic backup variables
+    restic_repository_name: "bobbins"
+    restic_backup_paths:
+      - src: "{{ data_path }}"
+  roles:
+    - bobbins
+    - restic

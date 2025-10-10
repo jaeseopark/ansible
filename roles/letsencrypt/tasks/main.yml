@@ -27,26 +27,31 @@
   ufw:
     state: reloaded
 
-- name: Generate certificate
+- name: Generate certificates for each domain group
   shell: >
     certbot certonly
-    -d {{ cert_domains | join(',') }}
-    -m {{ cert_email }}
+    -d {{ item.value | join(',') }}
+    -m {{ letsencrypt_email }}
     --preferred-challenges http
     --standalone
     --expand
     --agree-tos
     --no-eff-email
   args:
-    creates: "/etc/letsencrypt/live/{{ cert_primary_domain }}/fullchain.pem"
+    creates: "/etc/letsencrypt/live/{{ item.key }}/fullchain.pem"
+  loop: "{{ cert_domain_groups | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
 
-- name: Ensure the cert/key files exist
+- name: Ensure the cert/key files exist for each domain
   file: 
-    name: "{{ item }}"
+    name: "/etc/letsencrypt/live/{{ item[0].key }}/{{ item[1] }}"
     state: file
-  loop:
-    - "/etc/letsencrypt/live/{{ cert_primary_domain }}/fullchain.pem"
-    - "/etc/letsencrypt/live/{{ cert_primary_domain }}/privkey.pem"
+  with_nested:
+    - "{{ cert_domain_groups | dict2items }}"
+    - ['fullchain.pem', 'privkey.pem']
+  loop_control:
+    label: "{{ item[0].key }}/{{ item[1] }}"
 
 - name: Ensure certificate renewal cron job exists
   cron:

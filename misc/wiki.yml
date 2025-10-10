@@ -2,6 +2,9 @@
 - hosts: malfoy
   vars:
     app_path: /app/wiki
+    # Computed wiki app variables  
+    wiki_app_object: "{{ apps | selectattr('name', 'equalto', 'wiki') | first }}"
+    wiki_port: "{{ wiki_app_object.port }}"
   tasks:
     - name: Ensure folders exists
       file:

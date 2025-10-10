@@ -1,5 +1,5 @@
 ---
-vps_domain_email: admin@jaeseo.stream
+letsencrypt_email: admin@jaeseo.stream
 
 app_overrides:
   paperless:

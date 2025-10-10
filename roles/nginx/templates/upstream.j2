@@ -1,0 +1,5 @@
+{% for app in app_configs %}
+upstream {{ app.name }} {
+    server {{ app.ip }}:{{ app.port }};
+}
+{% endfor %}

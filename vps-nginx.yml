@@ -2,6 +2,6 @@
 - hosts: vps_hosts
   become: true
   roles:
-    - role: ../roles/letsencrypt
+    - role: letsencrypt
       when: generate_certificates | default(false) | bool
-    - ../roles/nginx
+    - nginx

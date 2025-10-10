@@ -1,0 +1,11 @@
+- name: Determine homer target host
+  hosts: localhost
+  vars:
+    app_name: homer
+  roles:
+    - dynamic_host_resolver
+
+- name: Homer
+  hosts: resolved_host
+  roles:
+    - homer

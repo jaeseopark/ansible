@@ -1,0 +1,12 @@
+---
+- name: stop docker compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: clean_restart | default(false)
+
+- name: start docker compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: present
+    pull: missing

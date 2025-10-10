@@ -1,0 +1,10 @@
+{% set all_domains = app_configs | map(attribute='domain') | unique | list %}
+{% for domain in all_domains %}
+server {
+    # Forward all traffic to HTTPS for {{ domain }}
+    listen 80;
+    listen [::]:80;
+    server_name *.{{ domain }};
+    return 301 https://$host$request_uri;
+}
+{% endfor %}

@@ -1,10 +1,11 @@
 ---
-cert_primary_domain: "{{ vps_domain }}"
-cert_email: "{{ vps_domain_email }}"
-
-# Derive cert_domains from nginx apps configuration
-cert_domains: >-
-  {{
-    [vps_domain] + 
-    (apps | default([]) | selectattr('is_deployed', 'equalto', true) | map(attribute='name') | map('regex_replace', '^(.*)$', '\1.' + vps_domain) | list)
-  }}
+cert_domain_groups: >-
+  {%- set domain_groups = {} -%}
+  {%- for app in (apps | default([]) | selectattr('deployed_domain', 'defined')) -%}
+    {%- set base_domain = app.deployed_domain -%}
+    {%- if base_domain not in domain_groups -%}
+      {%- set _ = domain_groups.update({base_domain: [base_domain]}) -%}
+    {%- endif -%}
+    {%- set _ = domain_groups[base_domain].append(app.name + '.' + base_domain) -%}
+  {%- endfor -%}
+  {{ domain_groups }}

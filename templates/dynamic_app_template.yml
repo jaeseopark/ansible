@@ -1,0 +1,22 @@
+---
+# Template for dynamic host resolution playbooks
+# Usage: 
+# 1. Copy this template
+# 2. Replace 'APP_NAME' with your app name (e.g., 'homer', 'paperless')
+# 3. All playbooks use the same generic target group 'resolved_host'
+# 4. Add your vars and roles to the second play
+
+- name: Determine APP_NAME target host
+  hosts: localhost
+  vars:
+    app_name: APP_NAME  # ⭐ CHANGE THIS: Set to your app name
+  roles:
+    - dynamic_host_resolver
+
+- name: APP_NAME
+  hosts: resolved_host  # ⭐ ALWAYS USE THIS: Generic resolved host group
+  vars:
+    # Add your app-specific variables here
+  roles:
+    # Add your app-specific roles here
+    - APP_NAME  # ⭐ CHANGE THIS: Usually matches your app name

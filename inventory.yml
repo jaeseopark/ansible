@@ -39,109 +39,80 @@ all:
     mac_hosts:
       children:
         atlas:
-    jellyfin_hosts:
-      children:
-        bigboi:
-    paperless_hosts:
-      children:
-        malfoy:
-    radarr_hosts:
-      children:
-        malfoy:
-    sonarr_hosts:
-      children:
-        malfoy:
-    lidarr_hosts:
-      children:
-        malfoy:
-    prowlarr_hosts:
-      children:
-        malfoy:
-    homeassistant_hosts:
-      children:
-        malfoy:
-    wiki_hosts:
-      children:
-        malfoy:
     webcam_hosts:
       children:
         webcampi.local:
-    homer_hosts:
-      children:
-        malfoy:
-    receep_hosts:
-      children:
-        malfoy:
-    bobbins_hosts:
-      children:
-        malfoy:
-    corganize_server_hosts:
-      children:
-        malfoy:
     vps_hosts:
       children:
         ionos:
   vars:
     ansible_python_interpreter: /usr/bin/python3
-    vps_domain: jaeseo.stream
     nas_host: bigboi
     timezone: America/Denver
     jellyfin_trns_port: 28416
     jellyfin_trns_bkup_port: 28417
     corganize_server_port: 5822
-    pihole_host: malfoy
-    pihole_port: 805
-    arr_host: malfoy
-    homeassistant_proxy_host: malfoy
-    navidrome_host: bigboi
-    navidrome_port: 4533
-    proxmox_host: malfoy
-    proxmox_port: 8006
-    proxmox_dev_host: crispbox
     restic_s3_bucket: jaeseopark-restic
     apps:
       - name: jellyfin
         port: 8096
         host: bigboi
-        is_deployed: true
+        deployed_domain: "jaeseo.stream"
         is_default: true
       - name: paperless
-        is_deployed: true
         port: 29743
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: radarr
-        is_deployed: true
         port: 7878
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: sonarr
-        is_deployed: true
         port: 8989
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: lidarr
-        is_deployed: true
         port: 8686
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: prowlarr
-        is_deployed: true
         port: 9696
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: homeassistant
-        is_deployed: true
         port: 8123
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: corganize
-        is_deployed: true
         port: 5824
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: wiki
-        is_deployed: true
         port: 48211
         host: malfoy
+        deployed_domain: "jaeseo.stream"
       - name: bobbins
-        is_deployed: true
         port: 32933
         host: malfoy
+        deployed_domain: "bobbins.top"
+        is_default: true
       - name: receep
-        is_deployed: true
         port: 18467
         host: malfoy
+        deployed_domain: "jaeseo.stream"
+      # Internal apps below:
+      - name: homer
+        port: 8080
+        host: malfoy
+      - name: pihole
+        port: 805
+        host: malfoy
+      - name: navidrome
+        port: 4533
+        host: bigboi
+      - name: proxmox
+        port: 8006
+        host: malfoy
+      - name: proxmox-dev
+        port: 8006
+        host: crispbox

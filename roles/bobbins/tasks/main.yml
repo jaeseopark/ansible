@@ -25,14 +25,10 @@
     src: "bobbins.env"
     dest: "{{ app_path }}/.env"
 
-- name: Ensure Docker Compose is stopped (if clean restart requested)
-  community.docker.docker_compose_v2:
-    project_src: "{{ app_path }}"
-    state: absent
-  when: clean_restart | default(false)
-
-- name: Ensure Docker Compose is running
-  community.docker.docker_compose_v2:
-    project_src: "{{ app_path }}"
-    state: present
-    pull: missing
+- name: Copy docker-compose template to app path
+  template:
+    src: "docker-compose.j2"
+    dest: "{{ app_path }}/docker-compose.yml"
+  notify:
+    - stop docker compose
+    - start docker compose

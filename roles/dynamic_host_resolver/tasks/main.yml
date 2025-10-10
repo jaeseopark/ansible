@@ -1,0 +1,20 @@
+---
+- name: "Validate that app_name is provided"
+  assert:
+    that:
+      - app_name is defined
+      - app_name | length > 0
+    fail_msg: "app_name variable is required and must not be empty"
+    success_msg: "app_name validation passed: {{ app_name }}"
+
+- name: "Validate that app exists in apps list"
+  assert:
+    that:
+      - apps | selectattr('name', 'equalto', app_name) | list | length > 0
+    fail_msg: "App '{{ app_name }}' not found in apps list. Available apps: {{ apps | map(attribute='name') | list | join(', ') }}"
+    success_msg: "Found app '{{ app_name }}' in apps list"
+
+- name: "Set target host for {{ app_name }}"
+  add_host:
+    name: "{{ (apps | selectattr('name', 'equalto', app_name) | first).host }}"
+    groups: resolved_host

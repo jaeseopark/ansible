@@ -36,9 +36,9 @@ services:
       PGID: 1000
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
-      PAPERLESS_URL: "https://paperless.{{ vps_domain }}"
-      PAPERLESS_ALLOWED_HOSTS: "localhost,{{ paperless_host }},paperless.{{ vps_domain }}"
-      PAPERLESS_CORS_ALLOWED_HOSTS: "http://localhost:8000,https://paperless.{{ vps_domain }}"
+      PAPERLESS_URL: "{{ paperless_url }}"
+      PAPERLESS_ALLOWED_HOSTS: "{{ paperless_allowed_hosts }}"
+      PAPERLESS_CORS_ALLOWED_HOSTS: "{{ paperless_cors_allowed_hosts }}"
 
 volumes:
   redisdata:

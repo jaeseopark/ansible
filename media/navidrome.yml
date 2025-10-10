@@ -5,6 +5,9 @@
     mnt_path: "{{ app_path }}/mnt"
     docker_compose_path: "{{ app_path }}/docker-compose.yml"
     library_path: /mnt/media/music
+    # Computed navidrome app variables
+    navidrome_app_object: "{{ apps | selectattr('name', 'equalto', 'navidrome') | first }}"
+    navidrome_port: "{{ navidrome_app_object.port }}"
   tasks:
     - name: Ensure folders exists
       file:

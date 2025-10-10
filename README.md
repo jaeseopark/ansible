@@ -21,13 +21,13 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 ```bash
 # For all commands: clean restart docker compose with "-e clean_restart=true" (defaults to false)
 
-ansible-playbook --ask-vault-password playbooks/paperless.yml
-ansible-playbook --ask-vault-password playbooks/receep.yml
-ansible-playbook --ask-vault-password playbooks/bobbins.yml
-ansible-playbook --ask-vault-password playbooks/corganize.yml
-ansible-playbook playbooks/vps-nginx.yml # optionally: -e generate_certificates=true
-ansible-playbook playbooks/webcam.yml
-ansible-playbook playbooks/homer.yml
+ansible-playbook --ask-vault-password paperless.yml
+ansible-playbook --ask-vault-password receep.yml
+ansible-playbook --ask-vault-password bobbins.yml
+ansible-playbook --ask-vault-password corganize.yml
+ansible-playbook vps-nginx.yml # optionally: -e generate_certificates=true
+ansible-playbook webcam.yml
+ansible-playbook homer.yml
 
 ansible-playbook vpn/wg.yml
 

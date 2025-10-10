@@ -1,4 +1,0 @@
-- name: Homer
-  hosts: homer_hosts
-  roles:
-    - homer

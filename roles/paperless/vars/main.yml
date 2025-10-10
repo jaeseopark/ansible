@@ -1,2 +1,10 @@
 docker_compose_path: "{{ app_path }}/docker-compose.yml"
 env_file_path: "{{ app_path }}/paperless.env"
+
+# Computed paperless app variables
+paperless_app_object: "{{ apps | selectattr('name', 'equalto', 'paperless') | first }}"
+paperless_domain: "{{ paperless_app_object.deployed_domain }}"
+paperless_host_name: "{{ paperless_app_object.host }}"
+paperless_url: "https://paperless.{{ paperless_domain }}"
+paperless_allowed_hosts: "localhost,{{ paperless_host_name }},paperless.{{ paperless_domain }}"
+paperless_cors_allowed_hosts: "http://localhost:8000,https://paperless.{{ paperless_domain }}"

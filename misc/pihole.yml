@@ -2,6 +2,9 @@
 - hosts: malfoy
   vars:
     app_path: /app/pihole
+    # Computed pihole app variables
+    pihole_app_object: "{{ apps | selectattr('name', 'equalto', 'pihole') | first }}"
+    pihole_port: "{{ pihole_app_object.port }}"
   tasks:
     - name: Ensure the app folder exists
       file:

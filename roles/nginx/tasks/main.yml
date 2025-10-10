@@ -1,14 +1,16 @@
 ---
-- name: Transform apps list into objects with name, ip, port, and overrides
+- name: Transform apps list into objects with name, ip, port, domain, and overrides
   set_fact:
     app_configs: >-
       {%- set result = [] -%}
       {%- for app in apps -%}
-        {%- if app.is_deployed and 'host' in app and 'port' in app -%}
+        {%- if app.deployed_domain is defined and 'host' in app and 'port' in app -%}
           {%- set base_config = {
             'name': app.name,
             'ip': hostvars[app.host].wg_ip,
-            'port': app.port
+            'port': app.port,
+            'domain': app.deployed_domain,
+            'is_default': app.is_default | default(false)
           } -%}
           {%- set final_config = base_config | combine((app_overrides | default({}))[app.name] | default({}), recursive=True) -%}
           {%- set _ = result.append(final_config) -%}
@@ -16,19 +18,31 @@
       {%- endfor -%}
       {{ result }}
 
-- name: Validate that only one app is marked as default
+- name: Validate that only one app is marked as default per domain
   assert:
     that:
-      - (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | list | length) == 1
-    fail_msg: "Exactly one app must have is_default set to true. Found {{ apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | list | length }} apps with is_default=true."
-    success_msg: "Validation passed: exactly one app is marked as default."
+      - item[1] | length == 1
+    fail_msg: "Exactly one app per domain must have is_default set to true. Domain '{{ item[0] }}' has {{ item[1] | length }} default apps: {{ item[1] | map(attribute='name') | list | join(', ') }}."
+    success_msg: "Validation passed: exactly one app is marked as default for domain '{{ item[0] }}'."
+  loop: >-
+    {{
+      apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | selectattr('deployed_domain', 'defined') 
+      | groupby('deployed_domain') | list
+    }}
+  loop_control:
+    label: "{{ item[0] }}"
 
-- name: Validate that the default app is deployed
+- name: Validate that default apps are properly configured
   assert:
     that:
-      - (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | first).is_deployed | default(false)
-    fail_msg: "The default app must have is_deployed set to true. Default app '{{ (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | first).name }}' has is_deployed={{ (apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | first).is_deployed | default(false) }}."
-    success_msg: "Validation passed: the default app is deployed."
+      - item.deployed_domain is defined
+      - item.host is defined
+      - item.port is defined
+    fail_msg: "Default app '{{ item.name }}' for domain '{{ item.deployed_domain }}' must have deployed_domain, host, and port defined."
+    success_msg: "Validation passed: default app '{{ item.name }}' is properly configured."
+  loop: "{{ apps | selectattr('is_default', 'defined') | selectattr('is_default', 'equalto', true) | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.deployed_domain | default('no domain') }})"
 
 - name: Install nginx
   package:

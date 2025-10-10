@@ -1,0 +1,24 @@
+- name: Determine receep target host
+  hosts: localhost
+  gather_facts: false
+  vars:
+    receep_app_object: "{{ apps | selectattr('name', 'equalto', 'receep') | first }}"
+  tasks:
+    - name: Set target host for receep
+      add_host:
+        name: "{{ receep_app_object.host }}"
+        groups: receep_target
+
+- name: Receep
+  hosts: receep_target
+  vars:
+    app_path: "/app/receep"
+    env_parts: "{{ app_path }}/env_parts"
+    mnt_path: "{{ app_path }}/mnt"
+    data_path: "{{ mnt_path }}/data"
+    restic_repository_name: "receep"
+    restic_backup_paths:
+      - src: "{{ data_path }}"
+  roles:
+    - receep
+    - restic

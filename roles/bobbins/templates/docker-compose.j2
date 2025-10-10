@@ -1,0 +1,38 @@
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/templates/dev.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - {{ data_path }}/products:/products:ro
+      - ./templates:/templates:ro
+    ports:
+      - "{{ bobbins_port }}:80"
+    depends_on:
+      - "ui"
+      # - "api"
+    environment:
+      TZ: {{ timezone }}
+  ui:
+    image: node:21
+    working_dir: /app/ui
+    command: sh -c "yarn install && yarn dev"
+    volumes:
+      - ./ui:/app/ui
+    environment:
+      TZ: {{ timezone }}
+  api:
+    image: bobbins-api:latest
+    build:
+      context: api
+    working_dir: /app/api
+    stop_signal: SIGINT # https://github.com/docker/compose/issues/4199#issuecomment-426109482
+    command: uvicorn main:fastapi_app --reload --host 0.0.0.0 --port 80
+    env_file:
+      - .env
+    volumes:
+      - ./api:/app/api
+      - {{ data_path }}:/data
+      - ./templates:/app/templates:ro
+      - {{ mnt_path }}/logs:/var/log/bobbins/api
+    environment:
+      TZ: {{ timezone }}
