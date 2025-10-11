@@ -1,0 +1,5 @@
+---
+ssl_path: ~/Library/Application Support/barrier/SSL
+pem_name: Barrier.pem
+clients: # displaynames of the clients
+  - intuit
