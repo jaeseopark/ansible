@@ -1,0 +1,42 @@
+---
+- name: Move dock to the left
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: orientation
+    type: string
+    value: left
+
+- name: Enable auto hide
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: autohide
+    type: bool
+    value: true
+
+- name: Eliminate auto hide delay
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: autohide-delay
+    type: float
+    value: 0
+
+- name: Remove auto hide time modiifer
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: autohide-time-modifier
+    type: int
+    value: 0
+
+- name: Empty the dock
+  shell: "/opt/homebrew/bin/dockutil --remove all --no-restart" # skip restart until the end
+
+- name: Populate items
+  shell: "/opt/homebrew/bin/dockutil --add '{{ item }}' --no-restart"
+  loop: "{{ docked_items }}"
+  ignore_errors: true
+
+- name: Add Desktop
+  shell: "/opt/homebrew/bin/dockutil --add '~/Desktop' --view grid --display folder --sort dateadded --allhomes --no-restart"
+
+- name: Add Downloads
+  shell: "/opt/homebrew/bin/dockutil --add '~/Downloads' --view grid --display folder --sort dateadded --allhomes"
