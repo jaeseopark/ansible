@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID={{ puid }}
+      - PGID={{ pgid }}
+    volumes:
+      - {{ jellyfin_mnt_path }}:/config
+      - {{ media_path }}:/data:ro
+    ports:
+      - "{{ jellyfin_port }}:{{ jellyfin_port }}"
+    restart: unless-stopped

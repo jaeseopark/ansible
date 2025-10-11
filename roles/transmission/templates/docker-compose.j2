@@ -1,20 +1,8 @@
 version: "3.7"
 services:
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
-    container_name: jellyfin
-    environment:
-      - PUID={{ puid }}
-      - PGID={{ pgid }}
-    volumes:
-      - {{ jellyfin_mnt_path }}:/config
-      - {{ media_path }}:/data:ro
-    ports:
-      - "{{ jellyfin_port }}:{{ jellyfin_port }}"
-    restart: unless-stopped
   wireguard:
     image: ghcr.io/linuxserver/wireguard:latest
-    container_name: jellyfin-wireguard
+    container_name: transmission-wireguard
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -36,7 +24,7 @@ services:
     restart: unless-stopped
   transmission:
     image: ghcr.io/linuxserver/transmission:latest
-    container_name: jellyfin-transmission
+    container_name: transmission
     environment:
       - PUID={{ puid }}
       - PGID={{ pgid }}
@@ -52,7 +40,7 @@ services:
     depends_on: [ "wireguard", ]
   transmission-bkup:
     image: ghcr.io/linuxserver/transmission:latest
-    container_name: jellyfin-transmission-bkup
+    container_name: transmission-bkup
     environment:
       - PUID={{ puid }}
       - PGID={{ pgid }}
