@@ -1,0 +1,5 @@
+---
+automator_path: "~/Automator"
+source_path: "{{ automator_path }}/.source"
+fish_perfect_repo_url: "https://github.com/jaeseopark/fish_perfect.git"
+branch: "master"
