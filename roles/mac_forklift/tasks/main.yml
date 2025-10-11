@@ -1,0 +1,10 @@
+---
+- name: Copy favorites
+  copy:
+    src: forklift3-favs.json
+    dest: ~/Library/Application Support/ForkLift/Favorites/Favorites.json
+
+- name: Copy plist
+  copy:
+    src: forklift3.plist
+    dest: ~/Library/Preferences/com.binarynights.ForkLift-3.plist
