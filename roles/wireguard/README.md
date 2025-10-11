@@ -38,7 +38,6 @@ All default variables are defined in `vars/main.yml`:
 - `wg_conf_path`: Path to wireguard config file (default: `/etc/wireguard/wg0.conf`)
 - `vps_public_key_path`: Path where server public key is stored on master
 - `server_public_key_path`: Path where server public key is stored on clients
-- `client_public_key_folder_on_master`: Directory for client public keys on master
 - `client_public_keys_path`: Directory for client public keys on server
 
 Additional variables needed in inventory:

@@ -50,5 +50,5 @@
 - name: Copy the public key file to the master node
   fetch:
     src: "{{ public_key_path }}"
-    dest: "{{ client_public_key_folder_on_master }}/{{ inventory_hostname }}.key"
+    dest: "{{ client_public_key_path }}/{{ inventory_hostname }}.key"
     flat: yes

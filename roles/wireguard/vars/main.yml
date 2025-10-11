@@ -7,12 +7,11 @@ private_key_path: /etc/wireguard/private.key
 public_key_path: /etc/wireguard/public.key
 wg_conf_path: /etc/wireguard/wg0.conf
 
-# Server-specific variables
-vps_public_key_path: tmp/server_public.key
-
-# Client-specific variables  
+# Key paths on remote hosts
 server_public_key_path: /etc/wireguard/server_public.key
-client_public_key_folder_on_master: tmp/client_public_keys
-
-# Server final configuration variables
 client_public_keys_path: /etc/wireguard/client_public_keys
+
+# Master node path variables
+master_tmp_path: tmp
+master_vps_public_key_path: "{{ master_tmp_path }}/server_public.key"
+master_client_public_key_folder_path: "{{ master_tmp_path }}/client_public_keys"

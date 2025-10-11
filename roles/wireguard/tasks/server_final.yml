@@ -1,12 +1,12 @@
 ---
 - name: Ensure client public keys are absent
   file:
-    name: "{{ client_public_key_folder_on_master }}"
+    name: "{{ client_public_key_path }}"
     state: absent
 
 - name: Copy client public key folder from the master node
   copy:
-    src: "{{ client_public_key_folder_on_master }}/"
+    src: "./client_keys/"
     dest: "{{ client_public_keys_path }}"
     directory_mode: yes
 

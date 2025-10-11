@@ -1,4 +1,15 @@
 ---
+# Validate wireguard_mode variable
+- name: Validate wireguard_mode is defined
+  fail:
+    msg: "wireguard_mode variable is required but not defined"
+  when: wireguard_mode is not defined
+
+- name: Validate wireguard_mode value
+  fail:
+    msg: "wireguard_mode must be one of: server, client, server_final. Current value: {{ wireguard_mode }}"
+  when: wireguard_mode not in ['server', 'client', 'server_final']
+
 # Server setup tasks
 - name: Server setup tasks
   include_tasks: server.yml
