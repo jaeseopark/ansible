@@ -1,0 +1,27 @@
+---
+- name: Manage shell aliases across profiles
+  block:
+    - name: Create shell profile files if they don't exist
+      file:
+        path: "{{ item }}"
+        state: touch
+        mode: '0644'
+      loop: "{{ shell_profiles }}"
+      tags: shell_aliases
+
+    - name: Remove existing alias blocks from shell profiles
+      replace:
+        path: "{{ item }}"
+        regexp: '{{ block_start_const | regex_escape }}[\s\S]*?{{ block_end_const | regex_escape }}\n?'
+        replace: ''
+      loop: "{{ shell_profiles }}"
+      tags: shell_aliases
+
+    - name: Add new alias block to shell profiles
+      blockinfile:
+        path: "{{ item }}"
+        block: "{{ lookup('template', 'shell_aliases.j2') }}"
+        marker: ""
+        insertafter: EOF
+      loop: "{{ shell_profiles }}"
+      tags: shell_aliases

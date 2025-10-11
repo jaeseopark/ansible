@@ -1,0 +1,6 @@
+shell_profiles:
+- "~/.bash_profile"
+- "~/.zshrc"
+
+block_start_const: "# BEGIN_ANSIBLE_MANGED_SHELL_ALIASES"
+block_end_const: "# END_ANSIBLE_MANGED_SHELL_ALIASES"

@@ -1,0 +1,8 @@
+{{ block_start_const }}
+
+export ANSIBLE_INVENTORY=inventory.yml
+alias mp3="yt-dlp --extract-audio --audio-format mp3"
+
+{% include 'm4a.j2' %}
+
+{{ block_end_const }}

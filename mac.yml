@@ -6,6 +6,7 @@
   roles:
     - automator_fish_perfect
     - mac_apps
+    - mac_shell_aliases
     - mac_dns
     - mac_dock
     - mac_safari

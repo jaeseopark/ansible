@@ -10,9 +10,7 @@ ssh-add
 
 ```bash
 # Setup mac hosts
-echo 'export ANSIBLE_INVENTORY=inventory.yml' >> ~/.bash_profile
-echo 'export ANSIBLE_INVENTORY=inventory.yml' >> ~/.zshrc
-ansible-playbook mac/main.yml
+ansible-playbook  mac.yml
 
 # Orca Slicer disaster recovery (User presets)
 ansible-playbook mac/orcaslicer/restore-presets.yml

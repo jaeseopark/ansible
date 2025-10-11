@@ -2,6 +2,7 @@
 homebrewapps:
   - ansible
   - dockutil
+  - yt-dlp
 caskapps:
   - orcaslicer
   - github
