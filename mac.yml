@@ -5,3 +5,4 @@
   gather_facts: yes
   roles:
     - automator_fish_perfect
+    - mac_apps

@@ -1,0 +1,24 @@
+---
+homebrewapps:
+  - ansible
+  - dockutil
+caskapps:
+  - orcaslicer
+  - github
+  - discord
+  - visual-studio-code
+  - autodesk-fusion
+  - barrier
+  - google-chrome
+  - balenaetcher
+  - db-browser-for-sqlite
+  - firefox
+  - licecap
+  - pycharm-ce
+  - postman
+  - openscad
+  - blender
+  - mqtt-explorer
+  - audacity
+  - ffmpeg
+  - dbeaver-community
