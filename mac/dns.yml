@@ -1,9 +1,0 @@
----
-- hosts: mac_hosts
-  vars:
-    dns_server_ip: 192.168.86.170
-  tasks:
-    - name: Set DNS server
-      shell: "networksetup -setdnsservers Ethernet {{ dns_server_ip }}"
-    - name: Flush DNS cache
-      shell: dscacheutil -flushcache

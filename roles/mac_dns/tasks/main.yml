@@ -1,0 +1,6 @@
+---
+- name: Set DNS server
+  shell: "networksetup -setdnsservers Ethernet {{ dns_server_ip }}"
+
+- name: Flush DNS cache
+  shell: dscacheutil -flushcache
