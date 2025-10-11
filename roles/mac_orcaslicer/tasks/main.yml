@@ -1,0 +1,24 @@
+---
+- name: Copy OrcaSlicer presets
+  copy:
+    src: "presets/"
+    dest: "{{ orcaslicer_presets_path }}/"
+    mode: '0644'
+
+- name: Manage OrcaSlicer configuration
+  block:
+    - name: Fetch current config
+      fetch:
+        src: "{{ remote_config_path }}"
+        dest: "{{ tmp_download_path }}"
+        flat: yes
+
+    - name: Load current config
+      include_vars:
+        file: "{{ tmp_download_path }}"
+        name: current_config
+
+    - name: Save merged config
+      copy:
+        content: "{{ current_config | combine(config, recursive=True) | to_nice_yaml }}"
+        dest: "{{ remote_config_path }}"

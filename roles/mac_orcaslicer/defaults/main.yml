@@ -1,0 +1,26 @@
+---
+config:
+  app:
+    check_stable_update_only: true
+    default_page: '1'
+    download_path: /Users/jaeseopark/Downloads
+    last_export_path: /Users/jaeseopark/Downloads
+    single_instance: true
+    sync_system_preset: true
+    sync_user_preset: true
+    use_perspective_camera: true
+    user_mode: advanced
+  filaments:
+    - Bambu PLA Matte @BBL A1
+    - Bambu PLA Matte @BBL A1M
+    - Generic PETG @BBL A1
+    - Generic PETG @BBL A1M
+    - Generic PLA @BBL A1
+    - Generic PLA @BBL A1M
+    - eSUN PLA+ @BBL A1
+    - eSUN PLA+ @BBL A1M
+  firstguide:
+    finish: true
+remote_config_path: ~/Library/Application Support/OrcaSlicer/OrcaSlicer.conf
+tmp_download_path: tmp_OrcaSlicer.conf
+orcaslicer_presets_path: ~/Library/Application Support/OrcaSlicer/presets
