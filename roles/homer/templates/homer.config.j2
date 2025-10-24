@@ -62,6 +62,9 @@ services:
       - name: Proxmox Dev
         url: http://{{ proxmox_dev_host }}:{{ proxmox_port }}
         tag: {{ proxmox_dev_host }}
+      - name: Receep
+        url: http://{{ receep_host }}:{{ receep_port }}
+        tag: {{ receep_host }}
   - name: Bookmarks
     items:
       - name: Khloe's Thingiverse Collection

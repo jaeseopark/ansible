@@ -35,6 +35,10 @@ proxmox_port: "{{ proxmox_app_object.port }}"
 proxmox_dev_app_object: "{{ apps | selectattr('name', 'equalto', 'proxmox-dev') | first }}"
 proxmox_dev_host: "{{ proxmox_dev_app_object.host }}"
 
+receep_app_object: "{{ apps | selectattr('name', 'equalto', 'receep') | first }}"
+receep_host: "{{ receep_app_object.host }}"
+receep_port: "{{ receep_app_object.port }}"
+
 # ARR apps all use the same host
 radarr_app_object: "{{ apps | selectattr('name', 'equalto', 'radarr') | first }}"
 arr_host: "{{ radarr_app_object.host }}"
