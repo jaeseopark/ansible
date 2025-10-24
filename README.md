@@ -23,7 +23,7 @@ ansible-playbook --ask-vault-password paperless.yml
 ansible-playbook --ask-vault-password receep.yml
 ansible-playbook --ask-vault-password bobbins.yml
 ansible-playbook --ask-vault-password corganize.yml
-ansible-playbook vps-nginx.yml # optionally: -e generate_certificates=true
+ansible-playbook vps-nginx.yml -v # optionally: -e generate_certificates=true
 ansible-playbook webcam.yml
 ansible-playbook homer.yml
 ansible-playbook wireguard.yml # TODO: test

@@ -27,18 +27,43 @@
   ufw:
     state: reloaded
 
+- name: Delete all existing certificates
+  shell: |
+    certbot certificates --quiet | grep "Certificate Name:" | awk '{print $NF}' | while read cert; do
+      certbot delete --cert-name "$cert" --non-interactive
+    done
+  ignore_errors: true
+
+- name: Clean up remaining Certbot directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/letsencrypt/live
+    - /etc/letsencrypt/archive
+    - /etc/letsencrypt/renewal
+  ignore_errors: true
+
+- name: Recreate Certbot directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /etc/letsencrypt/live
+    - /etc/letsencrypt/archive
+    - /etc/letsencrypt/renewal
+
 - name: Generate certificates for each domain group
   shell: >
     certbot certonly
+    --cert-name {{ item.key }}
     -d {{ item.value | join(',') }}
     -m {{ letsencrypt_email }}
     --preferred-challenges http
     --standalone
-    --expand
     --agree-tos
     --no-eff-email
-  args:
-    creates: "/etc/letsencrypt/live/{{ item.key }}/fullchain.pem"
   loop: "{{ cert_domain_groups | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
