@@ -37,7 +37,6 @@ ansible-playbook misc/wiki.yml
 
 ansible-playbook media/jellyfin.yml --ask-vault-pass
 ansible-playbook media/arr.yml
-ansible-playbook media/navidrome.yml
 ansible-playbook media/filebrowser.yml
 ```
 
