@@ -23,6 +23,13 @@
   template:
     src: docker-compose.j2
     dest: "{{ app_path }}/docker-compose.yml"
-  notify:
-   - stop homer
-   - start homer
+
+- name: stop homer
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+
+- name: start homer
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: present

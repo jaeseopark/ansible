@@ -107,9 +107,6 @@ all:
       - name: pihole
         port: 805
         host: malfoy
-      - name: navidrome
-        port: 4533
-        host: bigboi
       - name: proxmox
         port: 8006
         host: malfoy

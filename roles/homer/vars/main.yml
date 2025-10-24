@@ -24,10 +24,6 @@ wiki_app_object: "{{ apps | selectattr('name', 'equalto', 'wiki') | first }}"
 wiki_host: "{{ wiki_app_object.host }}"
 wiki_port: "{{ wiki_app_object.port }}"
 
-navidrome_app_object: "{{ apps | selectattr('name', 'equalto', 'navidrome') | first }}"
-navidrome_host: "{{ navidrome_app_object.host }}"
-navidrome_port: "{{ navidrome_app_object.port }}"
-
 bobbins_app_object: "{{ apps | selectattr('name', 'equalto', 'bobbins') | first }}"
 bobbins_host: "{{ bobbins_app_object.host }}"
 bobbins_port: "{{ bobbins_app_object.port }}"
