@@ -26,6 +26,7 @@ ansible-playbook --ask-vault-password corganize.yml
 ansible-playbook --ask-vault-password corganize-server.yml
 ansible-playbook --ask-vault-pass transmission.yml
 ansible-playbook vps-nginx.yml -v # optionally: -e generate_certificates=true
+ansible-playbook jellyfin.yml
 ansible-playbook webcam.yml
 ansible-playbook homer.yml
 ansible-playbook wireguard.yml # TODO: test
@@ -37,7 +38,6 @@ ansible-playbook misc/dev.yml
 ansible-playbook misc/pihole.yml
 ansible-playbook misc/wiki.yml
 
-ansible-playbook media/jellyfin.yml --ask-vault-pass
 ansible-playbook media/arr.yml
 ansible-playbook media/filebrowser.yml
 ```

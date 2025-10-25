@@ -1,0 +1,39 @@
+---
+- name: Ensure folders exists
+  file:
+    path: "{{ item }}"
+    mode: u=rwx,g=rwx,o=rx
+    state: directory
+  loop:
+    - "{{ app_path }}"
+    - "{{ jellyfin_mnt_path }}"
+
+- name: Ensure docker images are latest
+  community.docker.docker_image:
+    name: "{{ item }}"
+    tag: latest
+    source: pull
+    state: present
+  loop:
+    - lscr.io/linuxserver/jellyfin
+
+- name: Check if docker-compose file exists
+  stat:
+    path: "{{ docker_compose_path }}"
+  register: docker_compose_file
+
+- name: Ensure Docker Compose is not running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: docker_compose_file.stat.exists
+
+- name: Copy compose file from the master node
+  template:
+    src: docker-compose.j2
+    dest: "{{ docker_compose_path }}"
+
+- name: Ensure Docker Compose is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: present

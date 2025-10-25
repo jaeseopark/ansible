@@ -1,0 +1,14 @@
+- name: Resolve jellyfin host
+  hosts: localhost
+  vars:
+    app_name: jellyfin
+  roles:
+    - dynamic_host_resolver
+
+- name: Jellyfin
+  hosts: resolved_host
+  vars:
+    app_path: "/app/jellyfin"
+    media_path: "/mnt/media"
+  roles:
+    - jellyfin
