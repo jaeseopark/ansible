@@ -1,0 +1,6 @@
+---
+jellyfin_mnt_path: "{{ app_path }}/mnt"
+docker_compose_path: "{{ app_path }}/docker-compose.yml"
+jellyfin_port: "{{ apps | selectattr('name', 'equalto', 'jellyfin') | map(attribute='port') | first }}"
+puid: "0"
+pgid: "27"
