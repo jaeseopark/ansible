@@ -34,7 +34,6 @@ services:
       - {{ trns_mnt_path }}:/config
       - {{ media_path }}/media-downloads:/downloads/complete
       - {{ media_path }}/media-downloads-inc:/downloads/incomplete
-      - {{ media_path }}/media-watch:/watch
     restart: unless-stopped
     network_mode: "service:wireguard"
     depends_on: [ "wireguard", ]
@@ -49,7 +48,6 @@ services:
     volumes:
       - {{ trns_bkup_mnt_path }}:/config
       - {{ trns_bkup_dl_path }}:/downloads
-      - {{ media_path }}/crg-watch:/watch
     restart: unless-stopped
     network_mode: "service:wireguard"
     depends_on: [ "wireguard", ]
