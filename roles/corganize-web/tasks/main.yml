@@ -4,9 +4,9 @@
     state: present
 - name: Checkout the code base
   git:
-    repo: "https://{{ git_token }}@github.com/jaeseopark/corganize-server.git"
+    repo: "https://github.com/jaeseopark/corganize-web.git"
     dest: "{{ app_path }}"
-    version: "{{ corganize_server_branch }}"
+    version: "{{ branch }}"
     force: yes
 - name: Ensure folder(s) exists
   file:
@@ -15,7 +15,7 @@
     state: directory
   loop:
     - "{{ app_path }}"
-    - "{{ db_path }}"
+    - "{{ mnt_path }}"
     - "{{ log_path }}"
 - name: Ensure Docker Compose is stopped if clean_restart is true
   when: clean_restart | default(false) | bool
@@ -26,6 +26,10 @@
   template:
     src: docker-compose.j2
     dest: "{{ app_path }}/docker-compose.yml"
+- name: Copy env file from the master node
+  template:
+    src: env.j2
+    dest: "{{ app_path }}/.env"
 - name: Ensure Docker Compose is running
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"

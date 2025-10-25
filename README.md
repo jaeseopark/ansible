@@ -22,7 +22,8 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 ansible-playbook --ask-vault-password paperless.yml
 ansible-playbook --ask-vault-password receep.yml
 ansible-playbook --ask-vault-password bobbins.yml
-ansible-playbook --ask-vault-password corganize.yml
+ansible-playbook --ask-vault-password corganize-server.yml
+ansible-playbook --ask-vault-password corganize-web.yml
 ansible-playbook vps-nginx.yml -v # optionally: -e generate_certificates=true
 ansible-playbook webcam.yml
 ansible-playbook homer.yml

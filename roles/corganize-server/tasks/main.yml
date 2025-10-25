@@ -1,0 +1,32 @@
+- name: Ensure git is installed
+  package:
+    name: git
+    state: present
+- name: Checkout the code base
+  git:
+    repo: "https://{{ git_token }}@github.com/jaeseopark/corganize-server.git"
+    dest: "{{ app_path }}"
+    version: "{{ branch }}"
+    force: yes
+- name: Ensure folder(s) exists
+  file:
+    path: "{{ item }}"
+    mode: u=rwx,g=rwx,o=rx
+    state: directory
+  loop:
+    - "{{ app_path }}"
+    - "{{ db_path }}"
+    - "{{ log_path }}"
+- name: Ensure Docker Compose is stopped if clean_restart is true
+  when: clean_restart | default(false) | bool
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+- name: Copy compose file from the master node
+  template:
+    src: docker-compose.j2
+    dest: "{{ app_path }}/docker-compose.yml"
+- name: Ensure Docker Compose is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    build: always

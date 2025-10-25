@@ -1,4 +1,10 @@
 ---
+- name: "Clear resolved_host group"
+  add_host:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ groups.get('resolved_host', []) }}"
+
 - name: "Validate that app_name is provided"
   assert:
     that:

@@ -4,7 +4,7 @@ services:
     build:
       context: .
     ports:
-      - {{ corganize_server_port }}:5822
+      - {{ app_object.port }}:5822
     environment:
       TZ: America/Denver
     volumes:

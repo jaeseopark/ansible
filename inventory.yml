@@ -51,7 +51,6 @@ all:
     timezone: America/Denver
     jellyfin_trns_port: 28416
     jellyfin_trns_bkup_port: 28417
-    corganize_server_port: 5822
     restic_s3_bucket: jaeseopark-restic
     apps:
       - name: jellyfin
@@ -83,9 +82,12 @@ all:
         port: 8123
         host: malfoy
         deployed_domain: "jaeseo.stream"
-      - name: corganize
-        port: 5824
+      - name: corganize-server
+        port: 5822
         host: malfoy
+      - name: corganize-web
+        port: 5823
+        host: bigboi
         deployed_domain: "jaeseo.stream"
       - name: wiki
         port: 48211

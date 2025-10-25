@@ -1,0 +1,23 @@
+- name: Determine corganize server target host
+  hosts: localhost
+  vars:
+    app_name: corganize-server
+  roles:
+    - dynamic_host_resolver
+
+- name: Deploy corganize application
+  hosts: resolved_host
+  vars:
+    app_path: /app/corganize-server
+    db_path: "{{ app_path }}/mnt/db"
+    log_path: "{{ app_path }}/mnt/log"
+    branch: "master"
+    app_object: "{{ apps | selectattr('name', 'equalto', 'corganize-server') | first }}"
+    restic_repository_name: "corganize/server"
+    restic_interval: 259200 # in seconds == 3 days
+    restic_keep_last: 3 # Keep last 3 snapshots
+    restic_backup_paths:
+      - src: "{{ db_path }}"
+  roles:
+    - corganize-server
+    - restic
