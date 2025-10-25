@@ -9,10 +9,10 @@ services:
     environment:
       - PUID={{ puid }}
       - PGID={{ pgid }}
-      - TZ={{ tz }}
+      - TZ={{ timezone }}
     ports:
-      - {{ jellyfin_trns_port }}:{{ jellyfin_trns_port }}/tcp
-      - {{ jellyfin_trns_bkup_port }}:{{ jellyfin_trns_bkup_port }}/tcp
+      - {{ port }}:{{ port }}/tcp
+      - {{ port_bkup }}:{{ port_bkup }}/tcp
       - 9091:9091 # Default TRNS API PORT
     volumes:
       - {{ wg_conf_path }}:/config/wg0.conf:ro
@@ -28,7 +28,7 @@ services:
     environment:
       - PUID={{ puid }}
       - PGID={{ pgid }}
-      - TZ={{ tz }}
+      - TZ={{ timezone }}
       - TRANSMISSION_WEB_HOME=/combustion-release/
     volumes:
       - {{ trns_mnt_path }}:/config
@@ -44,7 +44,7 @@ services:
     environment:
       - PUID={{ puid }}
       - PGID={{ pgid }}
-      - TZ={{ tz }}
+      - TZ={{ timezone }}
       - TRANSMISSION_WEB_HOME=/combustion-release/
     volumes:
       - {{ trns_bkup_mnt_path }}:/config

@@ -16,17 +16,25 @@
   loop:
   - ghcr.io/linuxserver/wireguard
   - ghcr.io/linuxserver/transmission
+
+- name: Check if docker compose file exists
+  ansible.builtin.stat:
+    path: "{{ docker_compose_path }}"
+  register: docker_compose_stat
+
 - name: Ensure Docker Compose is not running
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     state: absent
+  when: docker_compose_stat.stat.exists
+  
 - name: Copy compose file from the master node
   template:
-    src: transmission-wireguard.docker-compose.j2
+    src: docker-compose.j2
     dest: "{{ docker_compose_path }}"
 - name: Copy wg file from the master node
   template:
-    src: transmission.wg.conf
+    src: wg.conf
     dest: "{{ wg_conf_path }}"
 - name: Insert PostUp PostDown clauses to the wg file
   ansible.builtin.lineinfile:
@@ -36,21 +44,21 @@
       PostUp = DROUTE=$(ip route | grep default | awk '{print $3}'); HOMENET=192.168.0.0/16; HOMENET2=10.0.0.0/8; HOMENET3=172.16.0.0/12; ip route add $HOMENET3 via $DROUTE;ip route add $HOMENET2 via $DROUTE; ip route add $HOMENET via $DROUTE;iptables -I OUTPUT -d $HOMENET -j ACCEPT;iptables -A OUTPUT -d $HOMENET2 -j ACCEPT; iptables -A OUTPUT -d $HOMENET3 -j ACCEPT;  iptables -A OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
       PreDown = HOMENET=192.168.0.0/16; HOMENET2=10.0.0.0/8; HOMENET3=172.16.0.0/12; ip route del $HOMENET3 via $DROUTE;ip route del $HOMENET2 via $DROUTE; ip route del $HOMENET via $DROUTE; iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT; iptables -D OUTPUT -d $HOMENET -j ACCEPT; iptables -D OUTPUT -d $HOMENET2 -j ACCEPT; iptables -D OUTPUT -d $HOMENET3 -j ACCEPT
 - name: Copy resolvconf file for the wg container
-  copy:
-    src: transmission.wg.resolv.conf
+  template:
+    src: wg.resolv.conf
     dest: "{{ wg_resolv_conf_path }}"
 - name: Copy trns settings file from the master node
   vars:
-    rpcport: "{{ jellyfin_trns_port }}"
+    rpcport: "{{ port }}"
   template:
-    src: transmission.trns-settings.j2
+    src: trns-settings.j2
     dest: "{{ trns_mnt_path }}/settings.json"
 - name: Copy trns settings file from the master node (bkup)
   vars:
-    rpcport: "{{ jellyfin_trns_bkup_port }}"
+    rpcport: "{{ port_bkup }}"
     wg_fwd_port: "12345" # Random value to disable forwarding
   template:
-    src: transmission.trns-settings.j2
+    src: trns-settings.j2
     dest: "{{ trns_bkup_mnt_path }}/settings.json"
 - name: Ensure Docker Compose is running
   community.docker.docker_compose_v2:

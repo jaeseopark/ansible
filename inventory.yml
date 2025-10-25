@@ -49,8 +49,6 @@ all:
     ansible_python_interpreter: /usr/bin/python3
     nas_host: bigboi
     timezone: America/Denver
-    jellyfin_trns_port: 28416
-    jellyfin_trns_bkup_port: 28417
     restic_s3_bucket: jaeseopark-restic
     apps:
       - name: jellyfin
@@ -58,6 +56,10 @@ all:
         host: bigboi
         deployed_domain: "jaeseo.stream"
         is_default: true
+      - name: transmission
+        port: 28416
+        port_bkup: 28417
+        host: bigboi
       - name: paperless
         port: 29743
         host: malfoy

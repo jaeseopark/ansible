@@ -9,8 +9,7 @@
     docker_compose_path: /app/transmission/docker-compose.yml
     wg_conf_path: /app/transmission/wg0.conf
     wg_resolv_conf_path: /app/transmission/wg.resolv.conf
-    port_forwarding_enabled: "false" # Mullvad stopped supporting it. keeping it disabled for now.
-    wg_fwd_port: "58008"
+    wg_fwd_enabled: "false" # Mullvad stopped supporting it. keeping it disabled for now.
     tz: America/Denver
     puid: "0"
     pgid: "27"
