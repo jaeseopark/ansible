@@ -85,7 +85,7 @@ all:
       - name: corganize-server
         port: 5822
         host: malfoy
-      - name: corganize-web
+      - name: corganize
         port: 5823
         host: bigboi
         deployed_domain: "jaeseo.stream"

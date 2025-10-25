@@ -1,19 +1,19 @@
 - name: Determine corganize web client target host
   hosts: localhost
   vars:
-    app_name: corganize-web
+    app_name: corganize
   roles:
     - dynamic_host_resolver
 
 - name: Deploy corganize web client
   hosts: resolved_host
   vars:
-    app_path: /app/corganize-web
+    app_path: /app/corganize-web # app path uses the "-web" suffix
     mnt_path: "{{ app_path }}/mnt"
     log_path: "{{ mnt_path }}/log"
     data_mnt_path: "/mnt/crg/data"
     server_app_object: "{{ apps | selectattr('name', 'equalto', 'corganize-server') | first }}"
-    app_object: "{{ apps | selectattr('name', 'equalto', 'corganize-web') | first }}"
+    app_object: "{{ apps | selectattr('name', 'equalto', 'corganize') | first }}"
     branch: "master"
   roles:
-    - corganize-web
+    - corganize
