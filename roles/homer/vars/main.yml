@@ -52,3 +52,7 @@ lidarr_port: "{{ lidarr_app_object.port }}"
 
 prowlarr_app_object: "{{ apps | selectattr('name', 'equalto', 'prowlarr') | first }}"
 prowlarr_port: "{{ prowlarr_app_object.port }}"
+
+transmission_app_object: "{{ apps | selectattr('name', 'equalto', 'transmission') | first }}"
+transmission_host: "{{ transmission_app_object.host }}"
+transmission_port: "{{ transmission_app_object.port }}"
