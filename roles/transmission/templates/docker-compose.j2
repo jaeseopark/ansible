@@ -11,8 +11,8 @@ services:
       - PGID={{ pgid }}
       - TZ={{ timezone }}
     ports:
-      - {{ port }}:{{ port }}/tcp
-      - {{ port_bkup }}:{{ port_bkup }}/tcp
+      - {{ trns_port }}:{{ trns_port }}/tcp
+      - {{ trns_port_bkup }}:{{ trns_port_bkup }}/tcp
       - 9091:9091 # Default TRNS API PORT
     volumes:
       - {{ wg_conf_path }}:/config/wg0.conf:ro

@@ -8,18 +8,8 @@
 - name: Transmission
   hosts: resolved_host
   vars:
-    app_object: "{{ apps | selectattr('name', 'equalto', 'transmission') | first }}"
-    port: "{{ app_object.port }}"
-    port_bkup: "{{ app_object.port_bkup }}"
     app_path: "/app/transmission"
-    trns_mnt_path: "{{ app_path }}/trns-mnt"
-    trns_bkup_mnt_path: "{{ app_path }}/trns-bkup-mnt"
     media_path: "/mnt/media"
     trns_bkup_dl_path: /srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/crg/downloads
-    docker_compose_path: "{{ app_path }}/docker-compose.yml"
-    wg_conf_path: "{{ app_path }}/wg0.conf"
-    wg_resolv_conf_path: "{{ app_path }}/wg.resolv.conf"
-    wg_fwd_enabled: "false" # Mullvad stopped supporting it. keeping it disabled for now.
-    wg_fwd_port: "58008"
   roles:
     - transmission

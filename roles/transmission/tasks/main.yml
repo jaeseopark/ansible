@@ -49,13 +49,13 @@
     dest: "{{ wg_resolv_conf_path }}"
 - name: Copy trns settings file from the master node
   vars:
-    rpcport: "{{ port }}"
+    rpcport: "{{ trns_port }}"
   template:
     src: trns-settings.j2
     dest: "{{ trns_mnt_path }}/settings.json"
 - name: Copy trns settings file from the master node (bkup)
   vars:
-    rpcport: "{{ port_bkup }}"
+    rpcport: "{{ trns_port_bkup }}"
     wg_fwd_port: "12345" # Random value to disable forwarding
   template:
     src: trns-settings.j2
