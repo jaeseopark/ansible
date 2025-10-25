@@ -13,14 +13,7 @@
   hosts: paperless_target
   vars:
     app_path: "/app/paperless"
-    local_mount_path: "{{ app_path }}/mnt"
-    # Computed paperless app variables
-    paperless_app_object: "{{ apps | selectattr('name', 'equalto', 'paperless') | first }}"
-    paperless_port: "{{ paperless_app_object.port }}"
     restic_repository_name: "paperless"
-    restic_backup_paths:
-      - src: "{{ local_mount_path }}"
-        target: /backup
   roles:
     - paperless
     - restic
