@@ -1,12 +1,51 @@
+version: "3"
 services:
-  corganize-server:
-    image: corganize-server:latest
-    build:
-      context: .
-    ports:
-      - {{ corganize_server_port }}:5822
-    environment:
-      TZ: America/Denver
+  nginx:
+    image: nginx
     volumes:
-      - {{ db_path }}:/database
-      - {{ log_path }}:/var/log/corganize
+      - {{ app_path }}/nginx/templates/dev.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - {{ data_mnt_path }}:/data:ro
+    user: 0:0
+    ports:
+      - {{ app_object.port }}:80
+    depends_on:
+      - "ui"
+      - "api"
+    environment:
+      TZ: {{ timezone }}
+  ui:
+    build:
+      context: ./crgw-ui
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: nginx -g 'daemon off;'
+    environment:
+      TZ: {{ timezone }}
+  api:
+    image: python:3.11-slim-bullseye
+    working_dir: /app
+    stop_signal: SIGINT # https://github.com/docker/compose/issues/4199#issuecomment-426109482
+    command: > # The use of venv helps with the container init times, but can cause occasional caching issues; purge the folder as needed.
+      bash -c "python -m venv docker-venv &&
+               source docker-venv/bin/activate &&
+               pip install -r requirements.txt &&
+               pip freeze > docker-pip-freeze.txt &&
+               python main.py"
+    volumes:
+      - {{ app_path }}/crgw-api:/app
+      - {{ data_mnt_path }}:/data
+      - {{ log_path }}:/var/log/crgw-api
+    env_file:
+      - .env
+  daemon:
+    container_name: daemon
+    build:
+      context: ./crgw-daemon
+      dockerfile: Dockerfile
+    command: python -m daemon
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - {{ mnt_path }}:/mnt
+      - {{ log_path }}:/var/log/crgw-daemon
