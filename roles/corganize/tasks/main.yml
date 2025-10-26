@@ -30,8 +30,8 @@
   template:
     src: env.j2
     dest: "{{ app_path }}/.env"
-- name: Ensure Docker Compose is running
+- name: Ensure Docker Compose is running (takes a while because of build)
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     state: present
-  
+    build: always
