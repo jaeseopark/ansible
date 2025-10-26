@@ -33,4 +33,4 @@
 - name: Ensure Docker Compose is running
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
-    build: always
+    state: present
