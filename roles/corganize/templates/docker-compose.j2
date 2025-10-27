@@ -4,7 +4,7 @@ services:
     image: nginx
     volumes:
       - {{ app_path }}/nginx/templates/dev.conf.template:/etc/nginx/templates/default.conf.template:ro
-      - {{ data_mnt_path }}:/data:ro
+      - {{ data_mnt_path }}/data:/data:ro
     user: 0:0
     ports:
       - {{ app_object.port }}:80
@@ -33,7 +33,7 @@ services:
                python main.py"
     volumes:
       - {{ app_path }}/crgw-api:/app
-      - {{ data_mnt_path }}:/data
+      - {{ data_mnt_path }}/data:/data
       - {{ log_path }}:/var/log/crgw-api
     env_file:
       - .env
@@ -47,5 +47,5 @@ services:
     env_file:
       - .env
     volumes:
-      - {{ mnt_path }}:/mnt
+      - {{ data_mnt_path }}:/mnt
       - {{ log_path }}:/var/log/crgw-daemon
