@@ -1,0 +1,7 @@
+db_path: "{{ app_path }}/mnt/db"
+log_path: "{{ app_path }}/mnt/log"
+app_object: "{{ apps | selectattr('name', 'equalto', 'corganize-server') | first }}"
+restic_interval: 259200 # in seconds == 3 days
+restic_keep_last: 3 # Keep last 3 snapshots
+restic_backup_paths:
+  - src: "{{ db_path }}"

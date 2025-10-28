@@ -1,0 +1,4 @@
+server_app_object: "{{ apps | selectattr('name', 'equalto', 'corganize-server') | first }}"
+app_object: "{{ apps | selectattr('name', 'equalto', 'corganize') | first }}"
+mnt_path: "{{ app_path }}/mnt"
+log_path: "{{ mnt_path }}/log"

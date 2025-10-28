@@ -9,11 +9,7 @@
   hosts: resolved_host
   vars:
     app_path: /app/corganize-web # app path uses the "-web" suffix
-    mnt_path: "{{ app_path }}/mnt"
-    log_path: "{{ mnt_path }}/log"
     data_mnt_path: "/mnt/crg"
-    server_app_object: "{{ apps | selectattr('name', 'equalto', 'corganize-server') | first }}"
-    app_object: "{{ apps | selectattr('name', 'equalto', 'corganize') | first }}"
     branch: "master"
   roles:
     - corganize
