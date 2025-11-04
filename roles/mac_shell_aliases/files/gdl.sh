@@ -21,14 +21,10 @@ gdl() {
         rm -rf "$TEMP_DIR"
     }
 
-    # Cleanup toggle: set to 1 to enable automatic cleanup, 0 to keep temp dir for testing
-    # You can override this by exporting GDL_CLEANUP_ENABLED in your environment before calling gdl
-    CLEANUP_ENABLED=${GDL_CLEANUP_ENABLED:-0}
-
-    # Set trap to cleanup on exit if enabled
-    if [ "$CLEANUP_ENABLED" -eq 1 ]; then
-        trap cleanup RETURN
-    fi
+    # Always set RETURN trap to ensure temporary directory is removed when the
+    # function returns. If you want to keep the temp dir for debugging, do not
+    # call this function or create the tempdir manually.
+    trap cleanup RETURN
 
     # Store current directory
     ORIGINAL_DIR=$(pwd)
@@ -61,14 +57,14 @@ gdl() {
         # Clean up the now-empty nested directory structure
         rm -rf gallery-dl 2>/dev/null || true
     else
-        # Fallback: unexpected directory structure, let user handle manually
+        # Fallback: unexpected directory structure
+        # Inform the user, then allow the normal RETURN trap to run (if enabled)
         echo "Warning: Could not automatically detect gallery structure."
         echo "Downloaded files are in: $TEMP_DIR"
         echo "Please navigate to the directory and handle the files manually."
-        echo "Directory will NOT be cleaned up automatically."
-        
-        # Don't cleanup, let user handle it
-        trap - RETURN
+    echo "Temporary directory will be cleaned up automatically." 
+
+        # Return to original directory; do NOT unset the RETURN trap so cleanup runs
         cd "$ORIGINAL_DIR"
         return 1
     fi
@@ -85,19 +81,11 @@ gdl() {
         echo "Contains $(find . -maxdepth 1 -type f | wc -l) files"
     else
         echo "Error: No files found to zip"
-        if [ "$CLEANUP_ENABLED" -eq 1 ]; then
-            cleanup
-        fi
+        # Let the RETURN trap perform cleanup if enabled
         cd "$ORIGINAL_DIR"
         return 1
     fi
 
-    # Return to original directory
+    # Return to original directory; the RETURN trap will handle cleanup
     cd "$ORIGINAL_DIR"
-    # Final cleanup only if enabled
-    if [ "$CLEANUP_ENABLED" -eq 1 ]; then
-        cleanup
-    else
-        echo "Cleanup disabled (CLEANUP_ENABLED=0). Temporary directory retained: $TEMP_DIR"
-    fi
 }
