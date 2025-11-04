@@ -14,9 +14,10 @@ services:
     env_file:
       - .env
   ui:
-    {# Use a fast dev container when `dev` is truthy (passed into the playbook) #}
     {% if dev | default(false) %}
-    image: node:{{ docker_node_tag }}
+    # Use a fast dev container when `dev` is truthy (passed into the playbook).
+    # Quote the image. Do not provide a default tag here; the role/vars should supply `docker_node_tag`.
+    image: "node:{{ docker_node_tag }}"
     command: >
       sh -c "yarn install &&
              yarn start-port80"
@@ -28,7 +29,7 @@ services:
       dockerfile: Dockerfile
     command: nginx -g 'daemon off;'
     {% endif %}
-    {# Below are common settings for both dev and prod #}
+    # Common settings for both dev and prod
     working_dir: /app
     env_file:
       - .env

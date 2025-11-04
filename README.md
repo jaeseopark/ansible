@@ -22,7 +22,7 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 ansible-playbook --ask-vault-password paperless.yml
 ansible-playbook --ask-vault-password receep.yml
 ansible-playbook --ask-vault-password bobbins.yml
-ansible-playbook --ask-vault-password corganize.yml
+ansible-playbook --ask-vault-password corganize.yml # optionally: -e clean_restart=true -e dev=true
 ansible-playbook --ask-vault-password corganize-server.yml
 ansible-playbook --ask-vault-password corganize-consumer.yml
 ansible-playbook --ask-vault-pass transmission.yml

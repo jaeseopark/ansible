@@ -4,7 +4,7 @@
     state: present
 - name: Checkout the code base
   git:
-    repo: "https://github.com/jaeseopark/corganize-web.git"
+    repo: "https://{{ git_token }}@github.com/jaeseopark/corganize-web.git"
     dest: "{{ app_path }}"
     version: "{{ branch }}"
     force: yes
