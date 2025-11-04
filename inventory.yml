@@ -87,6 +87,8 @@ all:
       - name: corganize-server
         port: 5822
         host: malfoy
+      - name: corganize-consumer
+        host: malfoy
       - name: corganize
         port: 5823
         host: bigboi
