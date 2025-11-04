@@ -22,6 +22,10 @@
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     state: absent
+- name: Copy docker file for the UI
+  template:
+    src: Dockerfile.ui.j2
+    dest: "{{ app_path }}/crgw-ui/Dockerfile"
 - name: Copy compose file from the master node
   template:
     src: docker-compose.j2

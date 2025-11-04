@@ -14,11 +14,22 @@ services:
     env_file:
       - .env
   ui:
+    {# Use a fast dev container when `dev` is truthy (passed into the playbook) #}
+    {% if dev | default(false) %}
+    image: node:{{ docker_node_tag }}
+    command: >
+      sh -c "yarn install &&
+             yarn start-port80"
+    volumes:
+      - ./crgw-ui:/app
+    {% else %}
     build:
       context: ./crgw-ui
       dockerfile: Dockerfile
-    working_dir: /app
     command: nginx -g 'daemon off;'
+    {% endif %}
+    {# Below are common settings for both dev and prod #}
+    working_dir: /app
     env_file:
       - .env
   api:

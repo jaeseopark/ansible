@@ -2,3 +2,4 @@ server_app_object: "{{ apps | selectattr('name', 'equalto', 'corganize-server') 
 app_object: "{{ apps | selectattr('name', 'equalto', 'corganize') | first }}"
 mnt_path: "{{ app_path }}/mnt"
 log_path: "{{ mnt_path }}/log"
+docker_node_tag: "22-alpine"
