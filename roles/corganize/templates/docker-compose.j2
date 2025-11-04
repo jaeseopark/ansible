@@ -11,16 +11,16 @@ services:
     depends_on:
       - "ui"
       - "api"
-    environment:
-      TZ: {{ timezone }}
+    env_file:
+      - .env
   ui:
     build:
       context: ./crgw-ui
       dockerfile: Dockerfile
     working_dir: /app
     command: nginx -g 'daemon off;'
-    environment:
-      TZ: {{ timezone }}
+    env_file:
+      - .env
   api:
     image: python:3.11-slim-bullseye
     working_dir: /app
