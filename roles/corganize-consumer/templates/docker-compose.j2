@@ -1,0 +1,11 @@
+services:
+  consumer:
+    image: corganized-consumer:latest
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - {{ log_path }}:/var/log/corganized-consumer
+      - {{ data_path }}:/data
