@@ -30,7 +30,8 @@
     - name: Remove existing alias blocks from shell profiles
       replace:
         path: "{{ item }}"
-        regexp: '{{ block_start_const | regex_escape }}[\s\S]*?{{ block_end_const | regex_escape }}\n?'
+        # Remove optional preceding newline(s), the managed block, and any trailing newlines.
+        regexp: '(?:\r?\n)?{{ block_start_const | regex_escape }}[\s\S]*?{{ block_end_const | regex_escape }}\r?\n*'
         replace: ''
       loop: "{{ shell_profiles }}"
       tags: shell_aliases

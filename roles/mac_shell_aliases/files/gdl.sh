@@ -1,6 +1,13 @@
+# This function is intended to be used in bash or zsh shells.
+
 gdl() {
     # Gallery-dl download and zip function
-    # Usage: gdl <gallery_url>
+    # Usage: gdl <gallery_url> [gallery_size] [desired_count]
+    # Examples:
+    #   gdl https://example.com/gallery/123
+    #     -> downloads all items
+    #   gdl https://example.com/gallery/123 200 50
+    #     -> sample ~50 items from a gallery of known size 200
     
     # Check if URL is provided
     if [ $# -eq 0 ]; then
@@ -22,9 +29,17 @@ gdl() {
     }
 
     # Always set RETURN trap to ensure temporary directory is removed when the
-    # function returns. If you want to keep the temp dir for debugging, do not
-    # call this function or create the tempdir manually.
-    trap cleanup RETURN
+    # function returns. Different shells handle RETURN-style traps differently:
+    # - bash supports: trap cleanup RETURN
+    # - zsh does not accept 'trap ... RETURN' and uses a special TRAPRETURN
+    #   function instead. Detect the shell and install the appropriate handler.
+    if [ -n "${ZSH_VERSION:-}" ]; then
+        # zsh: define TRAPRETURN which zsh will invoke when a function returns
+        TRAPRETURN() { cleanup; }
+    else
+        # bash and other shells that support RETURN as a trap target
+        trap cleanup RETURN
+    fi
 
     # Store current directory
     ORIGINAL_DIR=$(pwd)
@@ -32,13 +47,37 @@ gdl() {
     # Change to temp directory
     cd "$TEMP_DIR"
 
-    echo "Downloading gallery from: $GALLERY_URL"
+    # By default we download the entire gallery (this avoids the slow
+    # --dump-json enumeration step which can take a long time).
+    #
+    # Usage:
+    #   gdl <url>
+    #       -> download all items
+    #   gdl <url> <gallery_size> [desired]
+    #       -> sample approximately [desired] items from a gallery of known
+    #          size using stepping logic. Default desired is 50 when omitted.
+    #       NOTE/TODO: automatic gallery-size detection can be added later.
+    GALLERY_SIZE="${2:-}"
+    DESIRED=${3:-50} # because of the shell's integer arithmetic, the resulting zip is going to have anywhere from DESIRED items to DESIRED*2 items.
 
-    # Download the gallery with sleep settings to avoid throttling
-    gallery-dl \
-        --sleep 2-5 \
-        --sleep-request 2-5 \
-        "$GALLERY_URL"
+    # If gallery size is provided and valid AND greater than desired, use --range
+    # otherwise fall back to downloading all items.
+    download_complete=0
+    if printf '%s' "$GALLERY_SIZE" | grep -Eq '^[0-9]+$' && printf '%s' "$DESIRED" | grep -Eq '^[0-9]+$' && [ "$GALLERY_SIZE" -gt "$DESIRED" ] 2>/dev/null; then
+        STEP=$(( ((GALLERY_SIZE) / DESIRED ) ))
+        echo "Gallery size provided: $GALLERY_SIZE; computed step $STEP (will increment selection sparsity)"
+        if [ "$STEP" -gt 1 ]; then
+            # Only use --range when step > 1 (otherwise it would be equivalent to downloading all)
+            gallery-dl -v --sleep 2-5 --sleep-request 2-5 --range "1:${GALLERY_SIZE}:${STEP}" "$GALLERY_URL"
+            download_complete=1
+        fi
+    fi
+
+    if [ "$download_complete" -eq 0 ]; then
+        echo "Downloading all items"
+        gallery-dl -v --sleep 2-5 --sleep-request 2-5 "$GALLERY_URL"
+        download_complete=1
+    fi
 
     # Find the innermost directory that contains files (handles nested gallery-dl structure).
     # This method computes directory depth and selects the deepest dirname containing a file.
