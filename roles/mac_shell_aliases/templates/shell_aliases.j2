@@ -3,6 +3,8 @@
 export ANSIBLE_INVENTORY=inventory.yml
 alias mp3="yt-dlp --extract-audio --audio-format mp3"
 
-{% include 'm4a.j2' %}
+# Source shell function files
+[ -f "{{ script_dir | expanduser }}/m4a.sh" ] && source "{{ script_dir | expanduser }}/m4a.sh"
+[ -f "{{ script_dir | expanduser }}/gdl.sh" ] && source "{{ script_dir | expanduser }}/gdl.sh"
 
 {{ block_end_const }}
