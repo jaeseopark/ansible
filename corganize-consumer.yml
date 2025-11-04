@@ -9,6 +9,7 @@
   hosts: resolved_host
   vars:
     app_path: /app/corganize-consumer
+    data_path: /mnt/crg/data
     branch: "master"
   roles:
     - corganize-consumer
