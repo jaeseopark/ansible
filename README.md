@@ -10,7 +10,7 @@ ssh-add
 
 ```bash
 # Setup mac hosts
-ansible-playbook  mac.yml
+ansible-playbook mac.yml
 
 # Orca Slicer disaster recovery (User presets)
 ansible-playbook mac/orcaslicer/restore-presets.yml
