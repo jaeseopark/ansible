@@ -11,7 +11,7 @@ all:
     bigboi:
       hosts:
         bigboi:
-          ansible_user: root
+          ansible_user: jaeseopark
           wg_ip: 10.8.0.2
     crispbox:
       hosts:

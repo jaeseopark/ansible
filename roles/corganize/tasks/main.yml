@@ -1,3 +1,12 @@
+- name: Save the current user as a variable
+  ansible.builtin.command: whoami
+  register: current_user
+- name: Save the current user id (UID) as a variable
+  ansible.builtin.command: id -u
+  register: current_user_id
+- name: Print the current user
+  ansible.builtin.debug:
+    msg: "Current user is: {{ current_user.stdout }} with UID: {{ current_user_id.stdout }}"
 - name: Ensure git is installed
   package:
     name: git
@@ -17,11 +26,15 @@
     - "{{ app_path }}"
     - "{{ mnt_path }}"
     - "{{ log_path }}"
-- name: Ensure Docker Compose is stopped if clean_restart is true
-  when: clean_restart | default(false) | bool
+- name: Check if docker compose file exists
+  ansible.builtin.stat:
+    dest: "{{ app_path }}/docker-compose.yml"
+  register: docker_compose_file
+- name: Ensure Docker Compose is stopped if the file exists
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     state: absent
+  when: docker_compose_file.stat.exists
 - name: Copy docker file for the UI
   template:
     src: Dockerfile.ui.j2
