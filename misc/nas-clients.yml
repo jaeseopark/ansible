@@ -2,13 +2,13 @@
 - hosts: nas_clients
   vars:
     creds_src: nas-creds.txt
-    creds_dest: /root/.nas/creds.txt
+    creds_dest: "{{ ansible_env.HOME }}/.nascreds.txt"
     volumes:
       - svc
       - crg
       - media
   tasks:
-    - name: utility present
+    - name: Ensure necessary packages are installed
       package:
         name: cifs-utils #samba-common smbclient samba-common-bin smbclient
         state: present
@@ -20,10 +20,6 @@
         owner: root
         group: root
       loop: "{{ volumes }}"
-    - name: Ensure /root/.nas exists
-      file:
-        path: /root/.nas
-        state: directory
     - name: Copy creds from the master node
       copy:
         src: "{{ creds_src }}"
@@ -32,7 +28,8 @@
       file:
         path: "{{ creds_dest }}"
         state: file
-    - name: Mount the volumes
+    - name: Mount the volumes as root
+      become: true
       ansible.posix.mount:
         src: "//{{ nas_host }}/{{ item }}"
         path: "/mnt/{{ item }}"
