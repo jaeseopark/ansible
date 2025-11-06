@@ -9,7 +9,7 @@
   hosts: resolved_host
   vars:
     app_path: "/app/transmission"
-    media_path: "/mnt/media"
+    media_path: "/srv/dev-disk-by-uuid-e64e214f-1cc5-46b7-82f6-6ca2c87fea5e/media"
     trns_bkup_dl_path: /srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/crg/downloads
   roles:
     - transmission
