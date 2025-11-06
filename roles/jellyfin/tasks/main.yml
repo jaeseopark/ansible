@@ -8,25 +8,16 @@
     - "{{ app_path }}"
     - "{{ jellyfin_mnt_path }}"
 
-- name: Ensure docker images are latest
-  community.docker.docker_image:
-    name: "{{ item }}"
-    tag: latest
-    source: pull
-    state: present
-  loop:
-    - lscr.io/linuxserver/jellyfin
-
 - name: Check if docker-compose file exists
   stat:
     path: "{{ docker_compose_path }}"
   register: docker_compose_file
 
-- name: Ensure Docker Compose is not running
+- name: Ensure Docker Compose is not running if clean_restart is set
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     state: absent
-  when: docker_compose_file.stat.exists
+  when: docker_compose_file.stat.exists and (clean_restart | default(false) | bool)
 
 - name: Copy compose file from the master node
   template:
