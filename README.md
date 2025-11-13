@@ -26,7 +26,7 @@ ansible-playbook --ask-vault-password corganize.yml -e dev=true
 ansible-playbook --ask-vault-password corganize-server.yml -e clean_restart=true
 ansible-playbook --ask-vault-password corganize-consumer.yml -e clean_restart=true
 ansible-playbook --ask-vault-pass transmission.yml
-ansible-playbook vps-nginx.yml -v # optionally: -e generate_certificates=true
+ansible-playbook vps-nginx.yml -v -e generate_certificates=true
 ansible-playbook jellyfin.yml
 ansible-playbook webcam.yml
 ansible-playbook homer.yml
