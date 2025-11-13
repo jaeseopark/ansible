@@ -10,18 +10,18 @@
     - { condition: "restic_backup_paths | selectattr('src', 'defined') | length == restic_backup_paths | length", fail_msg: "Each item in restic_backup_paths must have a 'src' property." }
     - { condition: "restic_backup_paths | length == 1 or (restic_backup_paths | selectattr('target', 'defined') | length == restic_backup_paths | length)", fail_msg: "Each item in restic_backup_paths must have a 'target' property if multiple paths are provided." }
 
-- name: Copy restic backup Docker Compose file
-  template:
-    src: restic-docker-compose.j2
-    dest: "{{ app_path }}/docker-compose-restic.yml"
-
-- name: Ensure restic backup is stopped (if clean restart requested)
+- name: Ensure restic backup is stopped if the file exists and restart_restic is true
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     files:
       - docker-compose-restic.yml
     state: absent
-  when: restic_clean_restart | default(false)
+  when: docker_compose_file.stat.exists and (restart_restic | default(false) | bool)
+
+- name: Copy restic backup Docker Compose file
+  template:
+    src: restic-docker-compose.j2
+    dest: "{{ app_path }}/docker-compose-restic.yml"
 
 - name: Ensure restic backup is running
   community.docker.docker_compose_v2:

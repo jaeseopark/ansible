@@ -17,14 +17,14 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 ```
 
 ```bash
-# For all commands: clean restart docker compose with "-e clean_restart=true" (defaults to false)
+# For playbooks that use the restic role: -e restart_restic=true to restart restic.
 
 ansible-playbook --ask-vault-password paperless.yml
 ansible-playbook --ask-vault-password receep.yml
 ansible-playbook --ask-vault-password bobbins.yml
 ansible-playbook --ask-vault-password corganize.yml -e dev=true
-ansible-playbook --ask-vault-password corganize-server.yml -e clean_restart=true
-ansible-playbook --ask-vault-password corganize-consumer.yml -e clean_restart=true
+ansible-playbook --ask-vault-password corganize-server.yml
+ansible-playbook --ask-vault-password corganize-consumer.yml
 ansible-playbook --ask-vault-pass transmission.yml
 ansible-playbook vps-nginx.yml -v -e generate_certificates=true
 ansible-playbook jellyfin.yml

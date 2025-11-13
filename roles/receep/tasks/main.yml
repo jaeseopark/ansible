@@ -3,12 +3,6 @@
     name: git
     state: present
 
-- name: Checkout the code base
-  git:
-    repo: https://github.com/jaeseopark/receep.git
-    dest: "{{ app_path }}"
-    version: master # Specify branch/tag/commit
-    update: yes # Pull changes if the repo already exists
 
 - name: Ensure required directories are present
   file:
@@ -16,9 +10,28 @@
     state: directory
     mode: "0755"
   loop:
+    - "{{ app_path }}"
     - "{{ env_parts }}"
     - "{{ mnt_path }}"
     - "{{ data_path }}"
+
+- name: Check if docker compose file is present
+  ansible.builtin.stat:
+    path: "{{ docker_compose_path }}"
+  register: docker_compose_file
+
+- name: Ensure Docker Compose is stopped if the file exists
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: docker_compose_file.stat.exists
+
+- name: Checkout the code base
+  git:
+    repo: https://github.com/jaeseopark/receep.git
+    dest: "{{ app_path }}"
+    version: master # Specify branch/tag/commit
+    update: yes # Pull changes if the repo already exists
 
 - name: Render env files to env_parts directory
   template:
@@ -33,12 +46,6 @@
     src: "{{ app_path }}/env_parts"
     dest: "{{ app_path }}/.env"
 
-- name: Ensure Docker Compose is stopped (if clean start requested)
-  community.docker.docker_compose_v2:
-    project_src: "{{ app_path }}"
-    state: absent
-  when: clean_restart | default(false)
-  
 - name: Ensure Docker Compose is running
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"

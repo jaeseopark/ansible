@@ -7,6 +7,17 @@
     - "{{ app_path }}"
     - "{{ local_mount_path }}"
 
+- name: Check if docker compose file exists
+  stat:
+    path: "{{ docker_compose_path }}"
+  register: docker_compose_file
+
+- name: Ensure Docker Compose is stopped if the file exists
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: docker_compose_file.stat.exists
+
 - name: Copy config file from the master node
   template:
     src: paperless.docker-compose.j2
@@ -16,12 +27,6 @@
   template:
     src: paperless.env
     dest: "{{ env_file_path }}"
-
-- name: Ensure Docker Compose is stopped (if clean restart requested)
-  community.docker.docker_compose_v2:
-    project_src: "{{ app_path }}"
-    state: absent
-  when: clean_restart | default(false)
 
 - name: Ensure Docker Compose is running
   community.docker.docker_compose_v2:

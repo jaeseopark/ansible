@@ -13,11 +13,11 @@
     path: "{{ docker_compose_path }}"
   register: docker_compose_stat
 
-- name: Ensure Docker Compose is not running if clean_restart is set
+- name: Ensure Docker Compose is not running if the file exists
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     state: absent
-  when: docker_compose_stat.stat.exists and (clean_restart | default(false) | bool)
+  when: docker_compose_stat.stat.exists
   
 - name: Copy compose file from the master node
   template:

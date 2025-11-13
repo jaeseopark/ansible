@@ -21,8 +21,8 @@
   stat:
     path: "{{ app_path }}/docker-compose.yml"
   register: compose_file
-- name: Ensure Docker Compose is stopped if clean_restart is true
-  when: clean_restart | default(false) | bool and compose_file.stat.exists
+- name: Ensure Docker Compose is stopped if the file exists
+  when: compose_file.stat.exists
   community.docker.docker_compose_v2:
     project_src: "{{ app_path }}"
     state: absent
