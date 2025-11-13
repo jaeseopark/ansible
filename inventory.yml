@@ -21,7 +21,7 @@ all:
     malfoy:
       hosts:
         malfoy:
-          ansible_user: root
+          ansible_user: jaeseopark
           wg_ip: 10.8.0.4
           ip: 192.168.86.170
     wireguard_clients:

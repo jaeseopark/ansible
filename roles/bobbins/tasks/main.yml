@@ -4,6 +4,17 @@
     name: git
     state: present
 
+- name: Check if docker compose file is present
+  ansible.builtin.stat:
+    path: "{{ app_path }}/docker-compose.yml"
+  register: docker_compose_file
+
+- name: Ensure docker compose is stopped if the file exists
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: docker_compose_file.stat.exists
+
 - name: Checkout the code base
   git:
     repo: "https://github.com/jaeseopark/bobbins.git"
@@ -29,6 +40,9 @@
   template:
     src: "docker-compose.j2"
     dest: "{{ app_path }}/docker-compose.yml"
-  notify:
-    - stop docker compose
-    - start docker compose
+
+- name: Ensure docker compose is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: present
+    build: always
