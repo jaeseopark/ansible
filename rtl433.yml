@@ -12,6 +12,22 @@
   vars:
     app_path: ~/ansible/rtl433 # avoid sudo issues with /app
     rtl_device_serial: "Realtek_RTL2838UHIDIR_00000001" # Dynamically finds USB path by serial ID to forward to docker.
-    mqtt_host: homeassistant.local
+    unresolved_mqtt_hostname: homeassistant.local
+  pre_tasks:
+    - name: Resolve MQTT hostname to IP address on localhost (where .local mDNS works)
+      shell: dig +short {{ unresolved_mqtt_hostname }} @224.0.0.251 -p 5353 | head -1
+      register: mqtt_host_lookup
+      changed_when: false
+      failed_when: mqtt_host_lookup.rc != 0 or mqtt_host_lookup.stdout == ''
+      delegate_to: localhost
+
+    - name: Extract IP address from resolution output
+      set_fact:
+        mqtt_host: "{{ mqtt_host_lookup.stdout | trim }}"
+
+    - name: Display resolved MQTT host
+      debug:
+        msg: "MQTT host {{ unresolved_mqtt_hostname }} resolved to {{ mqtt_host }}"
+
   roles:
     - rtl433

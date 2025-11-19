@@ -20,6 +20,10 @@
   debug:
     msg: "RTL-SDR device found at: {{ rtl_usb_path }}"
 
+- name: Display MQTT connection type
+  debug:
+    msg: "Using MQTT: {{ 'local mosquitto' if use_local_mqtt | default(false) else unresolved_mqtt_hostname | default(mqtt_host) }}"
+
 - name: Ensure required directories are present
   file:
     path: "{{ item }}"
@@ -27,6 +31,18 @@
     mode: "0755"
   loop:
     - "{{ app_path }}"
+
+- name: Copy rtl433 config file
+  copy:
+    src: rtl433.conf
+    dest: "{{ app_path }}/rtl433.conf"
+    mode: "0644"
+
+- name: Copy mosquitto config file
+  copy:
+    src: mosquitto.conf
+    dest: "{{ app_path }}/mosquitto.conf"
+    mode: "0644"
 
 - name: Check if docker compose file is present
   ansible.builtin.stat:

@@ -1,15 +1,20 @@
 services:
   rtl433:
-    image: hertzg/rtl_433:23.11
+    image: hertzg/rtl_433:25.02
     devices:
       - "{{ rtl_usb_path }}"
+    volumes:
+      - "{{ app_path }}/rtl433.conf:/etc/rtl_433/rtl_433.conf:ro"
     command:
-      - "-Mtime:unix:usec:utc"
-      - "-Mbits"
-      - "-Mlevel"
-      - "-Mnoise"
-      - "-Mprotocol"
-      - "-Mstats:2:300"
-      - "-Fmqtt://{{mqtt_host}},events=rtl_433[/model][/id],user={{ mqtt_user }},pass={{ mqtt_password }}" # password comes from defaults/main.yml
-      - "-Ylevel=0" # Manual detection level used to determine pulses (-1.0 to -30.0) (0=auto).
-      - "-Yautolevel" # Set minlevel automatically based on average estimated noise.
+      - "-c/etc/rtl_433/rtl_433.conf"
+      - "-F{{ mqtt_connection_string }}"
+    depends_on:
+      - mosquitto
+
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - "{{ app_path }}/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro"
