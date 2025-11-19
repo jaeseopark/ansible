@@ -1,0 +1,3 @@
+# Creds should be set up in MQTT broker first. Check Home Assistant Mosquitto broker add-on.
+# Password is in the defaults/main.yml vault.
+mqtt_user: rtl433

@@ -1,0 +1,51 @@
+---
+- name: Find RTL-SDR USB device path by serial
+  shell: |
+    for dev in /dev/bus/usb/*/*; do
+      if udevadm info --name="$dev" 2>/dev/null | grep -q "ID_SERIAL={{ rtl_device_serial }}"; then
+        echo "$dev"
+        exit 0
+      fi
+    done
+    exit 1
+  register: rtl_device_result
+  changed_when: false
+  failed_when: rtl_device_result.rc != 0
+
+- name: Set RTL-SDR device path variable
+  set_fact:
+    rtl_usb_path: "{{ rtl_device_result.stdout }}"
+
+- name: Display detected RTL-SDR device path
+  debug:
+    msg: "RTL-SDR device found at: {{ rtl_usb_path }}"
+
+- name: Ensure required directories are present
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ app_path }}"
+
+- name: Check if docker compose file is present
+  ansible.builtin.stat:
+    path: "{{ app_path }}/docker-compose.yml"
+  register: docker_compose_file
+
+- name: Ensure Docker Compose is stopped if the file exists
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    state: absent
+  when: docker_compose_file.stat.exists
+
+- name: Render docker-compose template
+  template:
+    src: "docker-compose.j2"
+    dest: "{{ app_path }}/docker-compose.yml"
+
+- name: Ensure Docker Compose is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_path }}"
+    pull: missing
+    state: present

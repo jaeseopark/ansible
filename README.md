@@ -31,9 +31,9 @@ ansible-playbook jellyfin.yml
 ansible-playbook webcam.yml
 ansible-playbook homer.yml
 ansible-playbook wireguard.yml # TODO: test
+ansible-playbook --ask-vault-pass rtl433.yml
 
 ansible-playbook home-assistant/proxy.yml
-ansible-playbook --ask-vault-pass home-assistant/rtl433.yml
 ansible-playbook --ask-vault-pass misc/nas-clients.yml
 ansible-playbook misc/dev.yml
 ansible-playbook misc/pihole.yml

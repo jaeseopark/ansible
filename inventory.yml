@@ -119,3 +119,5 @@ all:
       - name: proxmox-dev
         port: 8006
         host: crispbox
+      - name: rtl433
+        host: malfoy

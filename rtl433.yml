@@ -1,0 +1,17 @@
+---
+- name: Determine rtl433 target host
+  hosts: localhost
+  gather_facts: false
+  vars:
+    app_name: rtl433
+  roles:
+    - dynamic_host_resolver
+
+- name: RTL433
+  hosts: resolved_host
+  vars:
+    app_path: ~/ansible/rtl433 # avoid sudo issues with /app
+    rtl_device_serial: "Realtek_RTL2838UHIDIR_00000001" # Dynamically finds USB path by serial ID to forward to docker.
+    mqtt_host: homeassistant.local
+  roles:
+    - rtl433
