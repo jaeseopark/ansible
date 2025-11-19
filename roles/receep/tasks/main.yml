@@ -16,7 +16,7 @@
 
 - name: Check if docker compose file is present
   ansible.builtin.stat:
-    path: "{{ docker_compose_path }}"
+    path: "{{ app_path }}/docker-compose.yml"
   register: docker_compose_file
 
 - name: Ensure Docker Compose is stopped if the file exists
@@ -32,18 +32,13 @@
     version: "{{ branch }}" # Specify branch/tag/commit
     update: yes # Pull changes if the repo already exists
 
-- name: Render env files to env_parts directory
+- name: Render templates
   template:
     src: "{{ item.src }}"
-    dest: "{{ app_path }}/env_parts/{{ item.dest }}"
+    dest: "{{ app_path }}/{{ item.dest }}"
   loop:
-    - { src: "receep.env.j2", dest: "receep.env" }
-    - { src: "creds.env", dest: "creds.env" }
-
-- name: Combine receep.env.j2 and creds.env and save to app_path/.env
-  assemble:
-    src: "{{ app_path }}/env_parts"
-    dest: "{{ app_path }}/.env"
+    - { src: "env.j2", dest: ".env" }
+    - { src: "docker-compose.j2", dest: "docker-compose.yml" }
 
 - name: Ensure Docker Compose is running
   community.docker.docker_compose_v2:
