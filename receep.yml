@@ -13,7 +13,6 @@
   hosts: receep_target
   vars:
     app_path: "/app/receep"
-    env_parts: "{{ app_path }}/env_parts"
     mnt_path: "{{ app_path }}/mnt"
     data_path: "{{ mnt_path }}/data"
     branch: "master"

@@ -1,0 +1,2 @@
+receep_app_object: "{{ apps | selectattr('name', 'equalto', 'receep') | first }}"
+receep_port: "{{ receep_app_object.port }}"

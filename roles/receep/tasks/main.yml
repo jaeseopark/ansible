@@ -10,7 +10,6 @@
     mode: "0755"
   loop:
     - "{{ app_path }}"
-    - "{{ env_parts }}"
     - "{{ mnt_path }}"
     - "{{ data_path }}"
 
