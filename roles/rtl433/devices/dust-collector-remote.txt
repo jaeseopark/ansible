@@ -1,0 +1,51 @@
+rtl433-1     | Detected OOK package	1763535745.977861
+rtl433-1     | Analyzing pulses...
+rtl433-1     | Total count:   89,  width: 143.62 ms		(35905 S)
+rtl433-1     | Pulse width distribution:
+rtl433-1     |  [ 0] count:   46,  width:  344 us [332;356]	(  86 S)
+rtl433-1     |  [ 1] count:   43,  width:  968 us [964;980]	( 242 S)
+rtl433-1     | Gap width distribution:
+rtl433-1     |  [ 0] count:    4,  width: 9480 us [9480;9488]	(2370 S)
+rtl433-1     |  [ 1] count:   43,  width:  272 us [264;280]	(  68 S)
+rtl433-1     |  [ 2] count:   41,  width:  888 us [880;900]	( 222 S)
+rtl433-1     | Pulse period distribution:
+rtl433-1     |  [ 0] count:    4,  width: 9828 us [9824;9832]	(2457 S)
+rtl433-1     |  [ 1] count:   84,  width: 1236 us [1232;1248]	( 309 S)
+rtl433-1     | Pulse timing distribution:
+rtl433-1     |  [ 0] count:   89,  width:  308 us [264;356]	(  77 S)
+rtl433-1     |  [ 1] count:   84,  width:  928 us [880;980]	( 232 S)
+rtl433-1     |  [ 2] count:    5,  width: 9584 us [9480;10004]	(2396 S)
+rtl433-1     | Level estimates [high, low]:     16,      2
+rtl433-1     | RSSI: -30.1 dB SNR: 9.0 dB Noise: -39.1 dB
+rtl433-1     | Frequency offsets [F1, F2]:  -18026,      0	(-68.8 kHz, +0.0 kHz)
+rtl433-1     | Guessing modulation: Pulse Width Modulation with multiple packets
+rtl433-1     | view at https://triq.org/pdv/#AAB0090301013403A025708255+AAB0210303013403A025709090908190908181818190908181909081819090818181908255+AAB0150301013403A025709090908190908181818190908255
+rtl433-1     | Attempting demodulation... short_width: 344, long_width: 968, reset_limit: 9492, sync_width: 0
+rtl433-1     | Use a flex decoder with -X 'n=name,m=OOK_PWM,s=344,l=968,r=9492,g=904,t=250,y=0'
+rtl433-1     | 
+rtl433-1     | Detected OOK package	1763535747.225393
+rtl433-1     | Analyzing pulses...
+rtl433-1     | Total count:  101,  width: 158.18 ms		(39546 S)
+rtl433-1     | Pulse width distribution:
+rtl433-1     |  [ 0] count:   53,  width:  336 us [332;344]	(  84 S)
+rtl433-1     |  [ 1] count:   48,  width:  956 us [948;964]	( 239 S)
+rtl433-1     | Gap width distribution:
+rtl433-1     |  [ 0] count:    4,  width: 9480 us [9480;9488]	(2370 S)
+rtl433-1     |  [ 1] count:   48,  width:  280 us [276;284]	(  70 S)
+rtl433-1     |  [ 2] count:   48,  width:  892 us [888;904]	( 223 S)
+rtl433-1     | Pulse period distribution:
+rtl433-1     |  [ 0] count:    4,  width: 9820 us [9816;9824]	(2455 S)
+rtl433-1     |  [ 1] count:   96,  width: 1232 us [1228;1240]	( 308 S)
+rtl433-1     | Pulse timing distribution:
+rtl433-1     |  [ 0] count:  101,  width:  308 us [276;344]	(  77 S)
+rtl433-1     |  [ 1] count:   96,  width:  924 us [888;964]	( 231 S)
+rtl433-1     |  [ 2] count:    5,  width: 9584 us [9480;10004]	(2396 S)
+rtl433-1     | Level estimates [high, low]:     24,      3
+rtl433-1     | RSSI: -28.3 dB SNR: 9.0 dB Noise: -37.4 dB
+rtl433-1     | Frequency offsets [F1, F2]:  -18303,      0	(-69.8 kHz, +0.0 kHz)
+rtl433-1     | Guessing modulation: Pulse Width Modulation with multiple packets
+rtl433-1     | view at https://triq.org/pdv/#AAB00903010134039C25708255+AAB02103040134039C25709090908190908181818190908181909081819090818190818255
+rtl433-1     | Attempting demodulation... short_width: 336, long_width: 956, reset_limit: 9492, sync_width: 0
+rtl433-1     | Use a flex decoder with -X 'n=name,m=OOK_PWM,s=336,l=956,r=9492,g=908,t=248,y=0'
+rtl433-1     | 
+
