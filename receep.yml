@@ -16,6 +16,7 @@
     env_parts: "{{ app_path }}/env_parts"
     mnt_path: "{{ app_path }}/mnt"
     data_path: "{{ mnt_path }}/data"
+    branch: "master"
     restic_repository_name: "receep"
     restic_backup_paths:
       - src: "{{ data_path }}"

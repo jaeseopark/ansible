@@ -3,7 +3,6 @@
     name: git
     state: present
 
-
 - name: Ensure required directories are present
   file:
     path: "{{ item }}"
@@ -30,7 +29,7 @@
   git:
     repo: https://github.com/jaeseopark/receep.git
     dest: "{{ app_path }}"
-    version: master # Specify branch/tag/commit
+    version: "{{ branch }}" # Specify branch/tag/commit
     update: yes # Pull changes if the repo already exists
 
 - name: Render env files to env_parts directory
