@@ -1,0 +1,46 @@
+---
+- name: Check if venv module is available
+  ansible.builtin.command: python3 -m venv --help
+  register: venv_check
+  changed_when: false
+  failed_when: false
+
+- name: Fail if venv module is not available
+  ansible.builtin.fail:
+    msg: "Python venv module is not installed or not available"
+  when: venv_check.rc != 0
+
+- name: Create required directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ automator_path }}"
+    - "{{ source_path }}"
+
+- name: Clone rota_fix repository
+  ansible.builtin.git:
+    repo: "{{ rota_fix_repo_url }}"
+    dest: "{{ automator_path }}/.source/rota_fix"
+    version: "{{ branch }}"
+    update: true
+    force: true
+
+- name: Create virtual environment
+  ansible.builtin.command:
+    cmd: python3 -m venv venv
+    chdir: "{{ automator_path }}/.source/rota_fix"
+    creates: "{{ automator_path }}/.source/rota_fix/venv"
+
+- name: Install requirements in virtual environment
+  ansible.builtin.pip:
+    requirements: requirements.txt
+    virtualenv: "{{ automator_path }}/.source/rota_fix/venv"
+    virtualenv_command: python3 -m venv
+  args:
+    chdir: "{{ automator_path }}/.source/rota_fix"
+
+- name: Create alias of RotaFix.app in Automator directory
+  ansible.builtin.command:
+    cmd: ln -sf "{{ automator_path }}/.source/rota_fix/RotaFix.app" "{{ automator_path }}/RotaFix.app"

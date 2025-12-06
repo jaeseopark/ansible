@@ -1,0 +1,5 @@
+---
+automator_path: "~/Automator"
+source_path: "{{ automator_path }}/.source"
+rota_fix_repo_url: "https://github.com/jaeseopark/rota_fix.git"
+branch: "master"
