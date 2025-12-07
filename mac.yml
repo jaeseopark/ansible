@@ -3,6 +3,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  vars:
+    automator_path: "~/Automator"
+    automator_source_path: "{{ automator_path }}/.source"
   roles:
     - automator_fish_perfect
     - automator_rota_fix

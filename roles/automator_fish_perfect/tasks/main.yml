@@ -17,7 +17,7 @@
     mode: '0755'
   loop:
     - "{{ automator_path }}"
-    - "{{ source_path }}"
+    - "{{ automator_source_path }}"
 
 - name: Clone fish_perfect repository
   ansible.builtin.git:
