@@ -20,7 +20,7 @@
     repo: "https://github.com/jaeseopark/bobbins.git"
     dest: "{{ app_path }}"
     version: "{{ branch }}" # Specify branch/tag/commit
-    update: yes # Pull changes if the repo already exists
+    force: yes
 
 - name: Ensure required directories are present
   file:
