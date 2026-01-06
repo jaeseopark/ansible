@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+{% for gid in data_gid_array %}
+GID={{ gid }}
+EXISTING_GROUP="$(awk -F: -v gid="$GID" '($3==gid){print $1; exit}' /etc/group || true)"
+if [ -n "$EXISTING_GROUP" ]; then
+	GROUP_NAME="$EXISTING_GROUP"
+	echo "Reusing existing group $GROUP_NAME for GID $GID"
+else
+	GROUP_NAME="data_group_$GID"
+	echo "Creating group $GROUP_NAME with GID $GID"
+	addgroup --system --gid "$GID" "$GROUP_NAME"
+fi
+
+adduser nginx "$GROUP_NAME"
+{% endfor %}

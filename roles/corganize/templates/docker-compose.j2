@@ -3,9 +3,9 @@ services:
   nginx:
     image: nginx
     volumes:
+      - {{ app_path }}/setup-nginx-worker-user.sh:/docker-entrypoint.d/00-setup-worker-user.sh:ro
       - {{ app_path }}/nginx/templates/dev.conf.template:/etc/nginx/templates/default.conf.template:ro
       - {{ data_mnt_path }}/data:/data:ro
-    user: 0:0
     ports:
       - {{ app_object.port }}:80
     depends_on:
