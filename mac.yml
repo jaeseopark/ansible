@@ -8,7 +8,6 @@
     automator_source_path: "{{ automator_path }}/.source"
   roles:
     - automator_fish_perfect
-    - automator_rota_fix
     - mac_apps
     - mac_shell_aliases
     - mac_dns
