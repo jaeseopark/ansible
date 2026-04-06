@@ -2,9 +2,11 @@
 
 export ANSIBLE_INVENTORY=inventory.yml
 alias mp3="yt-dlp --extract-audio --audio-format mp3"
+export scp_remote="{{ scp_remote }}" # Needed for scpp.sh
 
-# Source shell function files
+# Source shell function files (Need for loop here; not urgent)
 [ -f "{{ script_dir | expanduser }}/m4a.sh" ] && source "{{ script_dir | expanduser }}/m4a.sh"
 [ -f "{{ script_dir | expanduser }}/gdl.sh" ] && source "{{ script_dir | expanduser }}/gdl.sh"
+[ -f "{{ script_dir | expanduser }}/scpp.sh" ] && source "{{ script_dir | expanduser }}/scpp.sh"
 
 {{ block_end_const }}

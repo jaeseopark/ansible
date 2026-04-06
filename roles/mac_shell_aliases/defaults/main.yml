@@ -4,5 +4,7 @@ shell_profiles:
 
 script_dir: "~/.ansible_shell_scripts"
 
+scp_remote: "jaeseopark@bigboi:/srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/crg/tmp"
+
 block_start_const: "# BEGIN_ANSIBLE_MANAGED_SHELL_ALIASES"
 block_end_const: "# END_ANSIBLE_MANAGED_SHELL_ALIASES"
