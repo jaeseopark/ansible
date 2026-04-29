@@ -30,6 +30,7 @@
     dest: "{{ app_path }}"
     version: "{{ branch }}" # Specify branch/tag/commit
     update: yes # Pull changes if the repo already exists
+    force: yes
 
 - name: Render templates
   template:
