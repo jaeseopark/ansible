@@ -1,0 +1,33 @@
+- name: Determine arr target host
+  hosts: localhost
+  gather_facts: false
+  vars:
+    # Using radarr as the reference app since all arr apps are on the same host
+    arr_app_object: "{{ apps | selectattr('name', 'equalto', 'radarr') | first }}"
+  tasks:
+    - name: Set target host for arr
+      add_host:
+        name: "{{ arr_app_object.host }}"
+        groups: arr_target
+
+- name: Arr stack (Radarr, Sonarr, Lidarr, Prowlarr)
+  hosts: arr_target
+  vars:
+    app_path: "/app/arr"
+    radarr_mnt_path: "{{ app_path }}/mnt-radarr"
+    sonarr_mnt_path: "{{ app_path }}/mnt-sonarr"
+    lidarr_mnt_path: "{{ app_path }}/mnt-lidarr"
+    prowlarr_mnt_path: "{{ app_path }}/mnt-prowlarr"
+    docker_compose_path: "{{ app_path }}/docker-compose.yml"
+    library_path: /mnt/media
+    download_dest_path: /mnt/media/media-downloads
+    radarr_app_object: "{{ apps | selectattr('name', 'equalto', 'radarr') | first }}"
+    sonarr_app_object: "{{ apps | selectattr('name', 'equalto', 'sonarr') | first }}"
+    lidarr_app_object: "{{ apps | selectattr('name', 'equalto', 'lidarr') | first }}"
+    prowlarr_app_object: "{{ apps | selectattr('name', 'equalto', 'prowlarr') | first }}"
+    radarr_port: "{{ radarr_app_object.port }}"
+    sonarr_port: "{{ sonarr_app_object.port }}"
+    lidarr_port: "{{ lidarr_app_object.port }}"
+    prowlarr_port: "{{ prowlarr_app_object.port }}"
+  roles:
+    - arr
