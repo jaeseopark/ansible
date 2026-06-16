@@ -1,0 +1,4 @@
+# Non-confidential role-wide variables
+# See vars/main.yml for confidential variables (encrypted with Ansible Vault)
+stream_script_path: /usr/local/bin/durin_stream.sh
+tapo_stream_channel: "stream1" # stream1 = 1080p, stream2 = 360p

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while true; do
+  ffmpeg -re -rtsp_transport tcp -i "{{ ffmpeg_rtsp_url }}" \
+    -vcodec copy -acodec aac -ar 44100 -ab 128k \
+    -f flv "{{ yt_rtmp_url }}"
+
+  echo "FFmpeg crashed or disconnected. Restarting in 5 seconds..."
+  sleep 5
+ done

@@ -1,0 +1,16 @@
+---
+- name: Determine durin target host
+  hosts: localhost
+  gather_facts: false
+  vars:
+    app_name: stream-durin
+  roles:
+    - dynamic_host_resolver
+
+- name: Deploy Durin Tapo camera YouTube stream service
+  hosts: resolved_host
+  become: true
+  vars:
+    tapo_ip: "192.168.86.202"
+  roles:
+    - stream-durin

@@ -33,6 +33,7 @@ ansible-playbook homer.yml
 ansible-playbook wireguard.yml # TODO: test
 ansible-playbook --ask-vault-pass rtl433.yml
 ansible-playbook --ask-vault-pass arr.yml
+ansible-playbook --ask-vault-pass --ask-become-pass stream-durin.yml
 
 ansible-playbook home-assistant/proxy.yml
 ansible-playbook --ask-vault-pass --ask-become-pass misc/nas-clients.yml

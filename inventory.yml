@@ -121,3 +121,5 @@ all:
         host: crispbox
       - name: rtl433
         host: malfoy
+      - name: stream-durin
+        host: malfoy
