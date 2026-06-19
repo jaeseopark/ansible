@@ -1,17 +1,30 @@
 #!/bin/bash
 
+SEGMENT_SECONDS=18000
+SUCCESS_DELAY=30
+FAIL_DELAY=5
+RTSP_DELAY=30
+
 while true; do
   if ffprobe -v error -rtsp_transport tcp -i "{{ ffmpeg_rtsp_url }}" &> /dev/null; then
-    echo "RTSP stream is available. Starting ffmpeg..."
-    ffmpeg -loglevel error -rtsp_transport tcp -fflags +genpts+discardcorrupt \
-      -avoid_negative_ts make_zero -vsync 1 \
-      -i "{{ ffmpeg_rtsp_url }}" \
-      -vcodec copy -acodec aac -ar 44100 -ab 128k -af "volume=0" \
-      -f flv "{{ yt_rtmp_url }}"
-    echo "FFmpeg process ended. Restarting after a short delay..."
-    sleep 5 # Wait 5 seconds before attempting to restart
+    echo "RTSP stream is available. Starting ffmpeg for a ${SEGMENT_SECONDS}-second segment..."
+    timeout --preserve-status --kill-after=5s "${SEGMENT_SECONDS}" \
+      ffmpeg -loglevel error -rtsp_transport tcp -fflags +genpts+discardcorrupt \
+        -avoid_negative_ts make_zero -vsync 1 \
+        -i "{{ ffmpeg_rtsp_url }}" \
+        -vcodec copy -acodec aac -ar 44100 -ab 128k -af "volume=0" \
+        -f flv "{{ yt_rtmp_url }}"
+    exit_code=$?
+
+    if [ "$exit_code" -eq 124 ]; then
+      echo "FFmpeg segment completed after ${SEGMENT_SECONDS} seconds. Waiting ${SUCCESS_DELAY} seconds before starting next segment."
+      sleep "${SUCCESS_DELAY}"
+    else
+      echo "FFmpeg failed with exit code ${exit_code}. Retrying after ${FAIL_DELAY} seconds."
+      sleep "${FAIL_DELAY}"
+    fi
   else
-    echo "RTSP stream is not available. Waiting for 30 seconds before checking again."
-    sleep 30 # Wait 30 seconds before re-checking the stream
+    echo "RTSP stream is not available. Waiting for ${RTSP_DELAY} seconds before checking again."
+    sleep "${RTSP_DELAY}"
   fi
 done
