@@ -34,12 +34,12 @@ ansible-playbook wireguard.yml # TODO: test
 ansible-playbook --ask-vault-pass rtl433.yml
 ansible-playbook --ask-vault-pass arr.yml
 ansible-playbook --ask-vault-pass --ask-become-pass stream-durin.yml
+ansible-playbook --ask-vault-pass wiki.yml
 
 ansible-playbook home-assistant/proxy.yml
 ansible-playbook --ask-vault-pass --ask-become-pass misc/nas-clients.yml
 ansible-playbook misc/dev.yml
 ansible-playbook misc/pihole.yml
-ansible-playbook misc/wiki.yml
 
 ansible-playbook media/filebrowser.yml
 ```

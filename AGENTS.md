@@ -35,7 +35,7 @@ Application deployment tasks generally follow this lifecycle:
 
 ## Backup Strategy (Restic)
 
-Standardized backup extension for application deployment. It appends a secondary Docker Compose file to the application to automate remote backups.
+Standardized backup extension for application deployment. It appends a secondary Docker Compose file to the application to automate remote backups. Needs the `--ask-vault-pass` flag to run.
 
 ### Variables
 *Required variables*

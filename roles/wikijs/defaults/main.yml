@@ -1,0 +1,3 @@
+---
+docker_compose_path: "{{ app_path }}/docker-compose.yml"
+wiki_port: "{{ apps | selectattr('name', 'equalto', 'wiki') | map(attribute='port') | first }}"

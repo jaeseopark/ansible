@@ -1,0 +1,19 @@
+---
+- name: Resolve wiki host
+  hosts: localhost
+  vars:
+    app_name: wiki
+  roles:
+    - dynamic_host_resolver
+
+- name: WikiJS
+  hosts: resolved_host
+  vars:
+    app_path: "/app/wiki"
+    mnt_path: "{{ app_path }}/mnt"
+    restic_repository_name: "wikijs"
+    restic_backup_paths:
+      - src: "{{ mnt_path }}"
+  roles:
+    - wikijs
+    - restic # wikijs has its own backup but adding restic to be consistent with the rest of the apps in the repo. doesn't cost much more anyway.
