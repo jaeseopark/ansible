@@ -1,0 +1,13 @@
+- name: Resolve booklore host
+  hosts: localhost
+  vars:
+    app_name: booklore
+  roles:
+    - dynamic_host_resolver
+
+- name: Booklore
+  hosts: resolved_host
+  vars:
+    app_path: "~/apps/booklore"
+  roles:
+    - booklore

@@ -123,3 +123,7 @@ all:
         host: malfoy
       - name: stream-durin
         host: malfoy
+      - name: booklore
+        port: 6060
+        host: malfoy
+        deployed_domain: "jaeseo.stream"

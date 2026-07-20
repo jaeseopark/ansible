@@ -1,0 +1,47 @@
+services:
+  booklore:
+    image: ghcr.io/booklore-app/booklore:latest
+    container_name: booklore
+    environment:
+      - USER_ID={{ app_user_id }}
+      - GROUP_ID={{ app_group_id }}
+      - TZ={{ timezone }}
+      - DATABASE_URL={{ database_url }}
+      - DATABASE_USERNAME={{ db_user }}
+      - DATABASE_PASSWORD={{ db_password }}
+      - DISK_TYPE={{ disk_type }}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "{{ booklore_port }}:6060"
+    volumes:
+      - {{ local_mount_path }}/data:/app/data
+      - /mnt/media/books:/books:ro
+    healthcheck:
+      test: wget -q -O - http://localhost:6060/api/v1/healthcheck
+      interval: 60s
+      retries: 5
+      start_period: 60s
+      timeout: 10s
+    restart: unless-stopped
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:11.4.5
+    container_name: booklore-mariadb
+    environment:
+      - PUID={{ db_user_id }}
+      - PGID={{ db_group_id }}
+      - TZ={{ timezone }}
+      - MYSQL_ROOT_PASSWORD={{ mysql_root_password }}
+      - MYSQL_DATABASE={{ mysql_database }}
+      - MYSQL_USER={{ db_user }}
+      - MYSQL_PASSWORD={{ db_password }}
+    volumes:
+      - {{ local_mount_path }}/mariadb:/config
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
