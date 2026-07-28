@@ -21,6 +21,24 @@ Application deployment tasks generally follow this lifecycle:
 3. Upload/update configuration and `docker-compose.yml` files.
 4. Start or restart the service(s).
 
+### App Path Convention
+When defining `app_path` in playbooks, prefer the user-scoped pattern:
+```yaml
+app_path: ~/apps/{app_name}
+```
+
+This pattern provides several advantages:
+- **Consistency:** All user-deployed apps follow a predictable, centralized location.
+- **Permissions:** User-owned paths simplify permission management compared to system-wide directories.
+- **Simplicity:** Less need for privileged operations during deployment.
+- **Cleanup:** Easy to locate and manage all app-related files in one user directory.
+
+Example:
+```yaml
+vars:
+  app_path: ~/apps/grizzlysmsbot
+```
+
 ---
 
 ## Configuration & Secret Management
