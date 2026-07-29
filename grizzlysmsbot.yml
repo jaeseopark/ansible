@@ -1,0 +1,7 @@
+---
+- name: Deploy GrizzlySmsBot
+  hosts: malfoy # hardcoding the host since this is a one-time headless job
+  vars:
+    app_path: ~/apps/grizzlysmsbot
+  roles:
+    - grizzlysmsbot

@@ -1,0 +1,10 @@
+---
+app_object: "{{ apps | selectattr('name', 'equalto', 'grizzlysmsbot') | first }}"
+docker_compose_path: "{{ app_path }}/docker-compose.yml"
+mnt_path: "{{ app_path }}/mnt"
+log_path: "{{ app_path }}/logs"
+
+grizzly_service: "wx"  # e.g., "wx" for Apple
+grizzly_country: 62  # e.g., "62" for Turkey
+grizzly_max_price: 2  # Maximum price to pay, USD?
+grizzly_provider_ids: "393,405,406,140"  # Turkey providers

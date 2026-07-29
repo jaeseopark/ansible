@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  grizzlysmsbot:
+    build:
+      context: https://github.com/ErwannCharlier/GrizzlySmsBot.git
+      dockerfile: Dockerfile
+    container_name: grizzlysmsbot
+    restart: always
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 512m
+    
+    environment:
+      THREADS: "10"
+      MAX_REQUESTS_PER_SECOND: "5"
+      REQUEST_TIMEOUT_SECONDS: "10"
+      STATUS_EVERY_REQUESTS: "100" # Log progress every N requests
+
+      GRIZZLY_API_KEY: "{{ grizzly_api_key }}"
+      SERVICE: "{{ grizzly_service }}"
+      COUNTRY: "{{ grizzly_country }}"
+      MAX_PRICE: "{{ grizzly_max_price }}"
+      NTFY_URL: "{{ grizzly_ntfy_url }}"
+      PROVIDER_IDS: "{{ grizzly_provider_ids }}"
+    
+    # Volume mounts for logs
+    volumes:
+      - "{{ log_path }}:/app/logs"
+    
+    # Optional: Add networks, ports, or other configuration as needed
+    networks:
+      - default
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  default:
+    driver: bridge
