@@ -14,23 +14,12 @@ services:
     env_file:
       - .env
   ui:
-    {% if dev | default(false) %}
-    # Use a fast dev container when `dev` is truthy (passed into the playbook).
-    # Quote the image. Do not provide a default tag here; the role/vars should supply `docker_node_tag`.
-    image: "node:{{ docker_node_tag }}"
-    command: >
-      sh -c "yarn install &&
-             yarn start-port80"
-    volumes:
-      - ./crgw-ui:/app
-    {% else %}
     build:
       context: ./crgw-ui
       dockerfile: Dockerfile
-    command: nginx -g 'daemon off;'
-    {% endif %}
-    # Common settings for both dev and prod
     working_dir: /app
+    volumes:
+      - crgw-ui-node-modules:/app/node_modules
     env_file:
       - .env
   api:
@@ -61,3 +50,6 @@ services:
     volumes:
       - {{ data_mnt_path }}:/mnt
       - {{ log_path }}:/var/log/crgw-daemon
+
+volumes:
+  crgw-ui-node-modules:

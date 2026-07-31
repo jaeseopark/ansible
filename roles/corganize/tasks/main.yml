@@ -57,10 +57,6 @@
     project_src: "{{ app_path }}"
     state: absent
   when: docker_compose_file.stat.exists
-- name: Copy docker file for the UI
-  template:
-    src: Dockerfile.ui.j2
-    dest: "{{ app_path }}/crgw-ui/Dockerfile"
 - name: Copy nginx entrypoint script
   template:
     src: setup-nginx-worker-user.j2
