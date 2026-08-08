@@ -11,9 +11,6 @@ ssh-add
 ```bash
 # Setup mac hosts
 ansible-playbook mac.yml
-
-# Orca Slicer disaster recovery (User presets)
-ansible-playbook mac/orcaslicer/restore-presets.yml
 ```
 
 ```bash
@@ -21,7 +18,6 @@ ansible-playbook mac/orcaslicer/restore-presets.yml
 
 ansible-playbook --ask-vault-password paperless.yml
 ansible-playbook --ask-vault-password receep.yml
-ansible-playbook --ask-vault-password bobbins.yml
 ansible-playbook --ask-vault-password corganize.yml
 ansible-playbook --ask-vault-password corganize-server.yml
 ansible-playbook --ask-vault-password corganize-consumer.yml
@@ -31,7 +27,7 @@ ansible-playbook jellyfin.yml
 ansible-playbook webcam.yml
 ansible-playbook homer.yml
 ansible-playbook wireguard.yml # TODO: test
-ansible-playbook --ask-vault-pass rtl433.yml
+ansible-playbook --ask-vault-pass rtl433.yml # For home assistant
 ansible-playbook --ask-vault-pass arr.yml
 ansible-playbook --ask-vault-pass --ask-become-pass stream-durin.yml # to check: sudo journalctl -u stream-durin -f
 ansible-playbook --ask-vault-pass wiki.yml

@@ -15,7 +15,6 @@
     state: directory
   loop:
     - "{{ app_path }}"
-    - "{{ data_path }}"
     - "{{ log_path }}"
 - name: Check if Docker Compose file exists
   stat:

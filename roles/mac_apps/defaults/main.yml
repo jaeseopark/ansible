@@ -4,7 +4,6 @@ homebrewapps:
   - dockutil
   - yt-dlp
 caskapps:
-  - orcaslicer
   - github
   - discord
   - visual-studio-code

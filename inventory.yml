@@ -97,11 +97,6 @@ all:
         port: 48211
         host: malfoy
         deployed_domain: "jaeseo.stream"
-      - name: bobbins
-        port: 32933
-        host: malfoy
-        deployed_domain: "bobbins.top"
-        is_default: true
       - name: receep
         port: 18467
         host: malfoy
@@ -123,7 +118,3 @@ all:
         host: malfoy
       - name: stream-durin
         host: malfoy
-      - name: booklore
-        port: 6060
-        host: malfoy
-        deployed_domain: "jaeseo.stream"
