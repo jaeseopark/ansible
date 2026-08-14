@@ -1,8 +1,7 @@
 services:
-  corganize-server:
-    image: corganize-server:latest
+  corganize-db:
     build:
-      context: .
+      context: ./crg-db
     ports:
       - {{ app_object.port }}:5822
     environment:

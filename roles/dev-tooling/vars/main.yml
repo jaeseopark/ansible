@@ -1,0 +1,8 @@
+# Development tooling configuration
+dev_username: jaeseopark
+docker_compose_version: "2.16.0"
+install_docker: true
+
+# Git configuration for development machines
+git_username: jaeseopark
+git_email: 20038316+jaeseopark@users.noreply.github.com

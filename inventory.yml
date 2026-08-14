@@ -84,7 +84,7 @@ all:
         port: 8123
         host: malfoy
         deployed_domain: "jaeseo.stream"
-      - name: corganize-server
+      - name: corganize-db
         port: 5822
         host: malfoy
       - name: corganize-consumer

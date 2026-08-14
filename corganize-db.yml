@@ -1,16 +1,16 @@
 - name: Determine corganize server target host
   hosts: localhost
   vars:
-    app_name: corganize-server
+    app_name: corganize-db
   roles:
     - dynamic_host_resolver
 
 - name: Deploy corganize application
   hosts: resolved_host
   vars:
-    app_path: /app/corganize-server
-    restic_repository_name: "corganize/server"
+    app_path: ~/apps/corganize-db
+    restic_repository_name: "corganize/db"
     branch: "master"
   roles:
-    - corganize-server
+    - corganize-db
     - restic

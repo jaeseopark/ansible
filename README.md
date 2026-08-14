@@ -19,7 +19,7 @@ ansible-playbook mac.yml
 ansible-playbook --ask-vault-password paperless.yml
 ansible-playbook --ask-vault-password receep.yml
 ansible-playbook --ask-vault-password corganize.yml
-ansible-playbook --ask-vault-password corganize-server.yml
+ansible-playbook --ask-vault-password corganize-db.yml
 ansible-playbook --ask-vault-password corganize-consumer.yml
 ansible-playbook --ask-vault-pass transmission.yml
 ansible-playbook vps-nginx.yml -v -e generate_certificates=true
@@ -33,9 +33,9 @@ ansible-playbook --ask-vault-pass --ask-become-pass stream-durin.yml # to check:
 ansible-playbook --ask-vault-pass wiki.yml
 ansible-playbook --ask-vault-pass grizzlysmsbot.yml
 
+ansible-playbook --ask-vault-pass dev-tooling.yml
 ansible-playbook home-assistant/proxy.yml
 ansible-playbook --ask-vault-pass --ask-become-pass misc/nas-clients.yml
-ansible-playbook misc/dev.yml
 ansible-playbook misc/pihole.yml
 
 ansible-playbook media/filebrowser.yml

@@ -8,7 +8,7 @@
 - name: Deploy corganize web client
   hosts: resolved_host
   vars:
-    app_path: /app/corganize-web # app path uses the "-web" suffix
+    app_path: ~/apps/corganize
     data_mnt_path: "/srv/dev-disk-by-uuid-5a0f2275-e689-459c-b6fb-cd14264bb915/crg"
     data_groups:
       - root # TODO: migrate over to non-root (currently api/daemon processes are writing as root)

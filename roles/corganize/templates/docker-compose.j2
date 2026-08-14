@@ -15,23 +15,19 @@ services:
       - .env
   ui:
     build:
-      context: ./crgw-ui
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./crgw-ui/Dockerfile
     working_dir: /app
     volumes:
       - crgw-ui-node-modules:/app/node_modules
     env_file:
       - .env
   api:
-    image: python:3.11-slim-bullseye
+    build:
+      context: .
+      dockerfile: ./crgw-api/Dockerfile
     working_dir: /app
     stop_signal: SIGINT # https://github.com/docker/compose/issues/4199#issuecomment-426109482
-    command: > # The use of venv helps with the container init times, but can cause occasional caching issues; purge the folder as needed.
-      bash -c "python -m venv docker-venv &&
-               source docker-venv/bin/activate &&
-               pip install -r requirements.txt &&
-               pip freeze > docker-pip-freeze.txt &&
-               python main.py"
     volumes:
       - {{ app_path }}/crgw-api:/app
       - {{ data_mnt_path }}/data:/data
@@ -41,9 +37,8 @@ services:
   daemon:
     container_name: daemon
     build:
-      context: ./crgw-daemon
-      dockerfile: Dockerfile
-    command: python -m daemon
+      context: .
+      dockerfile: ./crgw-daemon/Dockerfile
     restart: unless-stopped
     env_file:
       - .env

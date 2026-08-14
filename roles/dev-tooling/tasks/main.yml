@@ -1,0 +1,93 @@
+---
+- name: Ensure the dev user exists
+  user:
+    name: "{{ dev_username }}"
+    shell: /bin/bash
+    groups: sudo,docker
+    append: yes
+
+- name: Ensure the docker repo file is absent before installing packages
+  file:
+    path: /etc/apt/sources.list.d/docker.list
+    state: absent
+
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 # One day
+
+- name: Ensure base packages are present
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sudo
+    - git
+    - apt-transport-https
+    - ca-certificates
+    - lsb-release
+    - gnupg
+    - curl
+
+- name: Ensure signing key for Docker is present
+  apt_key:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    state: present
+  when: install_docker
+
+- name: Ensure Docker repository is added to sources list
+  apt_repository:
+    repo: "deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+  when: install_docker
+
+- name: Ensure Docker is installed
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker
+    - docker.io
+    - docker-registry
+  when: install_docker
+
+- name: Ensure docker-compose is installed
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-{{ 'linux-x86_64' if ansible_architecture == 'x86_64' else 'linux-aarch64' }}"
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+  when: install_docker
+
+- name: Run Docker daemon
+  service:
+    name: docker.service
+    state: started
+    enabled: yes
+  when: install_docker
+
+- name: Check if global git credential.helper is configured
+  community.general.git_config:
+    name: credential.helper
+    scope: global
+  register: git_helper_check
+  failed_when: false
+  changed_when: false
+
+- name: Configure global git settings (username, email, credentials)
+  block:
+    - name: Generate git configuration script
+      template:
+        src: git-config.sh.j2
+        dest: /tmp/git-config.sh
+        mode: '0755'
+    - name: Execute git configuration script
+      shell: /tmp/git-config.sh
+      changed_when: true
+    - name: Clean up git configuration script
+      file:
+        path: /tmp/git-config.sh
+        state: absent
+  when: git_helper_check.rc != 0 or (git_helper_check.stdout | default("")) != "store"
+
