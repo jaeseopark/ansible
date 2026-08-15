@@ -33,7 +33,7 @@ ansible-playbook --ask-vault-pass --ask-become-pass stream-durin.yml # to check:
 ansible-playbook --ask-vault-pass wiki.yml
 ansible-playbook --ask-vault-pass grizzlysmsbot.yml
 
-ansible-playbook --ask-vault-pass dev-tooling.yml
+ansible-playbook --ask-vault-pass --ask-become-pass dev-tooling.yml
 ansible-playbook home-assistant/proxy.yml
 ansible-playbook --ask-vault-pass --ask-become-pass misc/nas-clients.yml
 ansible-playbook misc/pihole.yml

@@ -5,11 +5,5 @@ set -e
 git config --global user.name "{{ git_username }}"
 git config --global user.email "{{ git_email }}"
 
-# Configure credential helper and store PAT
-git config --global credential.helper store
-git credential-store store <<EOF
-protocol=https
-host=github.com
-username={{ git_username }}
-password=$(cat {{ git_pat }})
-EOF
+# Configure GitHub HTTPS rewrite for authenticated fetches
+git config --global url."https://{{ git_username }}:{{ git_pat }}@github.com".insteadOf "https://github.com"

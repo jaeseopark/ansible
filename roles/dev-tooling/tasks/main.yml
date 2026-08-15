@@ -38,9 +38,10 @@
 
 - name: Ensure Docker repository is added to sources list
   apt_repository:
-    repo: "deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    repo: "deb [arch={{ 'amd64' if ansible_architecture == 'x86_64' else 'arm64' if ansible_architecture == 'aarch64' else ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
     state: present
     filename: docker
+    update_cache: no
   when: install_docker
 
 - name: Ensure Docker is installed
@@ -67,14 +68,6 @@
     enabled: yes
   when: install_docker
 
-- name: Check if global git credential.helper is configured
-  community.general.git_config:
-    name: credential.helper
-    scope: global
-  register: git_helper_check
-  failed_when: false
-  changed_when: false
-
 - name: Configure global git settings (username, email, credentials)
   block:
     - name: Generate git configuration script
@@ -89,5 +82,4 @@
       file:
         path: /tmp/git-config.sh
         state: absent
-  when: git_helper_check.rc != 0 or (git_helper_check.stdout | default("")) != "store"
 
